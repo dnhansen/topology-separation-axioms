@@ -226,7 +226,9 @@ This result is of course standard for compact spaces, but we include the proof t
 
 
 
-\chapter{The $T_0$ axiom}
+\chapter[The T0 axiom]{The $T_0$ axiom}
+
+\section{Definition or basic properties}
 
 \begin{definition}
     A topological space $X$ satisfies the $T_0$ axiom and is called a \emph{$T_0$-space} if, for every pair of distinct points $x,y \in X$, either $x$ has a neighbourhood that does not contain $y$, or vice versa.
@@ -286,6 +288,9 @@ It is obvious that $\tilde{\rho}$ is then a metric on $\tilde{S}$, and we call $
 \end{proof}
 
 
+\section[Operations on T0-spaces]{Operations on $T_0$-spaces}
+
+
 \begin{proposition}[Properties of $T_0$-spaces]
     \label{thm:T0-properties}
     \begin{enumprop}
@@ -311,7 +316,9 @@ It is obvious that $\tilde{\rho}$ is then a metric on $\tilde{S}$, and we call $
 
 
 
-\chapter{The $T_1$ axiom}
+\chapter[The T1 axiom]{The $T_1$ axiom}
+
+\section{Definition and basic properties}
 
 \begin{definition}
     A topological space $X$ satisfies the $T_1$ axiom and is called a \emph{$T_1$-space} if, for every pair of distinct points $x,y \in X$, $x$ has a neighbourhood disjoint from $y$, and $y$ has a neighbourhood disjoint from $x$.
@@ -344,6 +351,8 @@ Clearly every $T_1$-space is $T_0$. We begin by giving some properties of topolo
 \end{proof}
 
 
+\section[Operations on T1-spaces]{Operations on $T_1$-spaces}
+
 \begin{proposition}[Properties of $T_1$-spaces]
     \label{thm:T1-properties}
     \begin{enumprop}
@@ -365,7 +374,9 @@ Clearly every $T_1$-space is $T_0$. We begin by giving some properties of topolo
 
 
 
-\chapter{The $T_2$ axiom}
+\chapter[The T2 axiom]{The $T_2$ axiom}
+
+\section{Definition and basic properties}
 
 \begin{definition}
     A topological space $X$ satisfies the $T_2$ axiom and is called a \emph{$T_2$-space} or \emph{Hausdorff space} if, for every pair of distinct points $x,y \in X$, $x$ has a neighbourhood $U$ and $y$ a neighbourhood $V$ with $U \intersect V = \emptyset$.
@@ -416,7 +427,11 @@ Again, a $T_2$-space is clearly $T_1$. We give a series of conditions that are e
 
 
 
-\chapter{Regular and $T_3$-spaces}
+\chapter[Regular and T3-spaces]{Regular and $T_3$-spaces}
+
+\section{Definition and basic properties}
+
+\section{Further properties of regular spaces}
 
 \begin{proposition}
     \label{thm:regular-Lindelof-is-paracompact}
@@ -436,9 +451,26 @@ Again, a $T_2$-space is clearly $T_1$. We give a series of conditions that are e
 \end{proof}
 
 
-\chapter{Completely regular and $T_{3\frac{1}{2}}$-spaces}
+\section{Conditions for regularity}
+
+\begin{corollary}
+    Pseudometric spaces are regular.
+\end{corollary}
+
+\begin{proof}
+    This will follow from \cref{thm:pseudometric-completely-regular} since completely regular spaces are regular.
+\end{proof}
+
+
+
+\chapter{Completely regular and Tychonoff spaces}
+
+\section{Definition and basic properties}
+
+\section{Conditions for complete regularity}
 
 \begin{proposition}
+    \label{thm:pseudometric-completely-regular}
     Pseudometric spaces are completely regular.
 \end{proposition}
 %
@@ -452,7 +484,11 @@ In \cref{thm:metric-space-normal} we will see that pseudometric spaces are also 
 
 
 
-\chapter{Normal and $T_4$-spaces}
+\chapter[Normal and T4-spaces]{Normal and $T_4$-spaces}
+
+\section{Definition and basic properties}
+
+\section{Conditions for normality}
 
 \begin{proposition}
     \label{thm:metric-space-normal}
@@ -519,6 +555,8 @@ In \cref{thm:metric-space-normal} we will see that pseudometric spaces are also 
     (Notice the strict and non-strict inequalities.) Define the sets $S = \bigunion_{n \in \naturals} S_n$ and $T = \bigunion_{n \in \naturals} T_n$. Clearly $S$ is a neighbourhood of $A$ and $T$ of $B$. We claim that they are also disjoint: Let $x \in S_n$ for some $n \in \naturals$. Then $x \not\in T_m$ for $m < n$ by the definition of $S_n$, and $x \not\in T_m$ for $m \geq n$ by the definition of $T_m$. 
 \end{proof}
 
+
+\section{Urysohn's Lemma and related results}
 
 If $X$ is a topological space and $A,B \subseteq X$ are closed sets, then a continuous function $f \colon X \to [0,1]$ with $f(A) = 0$ and $f(B) = 1$ is called a \emph{Urysohn function} for $A$ and $B$.
 
