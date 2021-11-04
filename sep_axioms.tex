@@ -1,0 +1,529 @@
+% Document setup
+\documentclass[article, a4paper, 11pt, oneside]{memoir}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[UKenglish]{babel}
+
+% Document info
+\newcommand\doctitle{Separation Axioms}
+\newcommand\docauthor{Danny Nygård Hansen}
+
+% Formatting and layout
+\usepackage[autostyle]{csquotes}
+\usepackage[final]{microtype}
+\usepackage{xcolor}
+\frenchspacing
+\usepackage{latex-sty/articlepagestyle}
+\usepackage{latex-sty/articlesectionstyle}
+
+% Fonts
+\usepackage[largesmallcaps]{kpfonts}
+\DeclareSymbolFontAlphabet{\mathrm}{operators} % https://tex.stackexchange.com/questions/40874/kpfonts-siunitx-and-math-alphabets
+\linespread{1.06}
+\let\mathfrak\undefined
+\usepackage{eufrak}
+\usepackage{inconsolata}
+\usepackage{amssymb}
+
+% Hyperlinks
+\usepackage{hyperref}
+\definecolor{linkcolor}{HTML}{4f4fa3}
+\hypersetup{%
+	pdftitle=\doctitle,
+	pdfauthor=\docauthor,
+	colorlinks,
+	linkcolor=linkcolor,
+	citecolor=linkcolor,
+	urlcolor=linkcolor,
+	bookmarksnumbered=true
+}
+
+% Equation numbering
+\numberwithin{equation}{chapter}
+
+% Footnotes
+\footmarkstyle{\textsuperscript{#1}\hspace{0.25em}}
+
+% Mathematics
+\usepackage{latex-sty/basicmathcommands}
+\usepackage{latex-sty/framedtheorems}
+\usepackage{latex-sty/topologycommands}
+\usepackage{tikz-cd}
+\usetikzlibrary{babel}
+
+% Lists
+\usepackage{enumitem}
+\setenumerate[0]{label=\normalfont(\arabic*)}
+
+% Bibliography
+\usepackage[backend=biber, style=authoryear, maxcitenames=2, useprefix]{biblatex}
+\addbibresource{references.bib}
+
+% Title
+\title{\doctitle}
+\author{\docauthor}
+
+
+% Section style -- add to section style .sty?
+\setsubsecheadstyle{\normalfont\itshape}
+
+
+% Preimage -- to be added to mathcommands .sty
+\newcommand{\preim}{^{-1}}
+
+
+\newcommand{\calN}{\mathcal{N}}
+\DeclarePairedDelimiter{\nhoodfilteraux}{(}{)}
+% \newcommand{\nhoodfilter}[1]{\calN\nhoodfilteraux{#1}}
+\newcommand{\nhoodfilter}[1]{\calN_{#1}}
+
+
+\newcommand{\calU}{\mathcal{U}}
+\newcommand{\calV}{\mathcal{V}}
+\newcommand{\calW}{\mathcal{W}}
+\newcommand{\calT}{\mathcal{T}}
+
+
+\begin{document}
+
+\maketitle
+
+\chapter{Introduction}
+
+In these notes we give an overview of some of the most important (and weakest) separation axioms in point-set topology. For each axiom we consider the following:
+
+\begin{enumerate}
+    \item What the axiom \emph{means} intuitively. Of course we understand what it means to \textquote{separate} points or sets in a topological space and how the ability to do so is useful. But many of the axioms are equivalent to properties of a space that (seemingly) have nothing to do with separation, and whose importance are perhaps more intuitively clear.
+
+    \item How the axiom behaves with respect to topological constructions like subspaces and products.
+    
+    \item Other properties of the axioms. Each axiom interacts with the surrounding theory in different ways.
+\end{enumerate}
+
+
+\section{Overview of the axioms}
+
+We here summarise the axioms by citing
+
+\begin{itemize}
+    \item $T_0$: The topology respects the underlying set structure by distinguishing between distinct points.
+    
+    \item $T_1$: Singletons are closed, or in other words, if $(x_\alpha)_{\alpha \in A}$ is a constant net with $x_\alpha = x$ for all $\alpha \in A$, then $x$ is the unique limit of $(x_\alpha)$.
+    
+    \item $T_2$: All limits are unique.
+    
+    \item Regularity: Every open neighbourhood contains a closed neighbourhood.
+    
+    \item Complete regularity: Has enough bounded continuous functions to determine its topology.
+    
+    \item Normality: Continuous functions on closed sets can be extended to the entire space. Why should we restrict to \emph{closed} sets? Continuous functions defined on a non-closed set may not even extend to a continuous function on the \emph{closure} of that set: Take for instance the map $x \mapsto 1/x$ on $\reals \setminus \{0\}$.
+\end{itemize}
+
+
+\chapter{Preliminary definitions and results}
+
+If $X$ is a topological space and $A \subseteq X$, then we say that a set $N \subseteq X$ is a \emph{neighbourhood} of $A$ if there is an open set $U$ in $X$ such that $A \subseteq U \subseteq N$. The family of neighbourhoods of a set $A$ is called the \emph{neighbourhood filter of $A$} and is denoted $\nhoodfilter{A}$. If $A = \{x\}$ is a singleton we also write $\nhoodfilter{x}$ and call $N$ a neighbourhood of $x$.
+
+We begin by proving a series of results that do not pertain directly to the separability axioms, but that will be used in the sequel.
+
+If $X$ is a topological space, then we say that two disjoint subsets $A$ and $B$ can be separated if there exist disjoint open sets $U$ and $V$ with $A \subseteq U$ and $B \subseteq V$.
+
+\begin{lemma}
+    \label{thm:separating_from_compacts}
+    Let $X$ be a topological space, and let $A \subseteq X$ be a set that can be separated from points that lie in a set $B \subseteq X$. Then $A$ can be separated from compact sets contained in $B$.
+\end{lemma}
+%
+This is an example of the general principle that compact sets often act like points.
+
+\begin{proof}
+    Let $K \subseteq X$ be a compact set contained in $B$. Since $A$ can be separated from points in $B$, then for every $x \in K$ there are disjoint open sets $U_x$ and $V_x$ such that $x \in U_x$ and $A \subseteq V_x$. The collection $(U_x)_{x \in K}$ is an open cover of $K$, so there is a finite subcover $(U_{x_i})_{i=1}^n$. Let $U = \bigunion_{i=1}^n U_{x_i}$ and $V = \bigintersect_{i=1}^n V_{x_i}$. Then $U$ and $V$ are disjoint open sets containing $K$ and $A$ respectively.
+\end{proof}
+
+
+\begin{lemma}
+    Let $(S,\rho)$ be a pseudometric space, and let $A \subseteq S$ be nonempty. Define a map $\rho(\,\cdot\,, A) \colon S \to [0, \infty)$ by
+    %
+    \begin{equation*}
+        \rho(x, A) = \inf_{a \in A} \rho(x,a).
+    \end{equation*}
+    %
+    This map has the following properties:
+    %
+    \begin{enumlem}
+        \item $\rho(x,A) = 0$ if and only if $x \in \closure{A}$.
+
+        \item If $y \in S$, then $\rho(x,A) \leq \rho(x,y) + \rho(y,A)$.
+
+        \item $\rho(\,\cdot\,, A)$ is continuous.
+    \end{enumlem}
+\end{lemma}
+
+\begin{proof}
+    (i) Notice that $\rho(x,A) = 0$ if and only if for any $r > 0$ there is an $a \in A$ such that $\rho(x,a) < r$. But this is true precisely when any ball $B(x,r)$ intersects $A$, i.e. when $x \in \closure{A}$.
+
+    (ii) For any $a \in A$ we have
+    %
+    \begin{equation*}
+        \rho(x,A)
+            \leq \rho(x,a)
+            \leq \rho(x,y) + \rho(y,a),
+    \end{equation*}
+    %
+    and since this is true for any $a \in A$, the claim follows.
+
+    (iii) This follows immediately from (ii), since
+    %
+    \begin{equation*}
+        \rho(x,A) - \rho(y,A)
+            \leq \rho(x,y)
+    \end{equation*}
+    %
+    for all $x,y \in S$.
+\end{proof}
+
+\newcommand{\calA}{\mathcal{A}}
+
+If $X$ is a topological space, we say that a collection $\calU$ of subsets of $X$ is a \emph{cover} of $X$ if $X = \bigunion_{U \in \calU} U$. A \emph{subcover} of a cover $\calU$ is a subcollection of $\calU$ that itself is a cover. An \emph{open cover} is a cover consisting of open sets.
+
+If $\calU$ and $\calV$ are covers of $X$, we say that $\calU$ \emph{refines} $\calV$ and is a \emph{refinement} of $V$ if each $U \in \calU$ is contained in some $V \in \calV$. Notice that a subcover is in particular a refinement.
+
+A collection $\calA$ of subsets of $X$ is called \emph{locally finite} if every point of $X$ has a neighbourhood that intersects finitely many elements in $\calA$. It is easy to show that if $\calA$ is locally finite, then $\closure{\calA} = \set{\closure{A}}{A \in \calA}$ is also locally finite.
+
+\begin{definition}
+    Let $X$ be a topological space.
+    %
+    \begin{enumdef}
+        \item $X$ is \emph{compact} if every open cover of $X$ has a finite subcover.
+
+        \item $X$ is \emph{Lindelöf} if every open cover of $X$ has a countable subcover.
+
+        \item $X$ is \emph{paracompact} if every open cover of $X$ has an open locally finite refinement.
+    \end{enumdef}
+\end{definition}
+%
+Clearly a compact space is both Lindelöf and paracompact.
+
+
+\begin{proposition}
+    \label{thm:compact-Lindelof-closed-subset}
+    Let $X$ be a topological space. If $X$ is compact/Lindelöf, then every closed subset of $X$ is compact/Lindelöf in the subspace topology.
+\end{proposition}
+%
+This result is of course standard for compact spaces, but we include the proof to illustrate that it is identical to the proof for the Lindelöf case.
+
+\begin{proof}
+    Let $X$ be compact/Lindelöf, and let $A \subseteq X$ be closed. If $\calU$ is an open cover of $A$, then there is a collection $\calV$ of sets open on $X$ such that $\calU = \set{V \intersect A}{V \in \calV}$. By adjoining $A^c$ to $\calV$ we obtain an open cover of $X$, so it has a finite/countable subcover $\calV'$. Discarding $A^c$ and intersecting every other set in $\calV'$ with $A$ yields a finite/countable subcover of $\calU$, proving the claim.
+\end{proof}
+
+
+\begin{proposition}
+    The continuous image of a compact/Lindelöf space is compact/Lindelöf.
+\end{proposition}
+
+\begin{proof}
+    Let $f \colon X \to Y$ be continuous and surjective, and assume that $X$ is compact/Lindelöf. Let $\calU$ be an open cover of $Y$. Then $f\preim(\calU)$ is an open cover of $X$, so it has a finite/countable subcover $f\preim(\calU')$. But then $\calU'$ is a finite/countable subcover of $\calU$ as desired.
+\end{proof}
+
+
+
+\chapter{The $T_0$ axiom}
+
+\begin{definition}
+    A topological space $X$ satisfies the $T_0$ axiom and is called a \emph{$T_0$-space} if, for every pair of distinct points $x,y \in X$, either $x$ has a neighbourhood that does not contain $y$, or vice versa.
+\end{definition}
+
+We begin by giving an alternative characterisation of $T_0$-spaces: Let $X$ be a topological space. We define an ordering on $X$ called the \emph{specialisation preorder} by letting $x \leq y$ if $x \in \closure{\{y\}}$ for $x,y \in X$. It is clear that $\leq$ is in fact a preorder, and so it determines an equivalence relation $\equiv$; that is, $x \equiv y$ if and only if $x \leq y$ and $y \leq x$.
+
+It is easy to show that $x \leq y$ if and only if $\nhoodfilter{x} \subseteq \nhoodfilter{y}$.  If $x \equiv y$, then we say that $x$ and $y$ are \emph{topologically indistinguishable} since then $x$ and $y$ have the same neighbourhoods.
+
+It is clear that $X$ is $T_0$ if and only if the relation $\equiv$ is trivial, that is if $x$ and $y$ are topologically indistinguishable precisely when $x = y$. The quotient space $X/{\equiv}$ is called the \emph{$T_0$-identification} or the \emph{Kolmogorov quotient} of $X$, and it is indeed $T_0$:
+
+\begin{proposition}[$T_0$-identification]
+    Let $X$ be a topological space, and let $q \colon X \to X/{\equiv}$ be the quotient map onto the $T_0$-identification of $X$. Then
+    %
+    \begin{enumprop}
+        \item $q$ is an open and closed map,
+        \item $X/{\equiv}$ is $T_0$, and
+        \item \label{enum:T0-identification-is-smallest-equiv} if $\sim$ is an equivalence relation on $X$ such that $X/{\sim}$ is $T_0$, then ${\equiv} \subseteq {\sim}$.\footnotemark
+    \end{enumprop}
+\end{proposition}
+\footnotetext{Both $\equiv$ and $\sim$ are subsets of $X \times X$, so this inclusion means that if $x \equiv y$ then $x \sim y$ for all $x,y \in X$.}
+%
+Part \subcref{enum:T0-identification-is-smallest-equiv} expresses the fact that $\equiv$ is the most conservative equivalence relation on $X$ that makes the corresponding quotient a $T_0$-space.
+
+\begin{proof}
+    We first show that all open sets are saturated. Let $U$ be an open set of $X$, and let $x \in U$. If $x \equiv x'$, then $U$ is also a neighbourhood of $x'$, so $x' \in U$. It follows that $q(x) \subseteq U$, and so
+    %
+    \begin{equation*}
+        U = \bigunion_{x \in U} q(x).
+    \end{equation*}
+    %
+    Hence $U$ is a union of $\equiv$-equivalence classes, and thus it is saturated. The complement $U^c$ is the union of all equivalence classes $q(x)$ for $x \in U^c$, so closed sets are also saturated. It follows that $q(U)$ is open and $q(U^c)$ is closed, so $q$ is an open and closed map.
+
+    Now we show that $X/{\equiv}$ is $T_0$. Assume that $x \not\equiv y$. Without loss of generality we may assume the existence of an element $U \in \nhoodfilter{x} \setminus \nhoodfilter{y}$. Since $q$ is open, $q(U)$ is a neighbourhood of $q(x)$ in $X/{\equiv}$. We claim that $q(y) \not\in q(U)$: If not, then since $U$ is a union of equivalence classes there is a $z \in U$ with $y \equiv z$. But then $y \in U$ which is a contradiction. Thus $X/{\equiv}$ is $T_0$.
+
+    Finally, let $X/{\sim}$ be $T_0$, and let $p \colon X \to X/{\sim}$ be the quotient map. If $x \not\sim y$ then $p(x) \neq p(y)$, so without loss of generality we may choose an open set $U \subseteq X/{\sim}$ with $p(x) \in U$ and $p(y) \not\in U$. Then $x \in p\preim(U)$ and $y \not\in p\preim(U)$, so $p\preim(U)$ is a neighbourhood of $x$ that is not a neighbourhood of $y$, so $x \not\equiv y$.
+\end{proof}
+
+We explore the $T_0$-identification in the context of metric spaces: Let $(S,\rho)$ be a pseudometric space, and define a relation $\sim$ on $S$ by $x \sim y$ if and only if $\rho(x,y) = 0$. This is clearly an equivalence relation. Let $\tilde{S} = S/{\sim}$ and define a map $\tilde{\rho} \colon \tilde{S} \prod \tilde{S} \to [0,\infty)$ by $\tilde{\rho}([x],[y]) = \rho(x,y)$. This is well-defined, since if $x \sim x'$ and $y \sim y'$ then
+%
+\begin{equation*}
+    \rho(x,y)
+        \leq \rho(x,x') + \rho(x',y') + \rho(y',y)
+        = \rho(x',y').
+\end{equation*}
+%
+It is obvious that $\tilde{\rho}$ is then a metric on $\tilde{S}$, and we call $(\tilde{S}, \tilde{\rho})$ the \emph{metric identification} of $(S,\rho)$.
+
+\begin{proposition}
+    Let $(S,\rho)$ be a pseudometric space. Then the relation $\sim$ defined above and the topological indistinguishability relation $\equiv$ coincide.
+\end{proposition}
+
+\begin{proof}
+    It suffices to show that $x \sim y$ if and only if $\nhoodfilter{x} = \nhoodfilter{y}$ for all $x,y \in S$. Assume that $x \sim y$ and let $U \in \nhoodfilter{x}$. Then there is an $r > 0$ such that $B(x,r) \subseteq U$. But we clearly have $y \in B(x,r)$, so $U \in \nhoodfilter{y}$. This shows that $\nhoodfilter{x} \subseteq \nhoodfilter{y}$, and the opposite inclusion follows by symmetry.
+
+    Conversely, assume that $x \not\sim y$. Then $0 < r < \rho(x,y)$ for some $r$, and $B(x,r)$ is a neighbourhood of $x$ but not of $y$.
+\end{proof}
+
+
+\begin{proposition}[Properties of $T_0$-spaces]
+    \label{thm:T0-properties}
+    \begin{enumprop}
+        \item \label{enum:T0-subspace} Any subspace of a $T_0$-space is $T_0$.
+        \item A nonempty product space is $T_0$ if and only if every factor is $T_0$.
+    \end{enumprop}
+\end{proposition}
+
+\begin{proof}
+    Let $X$ be a $T_0$-space and $A \subseteq X$. If $x,y \in A$ and $x \neq y$, then without loss of generality we may choose a neighbourhood $U$ of $x$ in $X$ that does not contain $Y$. But then $U \intersect A$ is a neighbourhood of $x$ in $A$ that doesn't contain $y$, so $A$ is $T_0$.
+
+    Now let $(X_\alpha)_{\alpha \in A}$ be a collection of topological spaces, and assume that the product $X = \bigprod_{\alpha \in A} X_\alpha$ is nonempty. Assume that all $X_\alpha$ are $T_0$, and let $x,y \in X$ be distinct points. Then there is a $\beta \in A$ such that $x_\beta \neq y_\beta$. Without loss of generality we may pick a neighbourhood $U$ of $x_\beta$ in $X_\beta$ that does not contain $y_\beta$. Then $\pi_\beta\preim(U)$ is a neighbourhood of $x$ that does not contain $y$.
+
+    Conversely, assume that the product $X$ is $T_0$ and let $\beta \in A$. Pick a point $y \in X$, and let
+    %
+    \begin{equation*}
+        Y
+            = \set{x \in X}{x_\alpha = y_\alpha \text{ for } \alpha \neq \beta}.
+    \end{equation*}
+    %
+    Then $Y$ is $T_0$ by \subcref{enum:T0-subspace}, so $X_\beta \cong Y$ is also $T_0$.
+\end{proof}
+
+
+
+\chapter{The $T_1$ axiom}
+
+\begin{definition}
+    A topological space $X$ satisfies the $T_1$ axiom and is called a \emph{$T_1$-space} if, for every pair of distinct points $x,y \in X$, $x$ has a neighbourhood disjoint from $y$, and $y$ has a neighbourhood disjoint from $x$.
+\end{definition}
+%
+Clearly every $T_1$-space is $T_0$. We begin by giving some properties of topological spaces that are equivalent to the $T_1$ axiom:
+
+\begin{proposition}
+    The following are equivalent for a topological space $X$:
+    %
+    \begin{enumprop}
+        \item \label{enum:T1-space} $X$ is $T_1$,
+        \item \label{enum:T1-singletons-closed} each singleton of $X$ is closed, and
+        \item \label{enum:T1-intersection-of-open-sets} each subset of $X$ is the intersection of all open sets containing it.
+    \end{enumprop}
+\end{proposition}
+
+\begin{proof}
+    \subcref{enum:T1-space} $\implies$ \subcref{enum:T1-singletons-closed}: If $X$ is $T_1$ and $x \in X$, then every point $y \in X \setminus \{x\}$ has a neighbourhood disjoint from $\{x\}$ so $X \setminus \{x\}$ is open.
+
+    \subcref{enum:T1-singletons-closed} $\implies$ \subcref{enum:T1-intersection-of-open-sets}: If $A \subseteq X$, then
+    %
+    \begin{equation*}
+        A = \bigintersect_{x \not\in A} X \setminus \{x\},
+    \end{equation*}
+    %
+    so $A$ is an intersection of open sets.
+
+    \subcref{enum:T1-intersection-of-open-sets} $\implies$ \subcref{enum:T1-space}: If $x,y \in X$ with $x \neq y$, then there is an open subset containing $x$ and not $y$, and vice versa.
+\end{proof}
+
+
+\begin{proposition}[Properties of $T_1$-spaces]
+    \label{thm:T1-properties}
+    \begin{enumprop}
+        \item \label{enum:T1-subspace} Any subspace of a $T_1$-space is $T_1$.
+        \item A nonempty product space is $T_1$ if and only if every factor is $T_1$.
+        \item \label{enum:T1-closed-image} The closed image\footnotemark{} of a $T_1$-space is $T_1$.
+        \item \label{enum:T1-quotient} A quotient space $X/{\sim}$ is $T_1$ if and only if every $\sim$-equivalence class is closed in $X$.
+    \end{enumprop}
+\end{proposition}
+\footnotetext{By \textquote{closed image} we mean the image of a closed (not necessarily continuous) map.}
+
+\begin{proof}
+    The proof of the first two claims are almost identical to the proof of \cref{thm:T0-properties}, so we omit it.
+
+    To prove \subcref{enum:T1-closed-image}, let $f \colon X \to Y$ be a closed map from a $T_1$-space $X$ to a topological space $Y$, and let $y \in f(X)$. Then there is some $x \in X$ with $f(x) = y$, and since $\{x\}$ is closed in $X$ and $f$ is closed, $\{y\}$ is closed in $Y$.
+
+    Finally we prove \subcref{enum:T1-quotient}: Fibres of the quotient map are precisely the equivalence classes, so by the definition of the quotient topology, singletons of $X/{\sim}$ are closed if and only if the corresponding equivalence class is closed as a subset of $X$.
+\end{proof}
+
+
+
+\chapter{The $T_2$ axiom}
+
+\begin{definition}
+    A topological space $X$ satisfies the $T_2$ axiom and is called a \emph{$T_2$-space} or \emph{Hausdorff space} if, for every pair of distinct points $x,y \in X$, $x$ has a neighbourhood $U$ and $y$ a neighbourhood $V$ with $U \intersect V = \emptyset$.
+\end{definition}
+%
+Again, a $T_2$-space is clearly $T_1$. We give a series of conditions that are equivalent to the $T_2$ axiom.
+
+
+\begin{proposition}
+    The following are equivalent for a topological space $X$:
+    %
+    \begin{enumprop}
+        \item \label{enum:T2-space} $X$ is $T_2$,
+        \item \label{enum:T2-limits_unique} limits of nets (and hence of filters) in $X$ are unique, and
+        \item \label{enum:T2-closed_diagonal} the diagonal $\Delta = \set{(x,x)}{x \in X}$ is closed in $X \prod X$.
+    \end{enumprop}
+\end{proposition}
+
+\begin{proof}
+    \subcref{enum:T2-space} $\implies$ \subcref{enum:T2-limits_unique}: Let $(x_\alpha)_{\alpha \in A}$ be a net in $X$, and assume that $x_\alpha \to x$ and $x_\alpha \to y$. For every pair of neighbourhoods $U$ of $x$ and $V$ of $y$, $(x_\alpha)$ is eventually in $U \intersect V$. Hence $x$ and $y$ have no pair of disjoint neighbourhoods, so $x = y$.
+
+    \subcref{enum:T2-limits_unique} $\implies$ \subcref{enum:T2-closed_diagonal}: If $\Delta$ were not closed, then there would exist a net $(x_\alpha)_{\alpha \in A}$ in $X$ such that $(x_\alpha, x_\alpha) \to (x,y)$ where $x \neq y$, so the limit of $(x_\alpha)$ would not be unique.
+
+    \subcref{enum:T2-closed_diagonal} $\implies$ \subcref{enum:T2-space}: Let $x,y \in X$ be distinct points so that $(x,y) \not\in \Delta$. If $\Delta$ is closed, then $(x,y)$ has a neighbourhood $U \prod V$ in $X \times X$ disjoint from $\Delta$. But then $U$ and $V$ are disjoint neighbourhoods of $x$ and $y$ respectively, so $X$ is Hausdorff.
+\end{proof}
+
+
+
+
+\begin{proposition}
+    In a $T_2$-space, disjoint compact sets can be separated.
+\end{proposition}
+
+\begin{proof}
+    Let $K_1$ and $K_2$ be disjoint compact sets in a Hausdorff space $X$, and fix a point $x \in K_1$. Since $X$ is Hausdorff, $x$ can be separated from every $y \in K_2$. It follows from \cref{thm:separating_from_compacts} that $x$ can be separated from $K_2$. But then $K_2$ can be separated from every point in $K_1$, so another application of \cref{thm:separating_from_compacts} yields the desired claim.
+\end{proof}
+
+
+\begin{proposition}
+    If $f,g \colon X \to Y$ are continuous and $Y$ is Hausdorff, then the set $\{f = g\} = \set{x \in X}{f(x) = g(x)}$ is closed. In particular, if $f$ and $g$ agree on a dense subset of $X$, then $f = g$.
+\end{proposition}
+
+\begin{proof}
+    Let $x \in X$ be such that $f(x) \neq g(x)$. Since $Y$ is Hausdorff, $f(x)$ and $g(x)$ have disjoint neighbourhoods $U$ and $V$ respectively. Then $f\preim(U) \intersect g\preim(V)$ is a neighbourhood of $x$ on which $f$ and $g$ differ. Thus $\{f \neq g\}$ is open which proves the claim.
+
+    Alternatively we may argue using nets\footnote{We refrain from using nets (or filters) as far as possible, or at least also provide proofs that do not depend on them. In this case nets do in fact clarify the necessity of the Hausdorff assumption, so we also include a proof using nets.}: Let $(x_\alpha)_{\alpha \in A}$ be a net in $\{f = g\}$ such that $x_\alpha \to x$. By continuity we have $f(x_\alpha) \to f(x)$ and $g(x_\alpha) \to g(x)$, and since limits are unique in $Y$ by \cref{enum:T2-limits_unique} and $f(x_\alpha) = g(x_\alpha)$ we have $f(x) = g(x)$.
+\end{proof}
+
+
+
+\chapter{Regular and $T_3$-spaces}
+
+\begin{proposition}
+    \label{thm:regular-Lindelof-is-paracompact}
+    A regular Lindelöf space is paracompact.
+\end{proposition}
+
+\begin{proof}
+    Let $X$ be a regular Lindelöf space, and let $\calU$ be an open cover of $X$. For every $x \in X$ pick a $U_x \in \calU$ with $x \in U_x$. By regularity $x$ has a neighbourhood $V_x$ such that $\closure{V_x} \subseteq U_x$. Then $\calV = \set{V_x}{x \in X}$ is also an open cover of $X$, so there is a countable subcover $\calV' = \set{V_{x_i}}{i \in \naturals}$ of $\calV$ since $X$ is Lindelöf.
+
+    For $i \in \naturals$ define sets
+    %
+    \begin{equation*}
+        W_i = U_{x_i} \setminus \bigunion_{j < i} \closure{V_{x_j}}.
+    \end{equation*}
+    %
+    For $x \in X$ there is a smallest $m \in \naturals$ such that $x \in \closure{V_{x_m}}$, so $x \in W_m$. Hence $\calW = \set{W_i}{i \in \naturals}$ is also an open cover of $X$, and it is clearly a refinement of $\calU$. It is also locally finite, since $x \in V_{x_m}$ for some $m \in \naturals$, but $V_{x_m}$ does not intersect $W_n$ for $n > m$. Hence $X$ is paracompact.
+\end{proof}
+
+
+\chapter{Completely regular and $T_{3\frac{1}{2}}$-spaces}
+
+\begin{proposition}
+    Pseudometric spaces are completely regular.
+\end{proposition}
+%
+In \cref{thm:metric-space-normal} we will see that pseudometric spaces are also normal, but since a pseudometric space is not necessarily $T_1$, this does not imply that it is (completely) regular. Hence the necessity of the present proposition.
+
+\begin{proof}
+    Let $(S,\rho)$ be a pseudometric space, $x \in S$, and let $A \subseteq S$ be closed with $x \not\in A$. Since $A$ is closed, the map $y \mapsto \rho(y,A)$ is zero on $A$ and nonzero at $y$.
+\end{proof}
+
+
+
+
+
+\chapter{Normal and $T_4$-spaces}
+
+\begin{proposition}
+    \label{thm:metric-space-normal}
+    Pseudometric spaces are normal.
+\end{proposition}
+
+\begin{proof}
+    Let $(S,\rho)$ be a pseudometric space, and let $A, B \subseteq S$ be disjoint closed subsets. For $a \in A$ let $r_a = \rho(a,B)/2 > 0$, and for $b \in B$ let $r_b = \rho(b,A)/2 > 0$. Let
+    %
+    \begin{equation*}
+        U = \bigunion_{a \in A} B(a,r_a)
+        \quad \text{and} \quad
+        V = \bigunion_{b \in B} B(b,r_b).
+    \end{equation*}
+    %
+    We claim that $U$ and $V$ are disjoint. Let $x \in U$ and $y \in V$. Then $x \in B(a,r_a)$ and $y \in B(b,r_b)$ for some $a \in A$ and $b \in B$. Then
+    %
+    \begin{equation*}
+        \rho(a,b)
+            \leq \rho(a,x) + \rho(x,y) + \rho(y,b)
+            < \rho(x,y) + r_a + r_b,
+    \end{equation*}
+    %
+    which implies that
+    %
+    \begin{equation*}
+        0
+            \leq \rho(a,b) - r_a - r_b
+            < \rho(x,y),
+    \end{equation*}
+    %
+    where the first inequality follows since
+    %
+    \begin{equation*}
+        \rho(a,b)
+            = \frac{\rho(a,b) + \rho(a,b)}{2}
+            \geq \frac{\rho(a,B)}{2} + \frac{\rho(b,A)}{2}
+            = r_a + r_b.
+    \end{equation*}
+\end{proof}
+
+
+\begin{proposition}
+    \label{thm:paracompact-Hausdorff-is-normal}
+    Every paracompact Hausdorff space is normal, hence $T_4$.
+\end{proposition}
+
+
+\begin{proposition}
+    A regular Lindelöf space is normal.
+\end{proposition}
+
+\begin{proof}
+    Let $X$ be a regular Lindelöf space, and let $A,B \subseteq X$ be disjoint closed subsets. By regularity, every $a \in A$ has a neighbourhood $U_a$ such that $\closure{U_a} \intersect B = \emptyset$. Similarly, every $b \in B$ has a neighbourhood $V_b$ separating it from $A$. Since $A$ and $B$ are themselves Lindelöf by \cref{thm:compact-Lindelof-closed-subset}, they are covered by countably many $U_a$ and $V_b$ respectively, say $A \subseteq \bigunion_{n \in \naturals} U_n$ and $B \subseteq \bigunion_{n \in \naturals} V_n$.
+
+    Now define sequences of sets $S_n$ and $T_n$ by
+    %
+    \begin{equation*}
+        S_n = U_n \setminus \closure{ \bigunion_{i < n} T_i}
+        \quad \text{and} \quad
+        T_n = V_n \setminus \closure{ \bigunion_{i \leq n} S_i}.
+    \end{equation*}
+    %
+    (Notice the strict and non-strict inequalities.) Define the sets $S = \bigunion_{n \in \naturals} S_n$ and $T = \bigunion_{n \in \naturals} T_n$. Clearly $S$ is a neighbourhood of $A$ and $T$ of $B$. We claim that they are also disjoint: Let $x \in S_n$ for some $n \in \naturals$. Then $x \not\in T_m$ for $m < n$ by the definition of $S_n$, and $x \not\in T_m$ for $m \geq n$ by the definition of $T_m$. 
+\end{proof}
+
+
+
+% \nocite{*}
+
+% \printbibliography
+
+
+\end{document}
