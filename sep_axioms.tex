@@ -520,6 +520,65 @@ In \cref{thm:metric-space-normal} we will see that pseudometric spaces are also 
 \end{proof}
 
 
+If $X$ is a topological space and $A,B \subseteq X$ are closed sets, then a continuous function $f \colon X \to [0,1]$ with $f(A) = 0$ and $f(B) = 1$ is called a \emph{Urysohn function} for $A$ and $B$.
+
+\begin{theorem}[Urysohn's Lemma]
+    A topological space $X$ is normal if and only if there is a Urysohn function for every pair of closed subsets of $X$.
+\end{theorem}
+
+\begin{proof}
+    First assume that $X$ is normal and that $A,B \subseteq X$ are closed. By normality there is an open set $U_{1/2}$ such that
+    %
+    \begin{equation*}
+        A
+            \subseteq U_{1/2}
+            \subseteq \closure{U}_{\!1/2}
+            \subseteq B^c.
+    \end{equation*}
+    %
+    Then $A$ and $U_{1/2}^c$ are disjoint closed sets, and so are $\closure{U}_{\!1/2}$ and $B$. Hence there exist open sets $U_{1/4}$ and $U_{3/4}$ such that
+    %
+    \begin{equation*}
+        A
+            \subseteq U_{1/4}
+            \subseteq \closure{U}_{\!1/4}
+            \subseteq U_{1/2}
+            \subseteq \closure{U}_{\!1/2}
+            \subseteq U_{3/4}
+            \subseteq \closure{U}_{\!3/4}
+            \subseteq B^c.
+    \end{equation*}
+    %
+    Let $\Delta$ be the set of all dyadic rational numbers in $(0,1)$. We may thus recursively define for every $r \in \Delta$ a set $U$ with the following properties:
+    %
+    \begin{enumerate} % Proof enumerate??
+        \item $A \subseteq U_r$ and $\closure{U}_r \subseteq B^c$ for each $r \in \Delta$, and
+
+        \item \label{enum:Urysohn-proof-closure-inside-open} $\closure{U}_r \subseteq U_s$ if $r < s$, for $r,s \in \Delta$.
+    \end{enumerate}
+    %
+    We furthermore let $U_1 = X$. Then define a function $f \colon X \to [0,1]$ by $f(x) = \inf \set{r}{x \in U_r}$. Since $A \subseteq U_r \subseteq B^c$ for all $r \in \Delta$, we clearly have $f(A) = 0$ and $f(B) = 1$, and that $0 \leq f(x) \leq 1$ for all $x \in X$.
+
+    It remains to be shown that $f$ is continuous. Let $\alpha \in \reals$ and $x \in X$, and notice that $f(x) < \alpha$ if and only if $x \in U_r$ for some $r < \alpha$, which is true just when $x \in \bigunion_{r < \alpha} U_r$. Hence,
+    %
+    \begin{equation*}
+        f\preim((-\infty,\alpha))
+            = \bigunion_{r < \alpha} U_r
+    \end{equation*}
+    %
+    is open. Similarly $f(x) > \alpha$ if and only if $x \not\in U_r$ for some $r > \alpha$, which is equivalent to $x \not\in \closure{U}_s$ for some $s > \alpha$ by property \cref{enum:Urysohn-proof-closure-inside-open} above. This is the case if and only if $x \in \bigunion_{s > \alpha} (\closure{U}_s)^c$. It follows that
+    %
+    \begin{equation*}
+        f\preim((\alpha,\infty))
+            = \bigunion_{s > \alpha} (\closure{U}_s)^c
+    \end{equation*}
+    %
+    is also open. Hence $f$ is continuous.
+
+    Conversely, assume that $f$ is a Urysohn function for a pair of disjoint closed sets $A,B \subseteq X$. Then $f\preim([0,1/2))$ and $f\preim((1/2,1])$ are disjoint neighbourhoods of $A$ and $B$ respectively, so $X$ is normal.
+\end{proof}
+
+
 
 % \nocite{*}
 
