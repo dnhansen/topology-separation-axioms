@@ -226,9 +226,9 @@ This result is of course standard for compact spaces, but we include the proof t
 
 
 
-\chapter[The T0 axiom]{The $T_0$ axiom}
+\chapter[The T0 axiom][The $T_0$ axiom]{The $T_0$ axiom}
 
-\section{Definition or basic properties}
+\section{Definition}
 
 \begin{definition}
     A topological space $X$ satisfies the $T_0$ axiom and is called a \emph{$T_0$-space} if, for every pair of distinct points $x,y \in X$, either $x$ has a neighbourhood that does not contain $y$, or vice versa.
@@ -288,10 +288,10 @@ It is obvious that $\tilde{\rho}$ is then a metric on $\tilde{S}$, and we call $
 \end{proof}
 
 
-\section[Operations on T0-spaces]{Operations on $T_0$-spaces}
+\section[Operations on T0-spaces][Operations on $T_0$-spaces]{Operations on $T_0$-spaces}
 
 
-\begin{proposition}[Properties of $T_0$-spaces]
+\begin{proposition}
     \label{thm:T0-properties}
     \begin{enumprop}
         \item \label{enum:T0-subspace} Any subspace of a $T_0$-space is $T_0$.
@@ -316,9 +316,9 @@ It is obvious that $\tilde{\rho}$ is then a metric on $\tilde{S}$, and we call $
 
 
 
-\chapter[The T1 axiom]{The $T_1$ axiom}
+\chapter[The T1 axiom][The $T_1$ axiom]{The $T_1$ axiom}
 
-\section{Definition and basic properties}
+\section{Definition}
 
 \begin{definition}
     A topological space $X$ satisfies the $T_1$ axiom and is called a \emph{$T_1$-space} if, for every pair of distinct points $x,y \in X$, $x$ has a neighbourhood disjoint from $y$, and $y$ has a neighbourhood disjoint from $x$.
@@ -351,32 +351,40 @@ Clearly every $T_1$-space is $T_0$. We begin by giving some properties of topolo
 \end{proof}
 
 
-\section[Operations on T1-spaces]{Operations on $T_1$-spaces}
+\section[Operations on T1-spaces][Operations on $T_1$-spaces]{Operations on $T_1$-spaces}
 
-\begin{proposition}[Properties of $T_1$-spaces]
+\begin{proposition}
     \label{thm:T1-properties}
     \begin{enumprop}
         \item \label{enum:T1-subspace} Any subspace of a $T_1$-space is $T_1$.
         \item A nonempty product space is $T_1$ if and only if every factor is $T_1$.
-        \item \label{enum:T1-closed-image} The closed image\footnotemark{} of a $T_1$-space is $T_1$.
         \item \label{enum:T1-quotient} A quotient space $X/{\sim}$ is $T_1$ if and only if every $\sim$-equivalence class is closed in $X$.
     \end{enumprop}
 \end{proposition}
-\footnotetext{By \textquote{closed image} we mean the image of a closed (not necessarily continuous) map.}
 
 \begin{proof}
     The proof of the first two claims are almost identical to the proof of \cref{thm:T0-properties}, so we omit it.
 
-    To prove \subcref{enum:T1-closed-image}, let $f \colon X \to Y$ be a closed map from a $T_1$-space $X$ to a topological space $Y$, and let $y \in f(X)$. Then there is some $x \in X$ with $f(x) = y$, and since $\{x\}$ is closed in $X$ and $f$ is closed, $\{y\}$ is closed in $Y$.
+    We prove \subcref{enum:T1-quotient}: Fibres of the quotient map are precisely the equivalence classes, so by the definition of the quotient topology, singletons of $X/{\sim}$ are closed if and only if the corresponding equivalence class is closed as a subset of $X$.
+\end{proof}
 
-    Finally we prove \subcref{enum:T1-quotient}: Fibres of the quotient map are precisely the equivalence classes, so by the definition of the quotient topology, singletons of $X/{\sim}$ are closed if and only if the corresponding equivalence class is closed as a subset of $X$.
+
+\section[Conditions for the T1 axiom]{Conditions for the $T_1$ axiom}
+
+\begin{proposition}
+    The closed image\footnotemark{} of a $T_1$-space is $T_1$.
+\end{proposition}
+\footnotetext{By \textquote{closed image} we mean the image of a closed (not necessarily continuous) map.}
+
+\begin{proof}
+    Let $f \colon X \to Y$ be a closed map from a $T_1$-space $X$ to a topological space $Y$, and let $y \in f(X)$. Then there is some $x \in X$ with $f(x) = y$, and since $\{x\}$ is closed in $X$ and $f$ is closed, $\{y\}$ is closed in $Y$.
 \end{proof}
 
 
 
-\chapter[The T2 axiom]{The $T_2$ axiom}
+\chapter{Hausdorff spaces}
 
-\section{Definition and basic properties}
+\section{Definition}
 
 \begin{definition}
     A topological space $X$ satisfies the $T_2$ axiom and is called a \emph{$T_2$-space} or \emph{Hausdorff space} if, for every pair of distinct points $x,y \in X$, $x$ has a neighbourhood $U$ and $y$ a neighbourhood $V$ with $U \intersect V = \emptyset$.
@@ -389,7 +397,7 @@ Again, a $T_2$-space is clearly $T_1$. We give a series of conditions that are e
     The following are equivalent for a topological space $X$:
     %
     \begin{enumprop}
-        \item \label{enum:T2-space} $X$ is $T_2$,
+        \item \label{enum:T2-space} $X$ is Hausdorff,
         \item \label{enum:T2-limits_unique} limits of nets (and hence of filters) in $X$ are unique, and
         \item \label{enum:T2-closed_diagonal} the diagonal $\Delta = \set{(x,x)}{x \in X}$ is closed in $X \prod X$.
     \end{enumprop}
@@ -404,10 +412,10 @@ Again, a $T_2$-space is clearly $T_1$. We give a series of conditions that are e
 \end{proof}
 
 
-
+\section{Further properties of Hausdorff spaces}
 
 \begin{proposition}
-    In a $T_2$-space, disjoint compact sets can be separated.
+    In a Hausdorff space, disjoint compact sets can be separated.
 \end{proposition}
 
 \begin{proof}
@@ -427,11 +435,44 @@ Again, a $T_2$-space is clearly $T_1$. We give a series of conditions that are e
 
 
 
-\chapter[Regular and T3-spaces]{Regular and $T_3$-spaces}
+\chapter[Regular and T3-spaces][Regular and $T_3$-spaces]{Regular and $T_3$-spaces}
 
-\section{Definition and basic properties}
+\section{Definition}
+
+\begin{definition}
+    A topological space $X$ is \emph{regular} if, for every point $x \in X$ and closed subset $A \subseteq X$ with $x \not\in A$, $x$ has a neighbourhood $U$ and $A$ a neighbourhood $V$ with $U \intersect V = \emptyset$.
+
+    If furthermore $X$ is $T_1$, then $X$ is said to satisfy the $T_3$ axiom and is called a \emph{$T_3$-space}.
+\end{definition}
+
+
+\begin{proposition}
+    The following are equivalent for a topological space $X$:
+    %
+    \begin{enumprop}
+        \item $X$ is regular,
+
+        \item if $U$ is a neighbourhood of $x \in X$, then $x$ has a neighbourhood $V$ with $\closure{V} \subseteq U$, and
+
+        \item every $x \in X$ has a neighbourhood basis of closed sets.
+    \end{enumprop}
+\end{proposition}
+
+\begin{proof}
+    
+\end{proof}
+
 
 \section{Further properties of regular spaces}
+
+\begin{proposition}
+    In a regular space, compact sets can be separated from disjoint closed sets.
+\end{proposition}
+
+\begin{proof}
+    
+\end{proof}
+
 
 \begin{proposition}
     \label{thm:regular-Lindelof-is-paracompact}
@@ -465,7 +506,34 @@ Again, a $T_2$-space is clearly $T_1$. We give a series of conditions that are e
 
 \chapter{Completely regular and Tychonoff spaces}
 
-\section{Definition and basic properties}
+\section{Definition}
+
+\begin{definition}
+    A topological space $X$ is \emph{completely regular} if, for every point $x \in X$ and closed subset $A \subseteq X$ with $x \not\in A$, there is a continuous function $f \colon X \to [0,1]$ with $f(x) = 0$ and $f(A) = 1$. Such a function is said to \emph{separate} $x$ and $A$.
+
+    If furthermore $X$ is $T_1$, then $X$ is said to satisfy the $T_{3\frac{1}{2}}$-axiom and is called \emph{Tychonoff}.
+\end{definition}
+
+
+If $X$ is a topological space, then we denote by $C(X)$ the space of continuous real-valued functions on $X$. The subspace of $C(X)$ consisting of bounded functions is denoted $C_b(X)$.
+
+\begin{proposition}
+    A topological space $X$ is completely regular if and only if it has the weak topology induced by $C_b(X)$.
+\end{proposition}
+
+\begin{proof}
+    
+\end{proof}
+
+
+\begin{proposition}
+    A topological space is Tychonoff if and only if it is homeomorphic to a subspace of a cube, i.e. a product of compact intervals.
+\end{proposition}
+
+\begin{proof}
+    
+\end{proof}
+
 
 \section{Conditions for complete regularity}
 
@@ -486,7 +554,7 @@ In \cref{thm:metric-space-normal} we will see that pseudometric spaces are also 
 
 \chapter[Normal and T4-spaces]{Normal and $T_4$-spaces}
 
-\section{Definition and basic properties}
+\section{Definition}
 
 \section{Conditions for normality}
 
