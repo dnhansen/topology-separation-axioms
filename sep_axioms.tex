@@ -90,15 +90,19 @@
 
 \chapter{Introduction}
 
-In these notes we give an overview of some of the most important (and weakest) separation axioms in point-set topology. For each axiom we consider the following:
-
+In these notes we give an overview of some of the most important separation axioms in point-set topology. For each axiom we consider the following:
+%
 \begin{enumerate}
     \item What the axiom \emph{means} intuitively. Of course we understand what it means to \textquote{separate} points or sets in a topological space and how the ability to do so is useful. But many of the axioms are equivalent to properties of a space that (seemingly) have nothing to do with separation, and whose importance are perhaps more intuitively clear.
 
     \item How the axiom behaves with respect to topological constructions like subspaces and products.
     
-    \item Other properties of the axioms. Each axiom interacts with the surrounding theory in different ways.
+    \item Conditions under which a space satisfies a given axiom.
+
+    \item Other properties of the axioms. Each axiom interacts with the surrounding theory in different ways, sometimes to produce spaces with even more structure.
 \end{enumerate}
+%
+Our attention is primarily focused on both ends of the spectrum: The weakest axiom we consider, and the one we have most to say about, is $T_0$. We say less about the $T_1$ and Hausdorff axioms since these are well-known, and there is also rather little to say about regular spaces. More interesting are complete regularity and normality on which we spend a lot of time: normality because of its importance and particularly the Urysohn lemma, and complete regularity because of its connection with rings of continuous functions.
 
 
 \section{Notation}
@@ -127,65 +131,13 @@ We here summarise the axioms by citing
 
 \chapter{Preliminary definitions and results}
 
+
 If $X$ is a topological space and $A \subseteq X$, then we say that a set $N \subseteq X$ is a \emph{neighbourhood} of $A$ if there is an open set $U$ in $X$ such that $A \subseteq U \subseteq N$. The family of neighbourhoods of a set $A$ is called the \emph{neighbourhood filter of $A$} and is denoted $\nhoodfilter{A}$. If $A = \{x\}$ is a singleton we also write $\nhoodfilter{x}$ and call $N$ a neighbourhood of $x$.
 
 We begin by proving a series of results that do not pertain directly to the separability axioms, but that will be used in the sequel.
 
-If $X$ is a topological space, then we say that two disjoint subsets $A$ and $B$ can be separated if there exist disjoint open sets $U$ and $V$ with $A \subseteq U$ and $B \subseteq V$.
 
-\begin{lemma}
-    \label{thm:separating_from_compacts}
-    Let $X$ be a topological space, and let $A \subseteq X$ be a set that can be separated from points that lie in a set $B \subseteq X$. Then $A$ can be separated from compact sets contained in $B$.
-\end{lemma}
-%
-This is an example of the general principle that compact sets often act like points.
-
-\begin{proof}
-    Let $K \subseteq X$ be a compact set contained in $B$. Since $A$ can be separated from points in $B$, then for every $x \in K$ there are disjoint open sets $U_x$ and $V_x$ such that $x \in U_x$ and $A \subseteq V_x$. The collection $(U_x)_{x \in K}$ is an open cover of $K$, so there is a finite subcover $(U_{x_i})_{i=1}^n$. Let $U = \bigunion_{i=1}^n U_{x_i}$ and $V = \bigintersect_{i=1}^n V_{x_i}$. Then $U$ and $V$ are disjoint open sets containing $K$ and $A$ respectively.
-\end{proof}
-
-
-\begin{lemma}
-    \label{thm:distance-to-set}
-    Let $(S,\rho)$ be a pseudometric space, and let $A \subseteq S$ be nonempty. Define a map $\rho(\,\cdot\,, A) \colon S \to [0, \infty)$ by
-    %
-    \begin{equation*}
-        \rho(x, A) = \inf_{a \in A} \rho(x,a).
-    \end{equation*}
-    %
-    This map has the following properties:
-    %
-    \begin{enumlem}
-        \item \label{enum:distance-to-set-closure} $\rho(x,A) = 0$ if and only if $x \in \closure{A}$.
-
-        \item \label{enum:distance-to-set-triangle-inequality} If $y \in S$, then $\rho(x,A) \leq \rho(x,y) + \rho(y,A)$.
-
-        \item \label{enum:distance-to-set-continuous} $\rho(\,\cdot\,, A)$ is continuous.
-    \end{enumlem}
-\end{lemma}
-
-\begin{proof}
-    First we prove \subcref{enum:distance-to-set-closure}. Notice that $\rho(x,A) = 0$ if and only if for any $r > 0$ there is an $a \in A$ such that $\rho(x,a) < r$. But this is true precisely when any ball $B(x,r)$ intersects $A$, i.e. when $x \in \closure{A}$.
-
-    For any $a \in A$ we have
-    %
-    \begin{equation*}
-        \rho(x,A)
-            \leq \rho(x,a)
-            \leq \rho(x,y) + \rho(y,a),
-    \end{equation*}
-    %
-    and since this is true for any $a \in A$, \subcref{enum:distance-to-set-triangle-inequality} follows.
-
-    Finally, \subcref{enum:distance-to-set-continuous} follows immediately from (ii), since
-    %
-    \begin{equation*}
-        \rho(x,A) - \rho(y,A)
-            \leq \rho(x,y)
-    \end{equation*}
-    %
-    for all $x,y \in S$.
-\end{proof}
+\section{Compactness}
 
 \newcommand{\calA}{\mathcal{A}}
 
@@ -228,6 +180,95 @@ This result is of course standard for compact spaces, but we include the proof t
 
 \begin{proof}
     Let $f \colon X \to Y$ be continuous and surjective, and assume that $X$ is compact/Lindelöf. Let $\calU$ be an open cover of $Y$. Then $f\preim(\calU)$ is an open cover of $X$, so it has a finite/countable subcover $f\preim(\calU')$. But then $\calU'$ is a finite/countable subcover of $\calU$ as desired.
+\end{proof}
+
+
+If $X$ is a topological space, then we say that two disjoint subsets $A$ and $B$ can be \emph{separated} if there exist disjoint open sets $U$ and $V$ with $A \subseteq U$ and $B \subseteq V$.
+
+\begin{lemma}
+    \label{thm:separating_from_compacts}
+    Let $X$ be a topological space, and let $A \subseteq X$ be a set that can be separated from points that lie in a set $B \subseteq X$. Then $A$ can be separated from compact sets contained in $B$.
+\end{lemma}
+%
+This is an example of the general principle that compact sets often act like points.
+
+\begin{proof}
+    Let $K \subseteq X$ be a compact set contained in $B$. Since $A$ can be separated from points in $B$, then for every $x \in K$ there are disjoint open sets $U_x$ and $V_x$ such that $x \in U_x$ and $A \subseteq V_x$. The collection $(U_x)_{x \in K}$ is an open cover of $K$, so there is a finite subcover $(U_{x_i})_{i=1}^n$. Let $U = \bigunion_{i=1}^n U_{x_i}$ and $V = \bigintersect_{i=1}^n V_{x_i}$. Then $U$ and $V$ are disjoint open sets containing $K$ and $A$ respectively.
+\end{proof}
+
+
+\section{Local compactness}
+
+\begin{definition}[Local compactness]
+    A topological space is called \emph{locally compact} if every point has a compact neighbourhood.
+\end{definition}
+%
+There are many different non-equivalent definitions of local compactness, and we have just chosen one for convenience. Locally compact spaces are usually also Hausdorff in which case all the different definitions are equivalent. A locally compact Hausdorff space is also called an \emph{LCH space}. In particular we have the following:
+
+\begin{proposition}
+    \label{thm:LCH-equivalent-condition}
+    A Hausdorff space is locally compact if and only if every point has a neighbourhood basis of compact sets.
+\end{proposition}
+
+\begin{proof}
+    Let $X$ be an LCH space and let $x \in U \subseteq X$ with $U$ open. If $\closure{U}$ is not compact, then replace $U$ with $U \intersect \interior{K}$, where $K$ is a compact neighbourhood of $x$. Then both $\{x\}$ and $\boundary U$ are compact, so by \cref{thm:Hausdorff-separate-compacts} there exist disjoint relatively open sets $V, W \subseteq \closure{U}$ such that $x \in V$ and $\boundary U \subseteq W$. Then $V \subseteq U$ so $V$ is open in $X$, and $\closure{V}$ is a closed and thus compact subset of $U \setminus W$.
+
+    The converse is obvious.
+\end{proof}
+
+
+\begin{corollary}
+    \label{thm:LCH-compact-set-has-compact-nhood}
+    Let $X$ be a locally compact Hausdorff space. If $K \subseteq U \subseteq X$ with $K$ compact and $U$ open, then $K$ has a compact neighbourhood contained in $U$.
+\end{corollary}
+
+\begin{proof}
+    For $x \in K$ we may choose a compact neighbourhood $N_x$ of $x$ contained in $U$ by \cref{thm:LCH-equivalent-condition}. Then $(\interior{N_x})_{x \in X}$ is an open over of $K$, so there is a finite subcover $(\interior{N_{x_i}})_{i=1}^n$. Letting $V = \bigunion_{i=1}^n \interior{N_{x_i}}$ we have $K \subseteq V$, and $\closure{V} = \bigunion_{i=1}^n N_{x_i} \subseteq U$ is compact as desired.
+\end{proof}
+
+
+\section{Metric spaces}
+
+\begin{lemma}
+    \label{thm:distance-to-set}
+    Let $(S,\rho)$ be a pseudometric space, and let $A \subseteq S$ be nonempty. Define a map $\rho(\,\cdot\,, A) \colon S \to [0, \infty)$ by
+    %
+    \begin{equation*}
+        \rho(x, A) = \inf_{a \in A} \rho(x,a).
+    \end{equation*}
+    %
+    This map has the following properties:
+    %
+    \begin{enumlem}
+        \item \label{enum:distance-to-set-closure} $\rho(x,A) = 0$ if and only if $x \in \closure{A}$.
+
+        \item \label{enum:distance-to-set-triangle-inequality} If $y \in S$, then $\rho(x,A) \leq \rho(x,y) + \rho(y,A)$.
+
+        \item \label{enum:distance-to-set-continuous} $\rho(\,\cdot\,, A)$ is continuous.
+    \end{enumlem}
+\end{lemma}
+
+\begin{proof}
+    First we prove \subcref{enum:distance-to-set-closure}. Notice that $\rho(x,A) = 0$ if and only if for any $r > 0$ there is an $a \in A$ such that $\rho(x,a) < r$. But this is true precisely when any ball $B(x,r)$ intersects $A$, i.e. when $x \in \closure{A}$.
+
+    For any $a \in A$ we have
+    %
+    \begin{equation*}
+        \rho(x,A)
+            \leq \rho(x,a)
+            \leq \rho(x,y) + \rho(y,a),
+    \end{equation*}
+    %
+    and since this is true for any $a \in A$, \subcref{enum:distance-to-set-triangle-inequality} follows.
+
+    Finally, \subcref{enum:distance-to-set-continuous} follows immediately from (ii), since
+    %
+    \begin{equation*}
+        \rho(x,A) - \rho(y,A)
+            \leq \rho(x,y)
+    \end{equation*}
+    %
+    for all $x,y \in S$.
 \end{proof}
 
 
@@ -462,6 +503,7 @@ Again, a $T_2$-space is clearly $T_1$. We give a series of conditions that are e
 \section{Further properties of Hausdorff spaces}
 
 \begin{proposition}
+    \label{thm:Hausdorff-separate-compacts}
     In a Hausdorff space, disjoint compact sets can be separated.
 \end{proposition}
 
@@ -682,22 +724,13 @@ We now wish to show that locally compact Hausdorff spaces are completely regular
 To show this we will prove a version of Urysohn's lemma for locally compact Hausdorff spaces. This relies on the Urysohn lemma for normal spaces covered in the next section, but we place this discussion here since we are interested in it in the context of completely regular spaces.
 
 
-\begin{lemma}
-    Let $X$ be a locally compact Hausdorff space. If $K \subseteq U \subseteq X$ with $K$ compact and $U$ open, then there is a precompact open set $V$ with $K \subseteq V \subseteq \closure{V} \subseteq U$.
-\end{lemma}
-
-\begin{proof}
-    
-\end{proof}
-
-
 \begin{theorem}[Urysohn's Lemma, locally compact version]
     \label{thm:Urysohn-LCH}
     Let $X$ be a locally compact Hausdorff space, and let $K \subseteq U \subseteq X$ with $K$ compact and $U$ open. Then there exists a continuous function $f \colon X \to [0,1]$ such that $f(K) = 1$ and $f$ vanishes outside a compact subset of $U$.
 \end{theorem}
 
 \begin{proof}
-    By [lemma] there is a precompact open set $V$ with $K \subseteq V \subseteq \closure{V} \subseteq U$. Since compact Hausdorff spaces are normal, we can apply Urysohn's lemma for normal spaces to $\closure{V}$: This yields a continuous function $f \colon \closure{V} \to [0,1]$ with $f(K) = 1$ and $f(\boundary V) = 0$. Extend $f$ to $X$ by letting $f(\closure{V}^c) = 1$.
+    By \cref{thm:LCH-compact-set-has-compact-nhood} there is a precompact open set $V$ with $K \subseteq V \subseteq \closure{V} \subseteq U$. Since compact Hausdorff spaces are normal, we can apply Urysohn's lemma for normal spaces to $\closure{V}$: This yields a continuous function $f \colon \closure{V} \to [0,1]$ with $f(K) = 1$ and $f(\boundary V) = 0$. Extend $f$ to $X$ by letting $f(\closure{V}^c) = 1$.
 
     We claim that $f$ is continuous on $X$. Let $B \subseteq [0,1]$ be closed. If $0 \not\in B$, then $f\preim(B) = (f|_{\closure{V}})\preim(B)$ is closed in $\closure{V}$, hence also in $X$. On the other hand, if $0 \in B$, then
     %
