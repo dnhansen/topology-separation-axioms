@@ -146,6 +146,7 @@ This is an example of the general principle that compact sets often act like poi
 
 
 \begin{lemma}
+    \label{thm:distance-to-set}
     Let $(S,\rho)$ be a pseudometric space, and let $A \subseteq S$ be nonempty. Define a map $\rho(\,\cdot\,, A) \colon S \to [0, \infty)$ by
     %
     \begin{equation*}
@@ -282,7 +283,7 @@ Part \subcref{enum:T0-identification-is-smallest-equiv} expresses the fact that 
     Since $q$ is surjective we have $q(q\preim(V)) = V$ for all $V \in \calT_\equiv$, and by \cref{enum:T0-identification-saturated} every $U \in \calT$ is saturated, so $q\preim(q(U)) = U$.
 \end{proof}
 %
-This corollary implies that most topological properties are preserved in the $T_0$-identification. Taking the $T_0$-identification of a space that is already $T_0$ leaves the space unchanged but, preempting terminology we will introduce later, the $T_0$-identification of a regular space is regular, and the same is true for completely regular and normal spaces. The proofs are trivial.
+This corollary implies that most topological properties are preserved in the $T_0$-identification. Taking the $T_0$-identification of a space that is already $T_0$ leaves the space unchanged but, preempting terminology we will introduce later, the $T_0$-identification of a regular space is regular, and the same is true for completely regular, normal and paracompact spaces. The proofs are trivial.
 
 One might also expect that continuous functions on a space are unchanged in the $T_0$-identification, and this is in fact the case:
 
@@ -556,6 +557,17 @@ Notice that a regular space is \emph{not} necessarily Hausdorff since singletons
 \end{proof}
 
 
+\begin{corollary}
+    Locally compact Hausdorff spaces are regular.
+\end{corollary}
+
+\begin{proof}
+    This will follow from \cref{thm:Urysohn-LCH} since completely regular spaces are regular.
+
+    Alternatively, regardless of one's definition of local compactness, every point of an LCH space has a neighbourhood basis of compact (and hence closed) sets, which implies regularity by \cref{thm:regular-equivalent-properties}.
+\end{proof}
+
+
 
 \chapter{Completely regular and Tychonoff spaces}
 
@@ -576,6 +588,8 @@ To prove this we take a small detour by studying the defining property of comple
     \label{thm:separating-points-from-closed-sets-basis}
     A collection $(f_\alpha)_{\alpha \in A}$ of functions $f_\alpha \colon X \to X_\alpha$ between topological spaces separates points from closed sets if and only if the sets $f_\alpha\preim(V)$, for $\alpha \in A$ and $V \subseteq X_\alpha$ open, form a basis for the topology on $X$.
 \end{proposition}
+%
+Hence, if one is interested in studying rings of bounded functions, then one may as well assume that the domain is Tychonoff.
 
 \begin{proof}
     First assume that $(f_\alpha)$ separates points from closed sets, let $U \subseteq X$ be open and let $x \in U$. Then $U^c$ is closed, so there is some $\alpha \in A$ such that $f_\alpha(x) \not\in \closure{f_\alpha(U^c)}$. Then
@@ -659,7 +673,7 @@ To prove this we take a small detour by studying the defining property of comple
 In \cref{thm:metric-space-normal} we will see that pseudometric spaces are also normal, but since a pseudometric space is not necessarily $T_1$, this does not imply that it is (completely) regular. Hence the necessity of the present proposition.
 
 \begin{proof}
-    Let $(S,\rho)$ be a pseudometric space, $x \in S$, and let $A \subseteq S$ be closed with $x \not\in A$. Since $A$ is closed, the map $y \mapsto \rho(y,A)$ is zero on $A$ and nonzero at $y$.
+    Let $(S,\rho)$ be a pseudometric space, $x \in S$, and let $A \subseteq S$ be closed with $x \not\in A$. Since $A$ is closed, the map $y \mapsto \rho(y,A)$ is zero on $A$ and nonzero at $y$, and it is continuous by \cref{thm:distance-to-set}.
 \end{proof}
 
 
@@ -678,6 +692,7 @@ To show this we will prove a version of Urysohn's lemma for locally compact Haus
 
 
 \begin{theorem}[Urysohn's Lemma, locally compact version]
+    \label{thm:Urysohn-LCH}
     Let $X$ be a locally compact Hausdorff space, and let $K \subseteq U \subseteq X$ with $K$ compact and $U$ open. Then there exists a continuous function $f \colon X \to [0,1]$ such that $f(K) = 1$ and $f$ vanishes outside a compact subset of $U$.
 \end{theorem}
 
