@@ -17,7 +17,7 @@
 \usepackage{latex-sty/articlesectionstyle}
 
 % Fonts
-\usepackage[largesmallcaps]{kpfonts}
+\usepackage[largesmallcaps,partialup]{kpfonts}
 \DeclareSymbolFontAlphabet{\mathrm}{operators} % https://tex.stackexchange.com/questions/40874/kpfonts-siunitx-and-math-alphabets
 \linespread{1.06}
 \let\mathfrak\undefined
@@ -110,7 +110,7 @@ We here summarise the axioms by citing
     
     \item $T_1$: Singletons are closed, or in other words, if $(x_\alpha)_{\alpha \in A}$ is a constant net with $x_\alpha = x$ for all $\alpha \in A$, then $x$ is the unique limit of $(x_\alpha)$.
     
-    \item $T_2$: All limits are unique.
+    \item Hausdorff: All limits are unique.
     
     \item Regularity: Every open neighbourhood contains a closed neighbourhood.
     
@@ -470,7 +470,7 @@ Again, a $T_2$-space is clearly $T_1$. We give a series of conditions that are e
 \end{proposition}
 
 \begin{proof}
-    
+    This is a direct consequence of \cref{thm:separating_from_compacts}.
 \end{proof}
 
 
@@ -480,15 +480,15 @@ Again, a $T_2$-space is clearly $T_1$. We give a series of conditions that are e
 \end{proposition}
 
 \begin{proof}
-    Let $X$ be a regular Lindelöf space, and let $\calU$ be an open cover of $X$. For every $x \in X$ pick a $U_x \in \calU$ with $x \in U_x$. By regularity $x$ has a neighbourhood $V_x$ such that $\closure{V_x} \subseteq U_x$. Then $\calV = \set{V_x}{x \in X}$ is also an open cover of $X$, so there is a countable subcover $\calV' = \set{V_{x_i}}{i \in \naturals}$ of $\calV$ since $X$ is Lindelöf.
+    Let $X$ be a regular Lindelöf space, and let $\calU$ be an open cover of $X$. For every $x \in X$ pick a $U_x \in \calU$ with $x \in U_x$. By regularity $x$ has a neighbourhood $V_x$ such that $\closure{V}_{\!\!x} \subseteq U_x$. Then $\set{V_x}{x \in X}$ is also an open cover of $X$, so it has countable subcover $\set{V_{x_n}}{n \in \naturals}$ since $X$ is Lindelöf.
 
-    For $i \in \naturals$ define sets
+    For $n \in \naturals$ define sets
     %
     \begin{equation*}
-        W_i = U_{x_i} \setminus \bigunion_{j < i} \closure{V_{x_j}}.
+        W_n = U_{x_n} \setminus \bigunion_{k < n} \closure{V}_{\!\!x_k}.
     \end{equation*}
     %
-    For $x \in X$ there is a smallest $m \in \naturals$ such that $x \in \closure{V_{x_m}}$, so $x \in W_m$. Hence $\calW = \set{W_i}{i \in \naturals}$ is also an open cover of $X$, and it is clearly a refinement of $\calU$. It is also locally finite, since $x \in V_{x_m}$ for some $m \in \naturals$, but $V_{x_m}$ does not intersect $W_n$ for $n > m$. Hence $X$ is paracompact.
+    For $x \in X$ there is a smallest $k \in \naturals$ such that $x \in \closure{V}_{\!\!x_k}$, so $x \in W_k$. Hence $\set{W_n}{n \in \naturals}$ is also an open cover of $X$, and it is clearly a refinement of $\calU$. It is also locally finite, since $x \in V_{x_k}$ for some $k \in \naturals$, but $V_{x_k}$ does not intersect $W_n$ for $n > k$. Hence $X$ is paracompact.
 \end{proof}
 
 
@@ -515,20 +515,80 @@ Again, a $T_2$-space is clearly $T_1$. We give a series of conditions that are e
 \end{definition}
 
 
-If $X$ is a topological space, then we denote by $C(X)$ the space of continuous real-valued functions on $X$. The subspace of $C(X)$ consisting of bounded functions is denoted $C_b(X)$.
+If $X$ is a topological space, then we denote by $C(X)$ the space of continuous real-valued functions on $X$. The subspace of $C(X)$ consisting of bounded functions is denoted $C_b(X)$. We now prove that a space is completely regular precisely when the bounded continuous functions on the space induce the topology. Of course, these functions are already continuous, so this says that there are \emph{enough} continuous functions for them to characterise the topology.
+
+To prove this we take a small detour by studying the defining property of completely regular spaces in greater generality. We say that a collection $(f_\alpha)_{\alpha \in A}$ of functions $f_\alpha \colon X \to X_\alpha$ between topological spaces \emph{separates points from closed sets} if whenever $C \subseteq X$ is closed and $x \not\in C$, then $f_\alpha(x) \not\in \closure{f_\alpha(C)}$ for some $\alpha \in A$.
 
 \begin{proposition}
-    A topological space $X$ is completely regular if and only if it has the weak topology induced by $C_b(X)$.
+    \label{thm:separating-points-from-closed-sets-basis}
+    A collection $(f_\alpha)_{\alpha \in A}$ of functions $f_\alpha \colon X \to X_\alpha$ between topological spaces separates points from closed sets if and only if the sets $f_\alpha\preim(V)$, for $\alpha \in A$ and $V \subseteq X_\alpha$ open, form a basis for the topology on $X$.
 \end{proposition}
 
 \begin{proof}
-    
+    First assume that $(f_\alpha)$ separates points from closed sets, let $U \subseteq X$ be open and let $x \in U$. Then $U^c$ is closed, so there is some $\alpha \in A$ such that $f_\alpha(x) \not\in \closure{f_\alpha(U^c)}$. Then
+    %
+    \begin{equation*}
+        U^c
+            \subseteq f_\alpha\preim \bigl( f_\alpha(U^c) \bigr)
+            \subseteq f_\alpha\preim \bigl( \closure{f_\alpha(U^c)} \bigr).
+    \end{equation*}
+    %
+    So letting $V = \closure{f_\alpha(U^c)}^c$ we find that $x \in f_\alpha\preim(V) \subseteq U$ as desired.
+
+    Conversely, assume that the sets $f_\alpha\preim(V)$ form a basis for the topology on $X$. Let $x \in X$ and $C \subseteq X$ closed with $x \not\in C$. There is an $\alpha \in A$ and an open $V \subseteq X_\alpha$ such that $x \in f_\alpha\preim(V) \subseteq C^c$. Then $V$ is a neighbourhood of $f_\alpha(x)$ disjoint from $f_\alpha(C)$, so $f_\alpha(x) \not\in \closure{f_\alpha(C)}$.
+\end{proof}
+
+
+\begin{corollary}
+    \label{thm:separating-points-from-closed-sets-weak-topology}
+    If $(f_\alpha)_{\alpha \in A}$ is a collection of functions $f_\alpha \colon X \to X_\alpha$ between topological spaces which separates points from closed sets, then $X$ carries the weak topology induced by the maps $f_\alpha$.
+\end{corollary}
+
+\begin{proof}
+    \cref{thm:separating-points-from-closed-sets-basis} shows that the collection of preimages $f_\alpha\preim(V)$, for $\alpha \in A$ and $V \subseteq X_\alpha$ open, forms a basis for the topology on $X$, so it in particular generates the topology.
+\end{proof}
+
+
+
+\begin{theorem}
+    A topological space $X$ is completely regular if and only if it has the weak topology induced by $C_b(X)$.
+\end{theorem}
+
+\begin{proof}
+    If $X$ is completely regular, then $C_b(X)$ separates points from closed sets by definition, so \cref{thm:separating-points-from-closed-sets-weak-topology} shows that $X$ carries the the weak topology induced by $C_b(X)$.
+
+    Conversely, suppose that $X$ has the weak topology induced by $C_b(X)$. Let $U \subseteq X$ be open, and let $x \in U$. Then there are functions $f_1, \ldots, f_n \in C_b(X)$ and subbasic open sets $V_1, \ldots, V_n \subseteq \reals$ such that
+    %
+    \begin{equation*}
+        x
+            \in \bigintersect_{i=1}^n f_i\preim(V_i)
+            \subseteq U.
+    \end{equation*}
+    %
+    By changing the sign on the $f_i$ if necessary, we may assume that each $V_i$ is on the form $(a_i, \infty)$. Define functions $g_i \colon X \to \reals$ by $g_i(x) = (f_i(x) - a_i) \join 0$. Then $g_i\preim(0,\infty) = f_i\preim(a_i,\infty)$, so
+    %
+    \begin{equation*}
+        x
+            \in \bigintersect_{i=1}^n g_i\preim(0,\infty)
+            \subseteq U.
+    \end{equation*}
+    %
+    %
+    Let $g = g_1 g_2 \cdots g_n$. Then $g(x) > 0$, so $x \in g\preim(0,\infty)$. Furthermore, if $g(y) > 0$ then each $g_i(y) > 0$. it follows that
+    %
+    \begin{equation*}
+        x
+            \in g\preim(0,\infty)
+            \subseteq U.
+    \end{equation*}
+    %
+    Then $g(x) \neq 0$, but $g(U^c) = 0$, so $X$ is completely regular.
 \end{proof}
 
 
 \begin{proposition}
     A topological space is Tychonoff if and only if it is homeomorphic to a subspace of a cube, i.e. a product of compact intervals.
-\end{proposition}
+\end{proposition} % Leave this out?
 
 \begin{proof}
     
@@ -549,12 +609,61 @@ In \cref{thm:metric-space-normal} we will see that pseudometric spaces are also 
 \end{proof}
 
 
+We now wish to show that locally compact Hausdorff spaces are completely regular. In the presence of the Hausdorff axiom, complete regularity is weaker than normality, and \emph{compact} spaces are normal, so it is perhaps not surprising that \emph{locally} compact spaces are completely regular.
+
+To show this we will prove a version of Urysohn's lemma for locally compact Hausdorff spaces. This relies on the Urysohn lemma for normal spaces covered in the next section, but we place this discussion here since we are interested in it in the context of completely regular spaces.
+
+
+\begin{lemma}
+    Let $X$ be a locally compact Hausdorff space. If $K \subseteq U \subseteq X$ with $K$ compact and $U$ open, then there is a precompact open set $V$ with $K \subseteq V \subseteq \closure{V} \subseteq U$.
+\end{lemma}
+
+\begin{proof}
+    
+\end{proof}
+
+
+\begin{theorem}[Urysohn's Lemma, locally compact version]
+    Let $X$ be a locally compact Hausdorff space, and let $K \subseteq U \subseteq X$ with $K$ compact and $U$ open. Then there exists a continuous function $f \colon X \to [0,1]$ such that $f(K) = 1$ and $f$ vanishes outside a compact subset of $U$.
+\end{theorem}
+
+\begin{proof}
+    By [lemma] there is a precompact open set $V$ with $K \subseteq V \subseteq \closure{V} \subseteq U$. Since compact Hausdorff spaces are normal, we can apply Urysohn's lemma for normal spaces to $\closure{V}$: This yields a continuous function $f \colon \closure{V} \to [0,1]$ with $f(K) = 1$ and $f(\boundary V) = 0$. Extend $f$ to $X$ by letting $f(\closure{V}^c) = 1$.
+
+    We claim that $f$ is continuous on $X$. Let $B \subseteq [0,1]$ be closed. If $0 \not\in B$, then $f\preim(B) = (f|_{\closure{V}})\preim(B)$ is closed in $\closure{V}$, hence also in $X$. On the other hand, if $0 \in B$, then
+    %
+    \begin{equation*}
+        f\preim(B)
+            = (f|_{\closure{V}})\preim(B) \union \closure{V}^c
+            = (f|_{\closure{V}})\preim(B) \union V^c,
+    \end{equation*}
+    %
+    where the last equality follows since $\boundary V \subseteq (f|_{\closure{V}})\preim(B)$. Again $f\preim(B)$ is closed, so $f$ is continuous.
+\end{proof}
+
+
+\begin{corollary}
+    Locally compact Hausdorff spaces are completely regular, hence Tychonoff.
+\end{corollary}
+
+\begin{proof}
+    Let $X$ be a locally compact Hausdorff space, let $x \in X$ and $A \subseteq X$ be a closed subset. In the notation of Urysohn's lemma, let $K = \{x\}$ and $U = A^c$, which yields a continuous function $f \colon X \to [0,1]$ with $f(x) = 1$ and $f(A) = 0$.
+\end{proof}
 
 
 
 \chapter[Normal and T4-spaces]{Normal and $T_4$-spaces}
 
 \section{Definition}
+
+\begin{definition}
+    A topological space $X$ is \emph{normal} if, for every pair of disjoint closed subsets $A,B \subseteq X$, $A$ has a neighbourhood $U$ and $B$ a neighbourhood $V$ with $U \intersect V = \emptyset$.
+
+    If furthermore $X$ is $T_1$, then $X$ is said to satisfy the $T_4$ axiom and is called a \emph{$T_4$-space}.
+\end{definition}
+
+We discuss conditions that are equivalent to normality in our discussion of Urysohn's lemma below.
+
 
 \section{Conditions for normality}
 
@@ -599,10 +708,17 @@ In \cref{thm:metric-space-normal} we will see that pseudometric spaces are also 
 \end{proof}
 
 
+
 \begin{proposition}
     \label{thm:paracompact-Hausdorff-is-normal}
     Every paracompact Hausdorff space is normal, hence $T_4$.
 \end{proposition}
+% Hausdorff can be slightly weakened. Cool link: https://math.stackexchange.com/questions/1315614/r-1-paracompact-spaces-are-normal
+% Also: https://en.wikipedia.org/wiki/Separation_axiom
+
+\begin{proof}
+    
+\end{proof}
 
 
 \begin{proposition}
@@ -685,10 +801,20 @@ If $X$ is a topological space and $A,B \subseteq X$ are closed sets, then a cont
 \end{proof}
 
 
+\begin{theorem}[The Tietze extension theorem]
+    A topological space $X$ is normal if and only if any continuous function $f \colon A \to \reals$ on a closed set $A \subseteq X$ can be extended to a continuous function on all of $X$, i.e. there exists a continuous $F \colon X \to \reals$ such that $f = F|_A$.
 
-% \nocite{*}
+    Furthermore, if $a,b \in \reals$ and $f(A) \subseteq [a,b]$ then $F$ can be chosen such that $F(X) \subseteq [a,b]$.
+\end{theorem}
 
-% \printbibliography
+\begin{proof}
+    
+\end{proof}
+
+
+\nocite{*}
+
+\printbibliography
 
 
 \end{document}
