@@ -116,7 +116,7 @@ We here summarise the axioms by citing
     
     \item Complete regularity: Has enough bounded continuous functions to determine its topology (\cref{thm:completely-regular-weak-topology}).
     
-    \item Normality: Continuous functions on closed sets can be extended to the entire space (\cref{thm:Tietze-extension}). Why should we restrict to \emph{closed} sets? Continuous functions defined on a non-closed set may not even extend to a continuous function on the \emph{closure} of that set: Take for instance the map $x \mapsto 1/x$ on $\reals \setminus \{0\}$.
+    \item Normality: Continuous functions on closed sets can be extended to the entire space (\cref{thm:Tietze-extension}). Why should we restrict to \emph{closed} sets? Continuous functions defined on a non-closed set may not even extend to a continuous function on the \emph{closure} of that set: Take for instance the function $x \mapsto 1/x$ on $\reals \setminus \{0\}$.
 \end{itemize}
 
 
@@ -150,18 +150,18 @@ This is an example of the general principle that compact sets often act like poi
     This map has the following properties:
     %
     \begin{enumlem}
-        \item $\rho(x,A) = 0$ if and only if $x \in \closure{A}$.
+        \item \label{enum:distance-to-set-closure} $\rho(x,A) = 0$ if and only if $x \in \closure{A}$.
 
-        \item If $y \in S$, then $\rho(x,A) \leq \rho(x,y) + \rho(y,A)$.
+        \item \label{enum:distance-to-set-triangle-inequality} If $y \in S$, then $\rho(x,A) \leq \rho(x,y) + \rho(y,A)$.
 
-        \item $\rho(\,\cdot\,, A)$ is continuous.
+        \item \label{enum:distance-to-set-continuous} $\rho(\,\cdot\,, A)$ is continuous.
     \end{enumlem}
 \end{lemma}
 
 \begin{proof}
-    (i) Notice that $\rho(x,A) = 0$ if and only if for any $r > 0$ there is an $a \in A$ such that $\rho(x,a) < r$. But this is true precisely when any ball $B(x,r)$ intersects $A$, i.e. when $x \in \closure{A}$.
+    First we prove \subcref{enum:distance-to-set-closure}. Notice that $\rho(x,A) = 0$ if and only if for any $r > 0$ there is an $a \in A$ such that $\rho(x,a) < r$. But this is true precisely when any ball $B(x,r)$ intersects $A$, i.e. when $x \in \closure{A}$.
 
-    (ii) For any $a \in A$ we have
+    For any $a \in A$ we have
     %
     \begin{equation*}
         \rho(x,A)
@@ -169,9 +169,9 @@ This is an example of the general principle that compact sets often act like poi
             \leq \rho(x,y) + \rho(y,a),
     \end{equation*}
     %
-    and since this is true for any $a \in A$, the claim follows.
+    and since this is true for any $a \in A$, \subcref{enum:distance-to-set-triangle-inequality} follows.
 
-    (iii) This follows immediately from (ii), since
+    Finally, \subcref{enum:distance-to-set-continuous} follows immediately from (ii), since
     %
     \begin{equation*}
         \rho(x,A) - \rho(y,A)
@@ -228,7 +228,7 @@ This result is of course standard for compact spaces, but we include the proof t
 
 \chapter[The T0 axiom][The $T_0$ axiom]{The $T_0$ axiom}
 
-\section{Definition}
+\section{Definition and equivalent properties}
 
 \begin{definition}
     A topological space $X$ satisfies the $T_0$ axiom and is called a \emph{$T_0$-space} if, for every pair of distinct points $x,y \in X$, either $x$ has a neighbourhood that does not contain $y$, or vice versa.
@@ -240,7 +240,7 @@ It is easy to show that $x \leq y$ if and only if $\nhoodfilter{x} \subseteq \nh
 
 It is clear that $X$ is $T_0$ if and only if the relation $\equiv$ is trivial, that is if $x$ and $y$ are topologically indistinguishable precisely when $x = y$. The quotient space $X/{\equiv}$ is called the \emph{$T_0$-identification} or the \emph{Kolmogorov quotient} of $X$, and it is indeed $T_0$:
 
-\begin{proposition}[$T_0$-identification]
+\begin{proposition}[The $T_0$-identification]
     Let $X$ be a topological space, and let $q \colon X \to X/{\equiv}$ be the quotient map onto the $T_0$-identification of $X$. Then
     %
     \begin{enumprop}
@@ -318,7 +318,7 @@ It is obvious that $\tilde{\rho}$ is then a metric on $\tilde{S}$, and we call $
 
 \chapter[The T1 axiom][The $T_1$ axiom]{The $T_1$ axiom}
 
-\section{Definition}
+\section{Definition and equivalent properties}
 
 \begin{definition}
     A topological space $X$ satisfies the $T_1$ axiom and is called a \emph{$T_1$-space} if, for every pair of distinct points $x,y \in X$, $x$ has a neighbourhood disjoint from $y$, and $y$ has a neighbourhood disjoint from $x$.
@@ -377,14 +377,14 @@ Clearly every $T_1$-space is $T_0$. We begin by giving some properties of topolo
 \footnotetext{By \textquote{closed image} we mean the image of a closed (not necessarily continuous) map.}
 
 \begin{proof}
-    Let $f \colon X \to Y$ be a closed map from a $T_1$-space $X$ to a topological space $Y$, and let $y \in f(X)$. Then there is some $x \in X$ with $f(x) = y$, and since $\{x\}$ is closed in $X$ and $f$ is closed, $\{y\}$ is closed in $Y$.
+    Let $f \colon X \to Y$ be a closed map from a $T_1$-space $X$ to a topological space $Y$, and let $y \in f(X)$. Then there is some $x \in X$ with $f(x) = y$, and since $\{x\}$ is closed in $X$ and $f$ is closed, $\{y\}$ is closed in $Y$ and hence in $f(X)$.
 \end{proof}
 
 
 
 \chapter{Hausdorff spaces}
 
-\section{Definition}
+\section{Definition and equivalent properties}
 
 \begin{definition}
     A topological space $X$ satisfies the $T_2$ axiom and is called a \emph{$T_2$-space} or \emph{Hausdorff space} if, for every pair of distinct points $x,y \in X$, $x$ has a neighbourhood $U$ and $y$ a neighbourhood $V$ with $U \intersect V = \emptyset$.
@@ -438,13 +438,15 @@ Again, a $T_2$-space is clearly $T_1$. We give a series of conditions that are e
 
 \chapter[Regular and T3-spaces][Regular and $T_3$-spaces]{Regular and $T_3$-spaces}
 
-\section{Definition}
+\section{Definition and equivalent properties}
 
 \begin{definition}
     A topological space $X$ is \emph{regular} if, for every point $x \in X$ and closed subset $A \subseteq X$ with $x \not\in A$, $x$ has a neighbourhood $U$ and $A$ a neighbourhood $V$ with $U \intersect V = \emptyset$.
 
     If furthermore $X$ is $T_1$, then $X$ is said to satisfy the $T_3$ axiom and is called a \emph{$T_3$-space}.
 \end{definition}
+%
+Notice that a regular space is \emph{not} necessarily Hausdorff since singletons are not closed. Of course a $T_3$-space is Hausdorff.
 
 
 \begin{proposition}
@@ -452,16 +454,20 @@ Again, a $T_2$-space is clearly $T_1$. We give a series of conditions that are e
     The following are equivalent for a topological space $X$:
     %
     \begin{enumprop}
-        \item $X$ is regular,
+        \item \label{enum:regular-space} $X$ is regular,
 
-        \item if $U$ is a neighbourhood of $x \in X$, then $x$ has a neighbourhood $V$ with $\closure{V} \subseteq U$, and
+        \item \label{enum:closed-nhood-inside-nhood} if $U$ is an open neighbourhood of $x \in X$, then $x$ has a closed neighbourhood contained in $U$, and
 
-        \item every $x \in X$ has a neighbourhood basis of closed sets.
+        \item \label{enum:nhood-basis-of-closed-sets} every $x \in X$ has a neighbourhood basis of closed sets.
     \end{enumprop}
 \end{proposition}
 
 \begin{proof}
-    
+    \subcref{enum:regular-space} $\implies$ \subcref{enum:closed-nhood-inside-nhood}: Assume that $X$ is regular, and let $U$ be an open neighbourhood of $x \in X$. Then $U^c$ is closed, so there exist disjoint open sets $V$ and $W$ with $x \in V$ and $U^c \subseteq W$. Then $x \in V \subseteq W^c \subseteq U$, so $W^c$ is the desired closed neighbourhood.
+
+    \subcref{enum:closed-nhood-inside-nhood} $\implies$ \subcref{enum:nhood-basis-of-closed-sets}: This is obvious.
+
+    \subcref{enum:nhood-basis-of-closed-sets} $\implies$ \subcref{enum:regular-space}: Let $x \in X$ and $A \subseteq X$ closed with $x \not\in A$. Then $A^c$ is an open neighbourhood of $x$, so if \subcref{enum:nhood-basis-of-closed-sets} applies then $A^c$ contains a closed neighbourhood $B$ of $X$. Then $\interior{B}$ and $B^c$ are disjoint open neighbourhoods of $x$ and $A$ respectively.
 \end{proof}
 
 
