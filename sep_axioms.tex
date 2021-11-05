@@ -110,13 +110,13 @@ We here summarise the axioms by citing
     
     \item $T_1$: Singletons are closed, or in other words, if $(x_\alpha)_{\alpha \in A}$ is a constant net with $x_\alpha = x$ for all $\alpha \in A$, then $x$ is the unique limit of $(x_\alpha)$.
     
-    \item Hausdorff: All limits are unique.
+    \item Hausdorff: All limits are unique (\cref{thm:Hausdorff-equivalent-properties}).
     
-    \item Regularity: Every open neighbourhood contains a closed neighbourhood.
+    \item Regularity: Every open neighbourhood contains a closed neighbourhood (\cref{thm:regular-equivalent-properties}).
     
-    \item Complete regularity: Has enough bounded continuous functions to determine its topology.
+    \item Complete regularity: Has enough bounded continuous functions to determine its topology (\cref{thm:completely-regular-weak-topology}).
     
-    \item Normality: Continuous functions on closed sets can be extended to the entire space. Why should we restrict to \emph{closed} sets? Continuous functions defined on a non-closed set may not even extend to a continuous function on the \emph{closure} of that set: Take for instance the map $x \mapsto 1/x$ on $\reals \setminus \{0\}$.
+    \item Normality: Continuous functions on closed sets can be extended to the entire space (\cref{thm:Tietze-extension}). Why should we restrict to \emph{closed} sets? Continuous functions defined on a non-closed set may not even extend to a continuous function on the \emph{closure} of that set: Take for instance the map $x \mapsto 1/x$ on $\reals \setminus \{0\}$.
 \end{itemize}
 
 
@@ -394,6 +394,7 @@ Again, a $T_2$-space is clearly $T_1$. We give a series of conditions that are e
 
 
 \begin{proposition}
+    \label{thm:Hausdorff-equivalent-properties}
     The following are equivalent for a topological space $X$:
     %
     \begin{enumprop}
@@ -447,6 +448,7 @@ Again, a $T_2$-space is clearly $T_1$. We give a series of conditions that are e
 
 
 \begin{proposition}
+    \label{thm:regular-equivalent-properties}
     The following are equivalent for a topological space $X$:
     %
     \begin{enumprop}
@@ -551,6 +553,7 @@ To prove this we take a small detour by studying the defining property of comple
 
 
 \begin{theorem}
+    \label{thm:completely-regular-weak-topology}
     A topological space $X$ is completely regular if and only if it has the weak topology induced by $C_b(X)$.
 \end{theorem}
 
@@ -586,13 +589,13 @@ To prove this we take a small detour by studying the defining property of comple
 \end{proof}
 
 
-\begin{proposition}
-    A topological space is Tychonoff if and only if it is homeomorphic to a subspace of a cube, i.e. a product of compact intervals.
-\end{proposition} % Leave this out?
+% \begin{proposition}
+%     A topological space is Tychonoff if and only if it is homeomorphic to a subspace of a cube, i.e. a product of compact intervals.
+% \end{proposition} % Leave this out?
 
-\begin{proof}
+% \begin{proof}
     
-\end{proof}
+% \end{proof}
 
 
 \section{Conditions for complete regularity}
@@ -802,6 +805,7 @@ If $X$ is a topological space and $A,B \subseteq X$ are closed sets, then a cont
 
 
 \begin{theorem}[The Tietze extension theorem]
+    \label{thm:Tietze-extension}
     A topological space $X$ is normal if and only if any continuous function $f \colon A \to \reals$ on a closed set $A \subseteq X$ can be extended to a continuous function on all of $X$, i.e. there exists a continuous $F \colon X \to \reals$ such that $f = F|_A$.
 
     Furthermore, if $a,b \in \reals$ and $f(A) \subseteq [a,b]$ then $F$ can be chosen such that $F(X) \subseteq [a,b]$.
