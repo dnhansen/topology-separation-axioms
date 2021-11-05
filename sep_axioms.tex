@@ -101,6 +101,11 @@ In these notes we give an overview of some of the most important (and weakest) s
 \end{enumerate}
 
 
+\section{Notation}
+
+If $X$ and $Y$ are topological spaces, we denote the set of continuous maps $X \to Y$ by $C(X,Y)$. If $Y$ is a real/complex topological vector space, then $C(X,Y)$ is a real/complex vector space when addition and scalar multiplication are defined pointwise. In the case $Y = \reals$ we simply write $C(X)$, and this is an algebra over $\reals$. We also write $C_b(X)$ for the subalgebra of bounded functions.
+
+
 \section{Overview of the axioms}
 
 We here summarise the axioms by citing
@@ -240,15 +245,16 @@ It is easy to show that $x \leq y$ if and only if $\nhoodfilter{x} \subseteq \nh
 
 It is clear that $X$ is $T_0$ if and only if the relation $\equiv$ is trivial, that is if $x$ and $y$ are topologically indistinguishable precisely when $x = y$. The quotient space $X/{\equiv}$ is called the \emph{$T_0$-identification} or the \emph{Kolmogorov quotient} of $X$, and it is indeed $T_0$:
 
-\begin{proposition}[The $T_0$-identification]
+\begin{theorem}[The $T_0$-identification]
     Let $X$ be a topological space, and let $q \colon X \to X/{\equiv}$ be the quotient map onto the $T_0$-identification of $X$. Then
     %
-    \begin{enumprop}
+    \begin{enumthm}
+        \item \label{enum:T0-identification-saturated} open and closed sets are saturated,
         \item $q$ is an open and closed map,
         \item $X/{\equiv}$ is $T_0$, and
         \item \label{enum:T0-identification-is-smallest-equiv} if $\sim$ is an equivalence relation on $X$ such that $X/{\sim}$ is $T_0$, then ${\equiv} \subseteq {\sim}$.\footnotemark
-    \end{enumprop}
-\end{proposition}
+    \end{enumthm}
+\end{theorem}
 \footnotetext{Both $\equiv$ and $\sim$ are subsets of $X \times X$, so this inclusion means that if $x \equiv y$ then $x \sim y$ for all $x,y \in X$.}
 %
 Part \subcref{enum:T0-identification-is-smallest-equiv} expresses the fact that $\equiv$ is the most conservative equivalence relation on $X$ that makes the corresponding quotient a $T_0$-space.
@@ -266,6 +272,45 @@ Part \subcref{enum:T0-identification-is-smallest-equiv} expresses the fact that 
 
     Finally, let $X/{\sim}$ be $T_0$, and let $p \colon X \to X/{\sim}$ be the quotient map. If $x \not\sim y$ then $p(x) \neq p(y)$, so without loss of generality we may choose an open set $U \subseteq X/{\sim}$ with $p(x) \in U$ and $p(y) \not\in U$. Then $x \in p\preim(U)$ and $y \not\in p\preim(U)$, so $p\preim(U)$ is a neighbourhood of $x$ that is not a neighbourhood of $y$, so $x \not\equiv y$.
 \end{proof}
+
+
+\begin{corollary}
+    Let $(X,\calT)$ be a topological space, and let $q \colon X \to X/{\equiv}$ be the quotient map onto the $T_0$-identification of $X$. Denote the topology on $X/{\equiv}$ by $\calT_\equiv$. Then $q$ induces a bijection $q_* \colon \calT \to \calT_\equiv$ given by $q_*(U) = q(U)$ whose inverse $q^*$ is given by $q^*(V) = q\preim(V)$.
+\end{corollary}
+
+\begin{proof}
+    Since $q$ is surjective we have $q(q\preim(V)) = V$ for all $V \in \calT_\equiv$, and by \cref{enum:T0-identification-saturated} every $U \in \calT$ is saturated, so $q\preim(q(U)) = U$.
+\end{proof}
+%
+This corollary implies that most topological properties are preserved in the $T_0$-identification. Taking the $T_0$-identification of a space that is already $T_0$ leaves the space unchanged but, preempting terminology we will introduce later, the $T_0$-identification of a regular space is regular, and the same is true for completely regular and normal spaces. The proofs are trivial.
+
+One might also expect that continuous functions on a space are unchanged in the $T_0$-identification, and this is in fact the case:
+
+\begin{proposition}
+    \label{thm:T0-identification-continuous-functions}
+    Let $X$ be a topological space with $T_0$-identification $X/{\equiv}$. For every $T_0$-space $Y$ the sets $C(X,Y)$ and $C(X/{\equiv},Y)$ are in bijection. If $Y$ is a $T_0$ topological vector space\footnotemark, then this bijection is a linear isomorphism, and it is a ring isomorphism in the case $Y = \reals$.
+\end{proposition}
+\footnotetext{One can show that a topological group is $T_1$ if it is $T_0$, and furthermore is always regular, so a $T_0$ topological group is $T_3$.}
+
+\begin{proof}
+    Let $q \colon X \to X/{\equiv}$ be the quotient map, and let $f \in C(X,Y)$. We claim that if $x \equiv y$ in $X$, then $f(x) = f(y)$. For if $f(x) \neq f(y)$, then since $Y$ is $T_0$ we can, without loss of generality, choose a neighbourhood $U$ of $f(x)$ not containing $f(y)$. Then $f\preim(U)$ is a neighbourhood of $x$ not containing $y$, so $x \not\equiv y$.
+
+    Thus every $f \in C(X,Y)$ descends to a unique map $\tilde{f} \in C(X/{\equiv},Y)$ with $f = \tilde{f} \circ q$. Conversely, every $g \in C(X/{\equiv},Y)$ uniquely determines a map $g \circ q \in C(X,Y)$. Hence there is a bijection $\Phi \colon C(X/{\equiv},Y) \to C(X,Y)$.
+
+    Now let $Y$ be a $T_0$ topological vector space over $\reals$. Let $f,g \in C(X/{\equiv},Y)$ and $\alpha \in \reals$. Then
+    %
+    \begin{equation*}
+        \Phi(\alpha f + g)
+            = (\alpha f + g) \circ q
+            = \alpha (f \circ q) + (g \circ q)
+            = \alpha \Phi(f) + \Phi(g).
+    \end{equation*}
+    %
+    Hence $\Phi$ is linear and thus a linear isomorphism.
+
+    Finally, if $Y = \reals$ then $\Phi$ respects multiplication by a similar argument to the above and is thus a ring isomorphism.
+\end{proof}
+
 
 We explore the $T_0$-identification in the context of metric spaces: Let $(S,\rho)$ be a pseudometric space, and define a relation $\sim$ on $S$ by $x \sim y$ if and only if $\rho(x,y) = 0$. This is clearly an equivalence relation. Let $\tilde{S} = S/{\sim}$ and define a map $\tilde{\rho} \colon \tilde{S} \prod \tilde{S} \to [0,\infty)$ by $\tilde{\rho}([x],[y]) = \rho(x,y)$. This is well-defined, since if $x \sim x'$ and $y \sim y'$ then
 %
@@ -514,7 +559,7 @@ Notice that a regular space is \emph{not} necessarily Hausdorff since singletons
 
 \chapter{Completely regular and Tychonoff spaces}
 
-\section{Definition}
+\section{Definition and equivalent properties}
 
 \begin{definition}
     A topological space $X$ is \emph{completely regular} if, for every point $x \in X$ and closed subset $A \subseteq X$ with $x \not\in A$, there is a continuous function $f \colon X \to [0,1]$ with $f(x) = 0$ and $f(A) = 1$. Such a function is said to \emph{separate} $x$ and $A$.
@@ -523,7 +568,7 @@ Notice that a regular space is \emph{not} necessarily Hausdorff since singletons
 \end{definition}
 
 
-If $X$ is a topological space, then we denote by $C(X)$ the space of continuous real-valued functions on $X$. The subspace of $C(X)$ consisting of bounded functions is denoted $C_b(X)$. We now prove that a space is completely regular precisely when the bounded continuous functions on the space induce the topology. Of course, these functions are already continuous, so this says that there are \emph{enough} continuous functions for them to characterise the topology.
+We now prove that a space is completely regular precisely when the bounded continuous functions on the space induce the topology. Of course, these functions are already continuous, so this says that there are \emph{enough} continuous functions for them to characterise the topology.
 
 To prove this we take a small detour by studying the defining property of completely regular spaces in greater generality. We say that a collection $(f_\alpha)_{\alpha \in A}$ of functions $f_\alpha \colon X \to X_\alpha$ between topological spaces \emph{separates points from closed sets} if whenever $C \subseteq X$ is closed and $x \not\in C$, then $f_\alpha(x) \not\in \closure{f_\alpha(C)}$ for some $\alpha \in A$.
 
@@ -657,6 +702,21 @@ To show this we will prove a version of Urysohn's lemma for locally compact Haus
 
 \begin{proof}
     Let $X$ be a locally compact Hausdorff space, let $x \in X$ and $A \subseteq X$ be a closed subset. In the notation of Urysohn's lemma, let $K = \{x\}$ and $U = A^c$, which yields a continuous function $f \colon X \to [0,1]$ with $f(x) = 1$ and $f(A) = 0$.
+\end{proof}
+
+
+\section{Further properties of completely regular spaces}
+
+% For the purposes of stating and proving the next theorem, we write $C_b(X,\calT)$ for the space of bounded real-valued functions on $X$ that are continuous with respect to the topology $\calT$ on $X$.
+
+\begin{proposition}
+    Let $X$ be a topological space. There exists a Tychonoff space $Y$ such that $C_b(X)$ and $C_b(Y)$ are isomorphic as rings.
+\end{proposition}
+
+\begin{proof}
+    Let $X'$ be $X$ equipped with the weak topology induced by $C_b(X)$. Then since replacing the topology with a weaker one does not introduce any new continuous functions, we have $C_b(X) = C_b(X')$. Hence $X'$ is completely regular by \cref{thm:completely-regular-weak-topology}.
+
+    Now consider the $T_0$-identification $X'/{\equiv}$ of $X'$. By \cref{thm:T0-identification-continuous-functions} we have $C(X') \cong C(X'/{\equiv})$, and this isomorphism clearly restricts to an isomorphism $C_b(X') \cong C_b(X'/{\equiv})$, proving the claim.
 \end{proof}
 
 
