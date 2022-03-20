@@ -149,7 +149,7 @@ If $X$ is a topological space, we say that a collection $\calU$ of subsets of $X
 
 If $\calU$ and $\calV$ are covers of $X$, we say that $\calU$ \emph{refines} $\calV$ and is a \emph{refinement} of $V$ if each $U \in \calU$ is contained in some $V \in \calV$. Notice that a subcover is in particular a refinement.
 
-A collection $\calA$ of subsets of $X$ is called \emph{locally finite} if every point of $X$ has a neighbourhood that intersects finitely many elements in $\calA$. It is easy to show that if $\calA$ is locally finite, then $\closure{\calA} = \set{\closure{A}}{A \in \calA}$ is also locally finite.
+A collection $\calA$ of subsets of $X$ is called \emph{locally finite} if every point of $X$ has a neighbourhood that intersects finitely many elements in $\calA$. It is easy to show that if $\calA$ is locally finite, then $\closure{\calA} = \set{\closure{A}}{A \in \calA}$ is also locally finite: For if $x \in X$ and $U \subseteq X$ is an open neighbourhood of $x$ and $A \in \calA$ does not intersect $U$, then $A \subseteq U^c$, and so $\closure{A} \subseteq U^c$.
 
 \begin{definition}
     Let $X$ be a topological space.
@@ -183,7 +183,15 @@ This result is of course standard for compact spaces, but we include the proof t
 \end{proposition}
 
 \begin{proof}
-    Let $f \colon X \to Y$ be continuous and surjective, and assume that $X$ is compact/Lindelöf. Let $\calU$ be an open cover of $Y$. Then $f\preim(\calU)$ is an open cover of $X$, so it has a finite/countable subcover $f\preim(\calU')$. But then $\calU'$ is a finite/countable subcover of $\calU$ as desired.
+    Let $f \colon X \to Y$ be continuous, and assume that $X$ is compact/Lindelöf. Let $\calU$ be an open cover of $f(X)$. Then $f\preim(\calU)$ is an open cover of $X$, so it has a finite/countable subcover $f\preim(\calU')$. Notice that
+    %
+    \begin{equation*}
+        f(X)
+            = f \Bigl( f\preim \Bigl( \bigunion_{U \in \calU'} U \Bigr) \Bigr)
+            \subseteq \bigunion_{U \in \calU'} U,
+    \end{equation*}
+    %
+    so $\calU'$ is a finite/countable subcover of $\calU$ as desired.
 \end{proof}
 
 
@@ -215,7 +223,7 @@ There are many different non-equivalent definitions of local compactness, and we
 \end{proposition}
 
 \begin{proof}
-    Let $X$ be an LCH space and let $x \in U \subseteq X$ with $U$ open. If $\closure{U}$ is not compact, then replace $U$ with $U \intersect \interior{K}$, where $K$ is a compact neighbourhood of $x$. Then both $\{x\}$ and $\boundary U$ are compact, so by \cref{thm:Hausdorff-separate-compacts} there exist disjoint relatively open sets $V, W \subseteq \closure{U}$ such that $x \in V$ and $\boundary U \subseteq W$. Then $V \subseteq U$ so $V$ is open in $X$, and $\closure{V}$ is a closed and thus compact subset of $U \setminus W$.
+    Let $X$ be an LCH space and let $x \in U \subseteq X$ with $U$ open. If $\closure{U}$ is not compact, then replace $U$ with $U \intersect \interior{K}$, where $K$ is a compact neighbourhood of $x$. Then both $\{x\}$ and $\boundary U$ are compact, so by \cref{thm:Hausdorff-separate-compacts} there exist disjoint relatively open sets $V, W \subseteq \closure{U}$ such that $x \in V$ and $\boundary U \subseteq W$. Then $V \subseteq U$ so $V$ is open in $X$, and $\closure{V}$ is a closed and thus compact subset of $\closure{U} \setminus W \subseteq U$.
 
     The converse is obvious.
 \end{proof}
@@ -308,15 +316,9 @@ It is clear that $X$ is $T_0$ if and only if the relation $\equiv$ is trivial, t
 Part \subcref{enum:T0-identification-is-smallest-equiv} expresses the fact that $\equiv$ is the most conservative equivalence relation on $X$ that makes the corresponding quotient a $T_0$-space.
 
 \begin{proof}
-    We first show that all open sets are saturated. Let $U$ be an open set of $X$, and let $x \in U$. If $x \equiv x'$, then $U$ is also a neighbourhood of $x'$, so $x' \in U$. It follows that $q\inv(q(x)) \subseteq U$, and so
-    %
-    \begin{equation*}
-        U = \bigunion_{x \in U} q\inv(q(x)).
-    \end{equation*}
-    %
-    Hence $U$ is a union of fibres of $q$, and thus it is saturated with respect to $q$. The complement $U^c$ is the union of all equivalence classes $q(x)$ for $x \in U^c$, so closed sets are also saturated. Since $q$ is a quotient map, it follows that it takes saturated open (closed) subsets of $X$ to open (closed) subsets of $X/{\equiv}$,\footnote{This is easy to show. See also \textcite[Proposition~3.60]{leetopological}.} and hence it is both open and closed.
+    We first show that all open sets are saturated. Let $U$ be an open set of $X$, and let $x \in U$. If $x \equiv x'$, then $U$ is also a neighbourhood of $x'$, so $x' \in U$. Hence $U$ is saturated with respect to $q$. Complements of saturated sets are clearly also saturated, so closed sets are also saturated. Since $q$ is a quotient map, it follows that it takes saturated open (closed) subsets of $X$ to open (closed) subsets of $X/{\equiv}$,\footnote{If $U \subseteq X$ is saturated, then $q(U)$ is open in $Y$ if and only if $U = q\preim(q(U))$ is open in $X$. See also \textcite[Proposition~3.60]{leetopological}.} and hence it is both open and closed.
 
-    Now we show that $X/{\equiv}$ is $T_0$. Assume that $x \not\equiv y$. Without loss of generality we may assume the existence of an element $U \in \nhoodfilter{x} \setminus \nhoodfilter{y}$, and that $U$ is open. Since $q$ is open, $q(U)$ is a neighbourhood of $q(x)$ in $X/{\equiv}$. And $U$ is saturated, so $U = q\inv(q(U))$, and because $y \not\in U$ it follows that $q(y) \not\in q(U)$. Hence $q(U)$ is a neighbourhood of $q(x)$ that is not a neighbourhood of $q(y)$, and thus $X/{\equiv}$ is $T_0$.
+    Now we show that $X/{\equiv}$ is $T_0$. Assume that $x \not\equiv y$. Without loss of generality we may assume the existence of an element $U \in \nhoodfilter{x} \setminus \nhoodfilter{y}$, and that $U$ is open. Since $q$ is open, $q(U)$ is a neighbourhood of $q(x)$ in $X/{\equiv}$. And $U$ is saturated so $U = q\inv(q(U))$, and because $y \not\in U$ it follows that $q(y) \not\in q(U)$. Hence $q(U)$ is a neighbourhood of $q(x)$ that is not a neighbourhood of $q(y)$, and thus $X/{\equiv}$ is $T_0$.
 
     Finally, let $X/{\sim}$ be $T_0$, and let $p \colon X \to X/{\sim}$ be the quotient map. If $x \not\sim y$ then $p(x) \neq p(y)$, so without loss of generality we may choose an open set $U \subseteq X/{\sim}$ with $p(x) \in U$ and $p(y) \not\in U$. Then $x \in p\preim(U)$ and $y \not\in p\preim(U)$, i.e. $p\preim(U)$ is a neighbourhood of $x$ that is not a neighbourhood of $y$, so $x \not\equiv y$.
 \end{proof}
@@ -336,7 +338,7 @@ One might also expect that continuous functions on a space are unchanged in the 
 
 \begin{proposition}
     \label{thm:T0-identification-continuous-functions}
-    Let $X$ be a topological space, and let $q \colon X \to X/{\equiv}$ be the quotient map onto its $T_0$-identification. For every $T_0$-space $Y$ the map
+    Let $X$ be a topological space, and let $q \colon X \to X/{\equiv}$ be the quotient map onto its $T_0$-identification. For every $T_0$-space $Y$ the pullback map
     %
     \begin{align*}
         \Phi \colon C(X/{\equiv},Y) &\to C(X,Y), \\
@@ -859,6 +861,8 @@ We discuss conditions that are equivalent to normality in our discussion of Urys
 \end{proposition}
 % Hausdorff can be slightly weakened. Cool link: https://math.stackexchange.com/questions/1315614/r-1-paracompact-spaces-are-normal
 % Also: https://en.wikipedia.org/wiki/Separation_axiom
+%
+In particular, every \emph{compact} Hausdorff space is $T_4$. This also follows easily since two disjoint compact sets can be separated in a Hausdorff space by \cref{thm:Hausdorff-separate-compacts}.
 
 \begin{proof}
     
@@ -882,6 +886,8 @@ We discuss conditions that are equivalent to normality in our discussion of Urys
     %
     (Notice the strict and non-strict inequalities.) Define the sets $S = \bigunion_{n \in \naturals} S_n$ and $T = \bigunion_{n \in \naturals} T_n$. Clearly $S$ is a neighbourhood of $A$ and $T$ of $B$. We claim that they are also disjoint: Let $x \in S_n$ for some $n \in \naturals$. Then $x \not\in T_m$ for $m < n$ by the definition of $S_n$, and $x \not\in T_m$ for $m \geq n$ by the definition of $T_m$. 
 \end{proof}
+
+We thus find that compact Hausdorff implies normal, and that regular Lindelöf implies normal. That is, normality follows from a compactness property along with a separability property. We cannot weaken compactness to Lindelöf and still have normality, but also \enquote{strengthening} Hausdorff to regularity retains normality. (Of course, it is not regularity but $T_3$ that is stronger than Hausdorff.)
 
 
 \section{Urysohn's Lemma and related results}
@@ -915,12 +921,12 @@ If $X$ is a topological space and $A,B \subseteq X$ are closed sets, then a cont
             \subseteq B^c.
     \end{equation*}
     %
-    Let $\Delta$ be the set of all dyadic rational numbers in $(0,1)$. We may thus recursively define for every $r \in \Delta$ a set $U$ with the following properties:
+    Let $\Delta$ be the set of all dyadic rational numbers\footnote{Recall that a dyadic rational number is a number on the form $p/2^n$ for $p \in \ints$ and $n \in \naturals$.} in $(0,1)$. We may thus recursively define for every $r \in \Delta$ a set $U$ with the following properties:
     %
     \begin{enumerate} % Proof enumerate??
-        \item $A \subseteq U_r$ and $\closure{U}_r \subseteq B^c$ for each $r \in \Delta$, and
+        \item $A \subseteq U_r$ and $\closure{U}_{\!r} \subseteq B^c$ for each $r \in \Delta$, and
 
-        \item \label{enum:Urysohn-proof-closure-inside-open} $\closure{U}_r \subseteq U_s$ if $r < s$, for $r,s \in \Delta$.
+        \item \label{enum:Urysohn-proof-closure-inside-open} $\closure{U}_{\!r} \subseteq U_s$ if $r < s$, for $r,s \in \Delta$.
     \end{enumerate}
     %
     We furthermore let $U_1 = X$. Then define a function $f \colon X \to [0,1]$ by $f(x) = \inf \set{r}{x \in U_r}$. Since $A \subseteq U_r \subseteq B^c$ for all $r \in \Delta$, we clearly have $f(A) = 0$ and $f(B) = 1$, and that $0 \leq f(x) \leq 1$ for all $x \in X$.
@@ -932,11 +938,11 @@ If $X$ is a topological space and $A,B \subseteq X$ are closed sets, then a cont
             = \bigunion_{r < \alpha} U_r
     \end{equation*}
     %
-    is open. Similarly $f(x) > \alpha$ if and only if $x \not\in U_r$ for some $r > \alpha$, which is equivalent to $x \not\in \closure{U}_s$ for some $s > \alpha$ by property \cref{enum:Urysohn-proof-closure-inside-open} above. This is the case if and only if $x \in \bigunion_{s > \alpha} (\closure{U}_s)^c$. It follows that
+    is open. Similarly $f(x) > \alpha$ if and only if $x \not\in U_r$ for some $r > \alpha$, which is equivalent to $x \not\in \closure{U}_{\!s}$ for some $s > \alpha$ by property \cref{enum:Urysohn-proof-closure-inside-open} above. This is the case if and only if $x \in \bigunion_{s > \alpha} (\closure{U}_{\!s})^c$. It follows that
     %
     \begin{equation*}
         f\preim((\alpha,\infty))
-            = \bigunion_{s > \alpha} (\closure{U}_s)^c
+            = \bigunion_{s > \alpha} (\closure{U}_{\!s})^c
     \end{equation*}
     %
     is also open. Hence $f$ is continuous.
