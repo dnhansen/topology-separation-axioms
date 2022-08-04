@@ -17,13 +17,13 @@
 \usepackage{latex-sty/articlesectionstyle}
 
 % Fonts
-\usepackage{amssymb}
-\usepackage[largesmallcaps,partialup]{kpfonts}
+\usepackage[largesmallcaps]{kpfonts}
 \DeclareSymbolFontAlphabet{\mathrm}{operators} % https://tex.stackexchange.com/questions/40874/kpfonts-siunitx-and-math-alphabets
 \linespread{1.06}
 \let\mathfrak\undefined
 \usepackage{eufrak}
 \usepackage{inconsolata}
+% \usepackage{amssymb}
 
 % Hyperlinks
 \usepackage{hyperref}
@@ -316,7 +316,7 @@ It is clear that $X$ is $T_0$ if and only if the relation $\equiv$ is trivial, t
 Part \subcref{enum:T0-identification-is-smallest-equiv} expresses the fact that $\equiv$ is the most conservative equivalence relation on $X$ that makes the corresponding quotient a $T_0$-space.
 
 \begin{proof}
-    We first show that all open sets are saturated. Let $U$ be an open set of $X$, and let $x \in U$. If $x \equiv x'$, then $U$ is also a neighbourhood of $x'$, so $x' \in U$. Hence $U$ is saturated with respect to $q$. Complements of saturated sets are clearly also saturated, so closed sets are also saturated. Since $q$ is a quotient map, it follows that it takes saturated open (closed) subsets of $X$ to open (closed) subsets of $X/{\equiv}$,\footnote{If $U \subseteq X$ is saturated, then $q(U)$ is open in $Y$ if and only if $U = q\preim(q(U))$ is open in $X$. See also \textcite[Proposition~3.60]{leetopological}.} and hence it is both open and closed.
+    We first show that all open sets are saturated. Let $U$ be an open set of $X$, and let $x \in U$. If $x \equiv x'$, then $U$ is also a neighbourhood of $x'$, so $x' \in U$; in other words, $U$ is a union of fibres. Hence $U$ is saturated with respect to $q$. Complements of saturated sets are also unions of fibres, hence saturated, so closed sets are also saturated. Since $q$ is a quotient map, it follows that it takes saturated open (closed) subsets of $X$ to open (closed) subsets of $X/{\equiv}$,\footnote{If $U \subseteq X$ is saturated, then $q(U)$ is open in $Y$ if and only if $q\preim(q(U)) = U$ is open in $X$. See also \textcite[Proposition~3.60]{leetopological}.} and hence it is both open and closed.
 
     Now we show that $X/{\equiv}$ is $T_0$. Assume that $x \not\equiv y$. Without loss of generality we may assume the existence of an element $U \in \nhoodfilter{x} \setminus \nhoodfilter{y}$, and that $U$ is open. Since $q$ is open, $q(U)$ is a neighbourhood of $q(x)$ in $X/{\equiv}$. And $U$ is saturated so $U = q\inv(q(U))$, and because $y \not\in U$ it follows that $q(y) \not\in q(U)$. Hence $q(U)$ is a neighbourhood of $q(x)$ that is not a neighbourhood of $q(y)$, and thus $X/{\equiv}$ is $T_0$.
 
@@ -341,30 +341,30 @@ One might also expect that continuous functions on a space are unchanged in the 
     Let $X$ be a topological space, and let $q \colon X \to X/{\equiv}$ be the quotient map onto its $T_0$-identification. For every $T_0$-space $Y$ the pullback map
     %
     \begin{align*}
-        \Phi \colon C(X/{\equiv},Y) &\to C(X,Y), \\
+        q^* \colon C(X/{\equiv},Y) &\to C(X,Y), \\
         f &\mapsto f \circ q,
     \end{align*}
     %
-    is a bijection. If $Y$ is a $T_0$ topological vector space\footnotemark, then $\Phi$ is a linear isomorphism, and it is a ring isomorphism in the case $Y = \reals$.
+    is a bijection. If $Y$ is a $T_0$ topological vector space\footnotemark, then $q^*$ is a linear isomorphism, and it is an algebra isomorphism in the case $Y = \reals$. % TODO: What about more abstract R-algebras?
 \end{proposition}
 
 \begin{proof}\footnotetext{One can show that a topological group is $T_1$ if it is $T_0$, and furthermore is always regular, so a $T_0$ topological group is $T_3$.}
     Let $q \colon X \to X/{\equiv}$ be the quotient map, and let $g \in C(X,Y)$. We claim that if $x \equiv y$ in $X$, then $g(x) = g(y)$. For if $g(x) \neq g(y)$, then since $Y$ is $T_0$ we can, without loss of generality, choose a neighbourhood $U$ of $g(x)$ not containing $g(y)$. Then $g\preim(U)$ is a neighbourhood of $x$ not containing $y$, so $x \not\equiv y$.
 
-    Thus every $g \in C(X,Y)$ descends to a unique map $\tilde{g} \in C(X/{\equiv},Y)$ with $g = \tilde{g} \circ q$. Conversely, every $f \in C(X/{\equiv},Y)$ uniquely determines a map $f \circ q \in C(X,Y)$. Hence $\Phi$ is a bijection.
+    Thus every $g \in C(X,Y)$ descends to a unique map $\tilde{g} \in C(X/{\equiv},Y)$ with $g = \tilde{g} \circ q$. Conversely, every $f \in C(X/{\equiv},Y)$ uniquely determines a map $f \circ q \in C(X,Y)$. Hence $q^*$ is a bijection.
 
     Now let $Y$ be a $T_0$ topological vector space over $\reals$. Let $f,g \in C(X/{\equiv},Y)$ and $\alpha \in \reals$. Then
     %
     \begin{equation*}
-        \Phi(\alpha f + g)
+        q^*(\alpha f + g)
             = (\alpha f + g) \circ q
             = \alpha (f \circ q) + (g \circ q)
-            = \alpha \Phi(f) + \Phi(g).
+            = \alpha q^*(f) + q^*(g).
     \end{equation*}
     %
-    Hence $\Phi$ is linear and thus a linear isomorphism.
+    Hence $q^*$ is linear and thus a linear isomorphism.
 
-    Finally, if $Y = \reals$ then $\Phi$ respects multiplication by a similar argument to the above and is thus a ring isomorphism.
+    Finally, if $Y = \reals$ then $q^*$ respects multiplication by a similar argument to the above and is thus an algebra isomorphism.
 \end{proof}
 
 
@@ -393,27 +393,63 @@ It is obvious that $\tilde{\rho}$ is then a metric on $\tilde{S}$, and we call $
 
 
 \begin{proposition}
-    \label{thm:T0-properties}
-    \begin{enumprop}
-        \item \label{enum:T0-subspace} Any subspace of a $T_0$-space is $T_0$.
-        \item A nonempty product space is $T_0$ if and only if every factor is $T_0$.
-    \end{enumprop}
+    \label{thm:T0-initial-topology}
+    Let $X$ carry the initial topology induced by maps $f_\alpha \colon X \to X_\alpha$ for $\alpha \in A$. Assume that each $X_\alpha$ is $T_0$, and that the $f_\alpha$ separate points in $X$. Then $X$ is also $T_0$.
+
+    In particular, any subspace of a $T_0$-space is $T_0$, and a product of $T_0$-spaces is $T_0$. Furthermore, if a nonempty product space is $T_0$, then every factor is $T_0$. % TODO: Are there any interesting generalisations of this?
 \end{proposition}
 
 \begin{proof}
-    Let $X$ be a $T_0$-space and $A \subseteq X$. If $x,y \in A$ and $x \neq y$, then without loss of generality we may choose a neighbourhood $U$ of $x$ in $X$ that does not contain $Y$. But then $U \intersect A$ is a neighbourhood of $x$ in $A$ that doesn't contain $y$, so $A$ is $T_0$.
+    Let $x,y \in X$ with $x \neq y$. Since the $f_\alpha$ separate points in $X$, there is a $\beta \in A$ such that $x_\beta \neq y_\beta$. Without loss of generality pick a neighbourhood $U$ of $x_\beta$ in $X_\beta$ that does not contain $y_\beta$. Then $f_\beta\preim(U)$ is a neighbourhood of $x$ that does not contain $y$.
 
-    Now let $(X_\alpha)_{\alpha \in A}$ be a collection of topological spaces, and assume that the product $X = \bigprod_{\alpha \in A} X_\alpha$ is nonempty. Assume that all $X_\alpha$ are $T_0$, and let $x,y \in X$ be distinct points. Then there is a $\beta \in A$ such that $x_\beta \neq y_\beta$. Without loss of generality we may pick a neighbourhood $U$ of $x_\beta$ in $X_\beta$ that does not contain $y_\beta$. Then $\pi_\beta\preim(U)$ is a neighbourhood of $x$ that does not contain $y$.
-
-    Conversely, assume that the product $X$ is $T_0$ and let $\beta \in A$. Pick a point $y \in X$, and let
+    For the final claim, assume that $X = \bigprod_{\alpha \in A} X_\alpha$ is a nonempty $T_0$ product space, and let $\beta \in A$. Pick a point $y \in X$, and let
     %
     \begin{equation*}
         Y
+            = X_\beta \prod \bigprod_{\alpha \neq \beta} \{y_\alpha\}
             = \set{x \in X}{x_\alpha = y_\alpha \text{ for } \alpha \neq \beta}.
     \end{equation*}
     %
-    Then $Y$ is $T_0$ by \subcref{enum:T0-subspace}, so $X_\beta \cong Y$ is also $T_0$.
+    Then $Y$ is $T_0$ since it is a subspace of $X$, so $X_\beta \cong Y$ is also $T_0$.
 \end{proof}
+%
+Notice that we could also have proved the first result above by proving it separately for subspaces and products, and then using the fact that $X$ could be embedded in the product $\bigprod_{\alpha \in A} X_\alpha$ since the $f_\alpha$ separate points.
+
+
+\begin{proposition}
+    \label{thm:T0-disjoint-union}
+    Let $(X_\alpha)_{\alpha \in A}$ be a collection of $T_0$-spaces. Then the disjoint union $X = \coprod_{\alpha \in A} X_\alpha$ is also $T_0$. % TODO: Iff, right? Because subspaces?
+\end{proposition}
+%
+This proposition in fact holds for all final topologies on a set $X$ with the property that the coinducing maps $(f_\alpha)_{\alpha \in A}$ are injective, and the property that the images $f_\alpha(X_\alpha)$ form a partition of $X$. Under these assumptions the $f_\alpha$ cover $X$ and are both open and closed (the latter of which we shall not use below). I am not aware of any other interesting final topologies with these properties.
+
+\begin{proof}
+    First recall that the canonical injections $\iota_\alpha$ are open, and that their images form a partition of $X$. For $x,y \in X$ with $x \neq y$, if $x \in X_\alpha$ and $y \in X_\beta$ for $\alpha \neq \beta$ then e.g. $X_\alpha$ is a neighbourhood of $x$ not containing $y$. If instead $\alpha = \beta$, then since $X_\alpha$ is $T_0$ the point $x$ has a neighbourhood not containing $y$.
+\end{proof}
+
+
+% \begin{proposition}
+%     \label{thm:T0-initial-topology}
+%     \begin{enumprop}
+%         \item \label{enum:T0-subspace} Any subspace of a $T_0$-space is $T_0$.
+%         \item A nonempty product space is $T_0$ if and only if every factor is $T_0$.
+%     \end{enumprop}
+% \end{proposition}
+
+% \begin{proof}
+%     Let $X$ be a $T_0$-space and $A \subseteq X$. If $x,y \in A$ and $x \neq y$, then without loss of generality we may choose a neighbourhood $U$ of $x$ in $X$ that does not contain $Y$. But then $U \intersect A$ is a neighbourhood of $x$ in $A$ that doesn't contain $y$, so $A$ is $T_0$.
+
+%     Now let $(X_\alpha)_{\alpha \in A}$ be a collection of topological spaces, and assume that the product $X = \bigprod_{\alpha \in A} X_\alpha$ is nonempty. Assume that all $X_\alpha$ are $T_0$, and let $x,y \in X$ be distinct points. Then there is a $\beta \in A$ such that $x_\beta \neq y_\beta$. Without loss of generality we may pick a neighbourhood $U$ of $x_\beta$ in $X_\beta$ that does not contain $y_\beta$. Then $\pi_\beta\preim(U)$ is a neighbourhood of $x$ that does not contain $y$.
+
+%     Conversely, assume that the product $X$ is $T_0$ and let $\beta \in A$. Pick a point $y \in X$, and let
+%     %
+%     \begin{equation*}
+%         Y
+%             = \set{x \in X}{x_\alpha = y_\alpha \text{ for } \alpha \neq \beta}.
+%     \end{equation*}
+%     %
+%     Then $Y$ is $T_0$ by \subcref{enum:T0-subspace}, so $X_\beta \cong Y$ is also $T_0$.
+% \end{proof}
 
 
 
@@ -446,7 +482,8 @@ Clearly every $T_1$-space is $T_0$. We begin by giving some properties of topolo
     If $A \subseteq X$, then
     %
     \begin{equation*}
-        A = \bigintersect_{x \not\in A} X \setminus \{x\},
+        A   = X \setminus \bigunion_{x \not\in A} \{x\}
+            = \bigintersect_{x \not\in A} X \setminus \{x\},
     \end{equation*}
     %
     so $A$ is an intersection of open sets.
@@ -460,18 +497,32 @@ Clearly every $T_1$-space is $T_0$. We begin by giving some properties of topolo
 \section[Operations on T1-spaces][Operations on $T_1$-spaces]{Operations on $T_1$-spaces}
 
 \begin{proposition}
-    \label{thm:T1-properties}
-    \begin{enumprop}
-        \item \label{enum:T1-subspace} Any subspace of a $T_1$-space is $T_1$.
-        \item A nonempty product space is $T_1$ if and only if every factor is $T_1$.
-        \item \label{enum:T1-quotient} A quotient space $X/{\sim}$ is $T_1$ if and only if every $\sim$-equivalence class is closed in $X$.
-    \end{enumprop}
+    \label{thm:T1-initial-topology}
+    Let $X$ carry the initial topology induced by maps $f_\alpha \colon X \to X_\alpha$ for $\alpha \in A$. Assume that each $X_\alpha$ is $T_1$, and that the $f_\alpha$ separate points in $X$. Then $X$ is also $T_1$.
+
+    In particular, any subspace of a $T_1$-space is $T_1$, and a product of $T_1$-spaces is $T_1$. Furthermore, if a nonempty product space is $T_1$, then every factor is $T_1$.
 \end{proposition}
 
 \begin{proof}
-    The proof of the first two claims are almost identical to the proof of \cref{thm:T0-properties}, so we omit it.
+    We omit the proof since it is almost identical to the proof of \cref{thm:T0-initial-topology}.
+\end{proof}
 
-    We prove \subcref{enum:T1-quotient}: Fibres of the quotient map are precisely the equivalence classes, so by the definition of the quotient topology, singletons of $X/{\sim}$ are closed if and only if the corresponding equivalence class is closed as a subset of $X$.
+
+\begin{proposition}
+    Let $(X_\alpha)_{\alpha \in A}$ be a collection of $T_1$-spaces. Then the disjoint union $X = \coprod_{\alpha \in A} X_\alpha$ is also $T_1$.
+\end{proposition}
+
+\begin{proof}
+    Similar to the proof of \cref{thm:T0-disjoint-union}.
+\end{proof}
+
+
+\begin{proposition}
+    A quotient space $X/{\sim}$ is $T_1$ if and only if every $\sim$-equivalence class is closed in $X$.
+\end{proposition}
+
+\begin{proof}
+    Fibres of the quotient map are precisely the equivalence classes, so by the definition of the quotient topology, singletons of $X/{\sim}$ are closed if and only if the corresponding equivalence class is closed as a subset of $X$.
 \end{proof}
 
 
@@ -482,7 +533,7 @@ Clearly every $T_1$-space is $T_0$. We begin by giving some properties of topolo
 \end{proposition}
 
 \begin{proof}\footnotetext{By \textquote{closed image} we mean the image of a closed (not necessarily continuous) map.}%
-    Let $f \colon X \to Y$ be a closed map from a $T_1$-space $X$ to a topological space $Y$, and let $y \in f(X)$. Then there is some $x \in X$ with $f(x) = y$, and since $\{x\}$ is closed in $X$ and $f$ is closed, $\{y\}$ is closed in $Y$ and hence in $f(X)$.
+    Let $f \colon X \to Y$ be a closed map from a $T_1$-space $X$ to a topological space $Y$, and let $y \in f(X)$. Then there is some $x \in X$ with $f(x) = y$, and since $\{x\}$ is closed in $X$ and $f$ is closed, $\{y\}$ is closed in $Y$ and hence closed in $f(X)$.
 \end{proof}
 
 
@@ -520,6 +571,19 @@ Again, a $T_2$-space is clearly $T_1$. We give a series of conditions that are e
     \item[\subcref{enum:T2-closed_diagonal} $\implies$ \subcref{enum:T2-space}]
     Let $x,y \in X$ be distinct points so that $(x,y) \not\in \Delta$. If $\Delta$ is closed, then $(x,y)$ has a neighbourhood $U \prod V$ in $X \times X$ disjoint from $\Delta$. But then $U$ and $V$ are disjoint neighbourhoods of $x$ and $y$ respectively, so $X$ is Hausdorff.
 \end{proofsec}
+\end{proof}
+
+
+\section{Operations on Hausdorff spaces}
+
+\begin{proposition} % TODO finish writing this up
+    Let $X$ carry the initial topology induced by maps $f_\alpha \colon X \to X_\alpha$ for $\alpha \in A$. Assume that each $X_\alpha$ is Hausdorff, and that the $f_\alpha$ separate points in $X$. Then $X$ is also Hausdorff.
+
+    In particular, any subspace of a $T_0$-space is $T_0$, and a product of $T_0$-spaces is $T_0$. Furthermore, if a nonempty product space is $T_0$, then every factor is $T_0$.
+\end{proposition}
+
+\begin{proof}
+    TODO
 \end{proof}
 
 
@@ -562,28 +626,45 @@ Notice that a regular space is \emph{not} necessarily Hausdorff since singletons
 
 \begin{proposition}
     \label{thm:regular-equivalent-properties}
-    The following are equivalent for a topological space $X$:
-    %
-    \begin{enumprop}
-        \item \label{enum:regular-space} $X$ is regular,
-
-        \item \label{enum:closed-nhood-inside-nhood} if $U$ is an open neighbourhood of $x \in X$, then $x$ has a closed neighbourhood contained in $U$, and
-
-        \item \label{enum:nhood-basis-of-closed-sets} every $x \in X$ has a neighbourhood basis of closed sets.
-    \end{enumprop}
+    A topological space $X$ is regular if and only if every $x \in X$ has a neighbourhood basis of closed sets.
 \end{proposition}
 
 \begin{proof}
 \begin{proofsec}
-    \item[\subcref{enum:regular-space} $\implies$ \subcref{enum:closed-nhood-inside-nhood}]
     Assume that $X$ is regular, and let $U$ be an open neighbourhood of $x \in X$. Then $U^c$ is closed, so there exist disjoint open sets $V$ and $W$ with $x \in V$ and $U^c \subseteq W$. Then $x \in V \subseteq W^c \subseteq U$, so $W^c$ is the desired closed neighbourhood.
 
-    \item[\subcref{enum:closed-nhood-inside-nhood} $\implies$ \subcref{enum:nhood-basis-of-closed-sets}]
-    This is obvious.
-
-    \item[\subcref{enum:nhood-basis-of-closed-sets} $\implies$ \subcref{enum:regular-space}]
-    Let $x \in X$ and $A \subseteq X$ closed with $x \not\in A$. Then $A^c$ is an open neighbourhood of $x$, so if \subcref{enum:nhood-basis-of-closed-sets} applies then $A^c$ contains a closed neighbourhood $B$ of $X$. Then $\interior{B}$ and $B^c$ are disjoint open neighbourhoods of $x$ and $A$ respectively.
+    Conversely, let $x \in X$ and $A \subseteq X$ closed with $x \not\in A$. Then $A^c$ is an open neighbourhood of $x$, so $A^c$ contains a closed neighbourhood $B$ of $X$. Then $\interior{B}$ and $B^c$ are disjoint open neighbourhoods of $x$ and $A$ respectively.
 \end{proofsec}
+\end{proof}
+
+
+\section{Operations on regular spaces}
+
+\begin{proposition}
+    \label{thm:regular-initial-topology}
+    Let $X$ carry the initial topology induced by maps $f_\alpha \colon X \to X_\alpha$ for $\alpha \in A$. Assume that each $X_\alpha$ is regular. Then $X$ is also regular.
+
+    In particular, any subspace of a regular space is regular, and a product of regular spaces is regular. Furthermore, if a nonempty product space is regular, then every factor is regular.
+\end{proposition}
+%
+Notice that we do \emph{not} require that the $f_\alpha$ separate points in $X$ since we do not need to distinguish individual points. If the $f_\alpha$ do separate points in $X$, then by \cref{thm:T1-initial-topology} the above also holds with \enquote{regular} replaced with \enquote{$T_3$}.
+
+\begin{proof}
+    Assume that each $X_\alpha$ is regular. We prove that each $x \in X$ has a neighbourhood basis of closed sets in accordance with \cref{thm:regular-equivalent-properties}, so let $U$ be an open neighbourhood of $x$. Then $x$ lies in some basic neighbourhood $\bigintersect_{i=1}^n f_{\alpha_i}\preim(U_{\alpha_i}) \subseteq U$, where $U_{\alpha_i}$ is open in $X_{\alpha_i}$. Hence $f_{\alpha_i}(x) \in U_{\alpha_i}$, and since $X_{\alpha_i}$ is regular $f_{\alpha_i}(x)$ has a closed neighbourhood $F_{\alpha_i}$ contained in $U_{\alpha_i}$. But then $f_{\alpha_i}\preim(F_{\alpha_i}) \subseteq f_{\alpha_i}\preim(U_{\alpha_i})$ is a closed neighbourhood of $x$, and finally $\bigintersect_{i=1}^n f_{\alpha_i}\preim(F_{\alpha_i})$ is a closed neighbourhood of $x$ contained in $U$ as desired.
+
+    The final claim follows as in the proof of \cref{thm:T0-initial-topology} since each factor is homeomorphic to a subspace of the product.
+\end{proof}
+
+
+\begin{proposition}
+    % \label{thm:regular-disjoint-union}
+    Let $(X_\alpha)_{\alpha \in A}$ be a collection of regular spaces. Then the disjoint union $X = \coprod_{\alpha \in A} X_\alpha$ is also regular. % TODO: Again iff, right?
+\end{proposition}
+%
+As with \cref{thm:T0-disjoint-union} we may immediately generalise this result to a larger class of final topologies: Namely those coinduced by maps $(f_\alpha)_{\alpha \in A}$ that are both open and closed, and that cover $X$. Note that this assumption is weaker than the previous assumptions, just as the assumptions in \cref{thm:regular-initial-topology} were weaker than those of \cref{thm:T0-initial-topology}. Again I am not aware of any interesting applications of this fact.
+
+\begin{proof}
+    Let $y \in X$, and let $U$ be a neighbourhood of $y$. There is then an $\alpha \in A$ and an $x \in X_\alpha$ such that $\iota_\alpha(x) = y$. Then $\iota_\alpha\preim(U)$ is an open neighbourhood of $x$, so $x$ has a closed neighbourhood $F$ contained therein. It follows that $y \in \iota_\alpha(F) \subseteq U$, and $\iota_\alpha(F)$ is a closed neighbourhood of $y$ since $\iota_\alpha$ is open and closed.
 \end{proof}
 
 
@@ -865,7 +946,7 @@ We discuss conditions that are equivalent to normality in our discussion of Urys
 In particular, every \emph{compact} Hausdorff space is $T_4$. This also follows easily since two disjoint compact sets can be separated in a Hausdorff space by \cref{thm:Hausdorff-separate-compacts}.
 
 \begin{proof}
-    
+    TODO
 \end{proof}
 
 
