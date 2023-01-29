@@ -168,13 +168,13 @@ Clearly a compact space is both Lindelöf and paracompact.
 
 \begin{proposition}
     \label{thm:compact-Lindelof-closed-subset}
-    Let $X$ be a topological space. If $X$ is compact/Lindelöf, then every closed subset of $X$ is compact/Lindelöf in the subspace topology.
+    Let $X$ be a topological space. If $X$ is compact/Lindelöf/paracompact, then every closed subset of $X$ is compact/Lindelöf/paracompact in the subspace topology.
 \end{proposition}
 %
-This result is of course standard for compact spaces, but we include the proof to illustrate that it is identical to the proof for the Lindelöf case.
+This result is of course standard for compact spaces, but we include the proof to illustrate that it is identical to the proof for the Lindelöf and paracompact cases.
 
 \begin{proof}
-    Let $X$ be compact/Lindelöf, and let $A \subseteq X$ be closed. If $\calU$ is an open cover of $A$, then there is a collection $\calV$ of sets open in $X$ such that $\calU = \set{V \intersect A}{V \in \calV}$. By adjoining $A^c$ to $\calV$ we obtain an open cover of $X$, so it has a finite/countable subcover $\calV'$. Discarding $A^c$ and intersecting every other set in $\calV'$ with $A$ yields a finite/countable subcover of $\calU$, proving the claim.
+    Let $X$ be compact/Lindelöf/paracompact, and let $A \subseteq X$ be closed. If $\calU$ is an open cover of $A$, then there is a collection $\calV$ of sets open in $X$ such that $\calU = \set{V \intersect A}{V \in \calV}$. By adjoining $A^c$ to $\calV$ we obtain an open cover of $X$, so it has a finite/countable/locally finite subcover $\calV'$. Discarding $A^c$ and intersecting every other set in $\calV'$ with $A$ yields a finite/countable/locally finite subcover of $\calU$, proving the claim.
 \end{proof}
 
 
@@ -193,6 +193,11 @@ This result is of course standard for compact spaces, but we include the proof t
     %
     so $\calU'$ is a finite/countable subcover of $\calU$ as desired.
 \end{proof}
+
+
+\begin{remark}
+    Note that the continuous image of a paracompact space need not be paracompact. Let $(X,\calT)$ be a space that is not paracompact, and let $\calT_{\mathrm{d}}$ be the discrete topology on $X$. Then $(X,\calT_{\mathrm{d}})$ is paracompact, but the identity map $\id_X \colon (X,\calT_{\mathrm{d}}) \to (X,\calT)$ is continuous.
+\end{remark}
 
 
 If $X$ is a topological space, then we say that two disjoint subsets $A$ and $B$ can be \emph{separated} if there exist disjoint open sets $U$ and $V$ with $A \subseteq U$ and $B \subseteq V$.
@@ -945,8 +950,15 @@ We discuss conditions that are equivalent to normality in our discussion of Urys
 %
 In particular, every \emph{compact} Hausdorff space is $T_4$. This also follows easily since two disjoint compact sets can be separated in a Hausdorff space by \cref{thm:Hausdorff-separate-compacts}.
 
+\newcommand{\bbU}{\mathbb{U}}
+\newcommand{\bbV}{\mathbb{V}}
+
 \begin{proof}
-    TODO
+    Let $X$ be a paracompact Hausdorff space, $A$ a closed subset and $q \in X \setminus A$. For every $p \in A$ there exist, by the Hausdorff assumption, disjoint open neighbourhoods $U_p$ and $V_p$ of $p$ and $q$ respectively. Each $p \in A$ thus has a neighbourhood $U_p$ such that $q \not\in \closure{U}_p$.
+    
+    The sets $U_p$ is an open cover of $A$, so by paracompactness of $A$ (cf. \cref{thm:compact-Lindelof-closed-subset}) we obtain a locally finite subcover $\calU$. Letting $\bbU = \bigunion_{U \in \calU} U$ and $\bbV = X \setminus \closure{\bbU}$ we then have two disjoint open sets, and by local finiteness of $\calU$ we have $\closure{\bbU} = \bigunion_{U \in \calU} \closure{U}$, so $\bbV$ contains $q$.
+
+    This shows that $X$ is regular. The same argument then shows that $X$ is normal, by using regularity instead of the Hausdorff property.
 \end{proof}
 
 
