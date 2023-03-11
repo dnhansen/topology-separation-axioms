@@ -418,7 +418,13 @@ It is obvious that $\tilde{\rho}$ is then a metric on $\tilde{S}$, and we call $
     Then $Y$ is $T_0$ since it is a subspace of $X$, so $X_\beta \cong Y$ is also $T_0$.
 \end{proof}
 %
-Notice that we could also have proved the first result above by proving it separately for subspaces and products, and then using the fact that $X$ could be embedded in the product $\bigprod_{\alpha \in A} X_\alpha$ since the $f_\alpha$ separate points.
+Notice that we could also have proved the first result above by proving it separately for subspaces and products, and then using the fact that $X$ could be embedded in the product $\bigprod_{\alpha \in A} X_\alpha$ since the $f_\alpha$ separate points\footnote{See e.g. \href{https://github.com/dnhansen/topology-measure-theory-notes}{my notes on measure theory and topology}, or \textcite[Theorem~8.12]{willard}.}. In fact, we may use this product embedding to characterise the $T_0$-spaces as follows:
+
+\renewcommand{\powerset}[1]{\wp(#1)}
+
+First recall that the \emph{Sierpi\'nski space} is the space $S$ with the underlying set $\{0,1\}$ and the topology $\{\emptyset, \{1\}, S\}$, so that the specialisation preorder on $S$ is just the usual ordering on $\{0,1\} \subseteq \naturals$. If $X$ is any set, then the set of functions $S^X$ is just the indicator functions on subsets of $X$, so that $S^X \cong \powerset{X}$. If $(X,\calT)$ is a topological space, then an indicator function $\indicator{U} \colon X \to S$ is continuous just when $U = \indicator{U}\preim(1)$ is open. It follows that there is a bijection betwen $\calT$ and the set $C(X,S)$ of continuous maps $X \to S$.
+
+Furthermore, $X$ has the initial topology induced by $C(X,S)$, since removing an open set $U$ from $\calT$ would make the (continuous) indicator function $\indicator{U}$ discontinuous. Also notice that $C(X,S)$ separates points in $X$ just when $X$ is $T_0$. Hence if $X$ is $T_0$, then $X$ can be embedded into the product $S^\calT$ by the map $f \colon X \to S^\calT$ with the property that $\pi_U \circ f = \indicator{U}$. Since subspaces and products of $T_0$-spaces are $T_0$, the converse also holds.
 
 
 \begin{proposition}
