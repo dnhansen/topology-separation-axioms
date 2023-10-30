@@ -163,7 +163,7 @@ A collection $\calA$ of subsets of $X$ is called \emph{locally finite} if every 
     \end{enumdef}
 \end{definition}
 %
-Clearly a compact space is both Lindelöf and paracompact.
+Clearly a compact space is both Lindelöf and paracompact. A subset $A \subseteq X$ is called \emph{precompact} in $X$ if its closure $\closure{A}$ in $X$ is compact.
 
 
 \begin{proposition}
@@ -217,20 +217,28 @@ This is an example of the general principle that compact sets often act like poi
 \section{Local compactness}
 
 \begin{definition}[Local compactness]
-    A topological space is called \emph{locally compact} if every point has a compact neighbourhood.
+    \label{def:local-compactness}
+    A topological space is called
+    %
+    \begin{enumdef}
+        \item \emph{weakly locally compact} if every point has a compact neighbourhood,
+        \item \emph{weakly locally precompact} if every point has a precompact (open) neighbourhood,
+        \item \emph{(strongly) locally compact} if every point has a neighbourhood basis of compact sets, and
+        \item \emph{(strongly) locally precompact} if every point has a neighbourhood basis of precompact (open) sets.
+    \end{enumdef}
 \end{definition}
 %
-There are many different non-equivalent definitions of local compactness, and we have just chosen one for convenience. Locally compact spaces are usually also Hausdorff in which case all the different definitions are equivalent. A locally compact Hausdorff space is also called an \emph{LCH space}. In particular we have the following:
+Clearly a point has a precompact neighbourhood if and only if it has a precompact \emph{open} neighbourhood. A locally compact Hausdorff space is also called an \emph{LCH space}.
 
 \begin{proposition}
     \label{thm:LCH-equivalent-condition}
-    A Hausdorff space is locally compact if and only if every point has a neighbourhood basis of compact sets.
+    Let $X$ be a topological space. If $X$ has any of the properties in \cref{def:local-compactness}, then $X$ is weakly locally compact. If $X$ is Hausdorff, then all properties in \cref{def:local-compactness} are equivalent.
 \end{proposition}
 
 \begin{proof}
-    Let $X$ be an LCH space and let $x \in U \subseteq X$ with $U$ open. If $\closure{U}$ is not compact, then replace $U$ with $U \intersect \interior{K}$, where $K$ is a compact neighbourhood of $x$. Then both $\{x\}$ and $\boundary U$ are compact, so by \cref{thm:Hausdorff-separate-compacts} there exist disjoint relatively open sets $V, W \subseteq \closure{U}$ such that $x \in V$ and $\boundary U \subseteq W$. Then $V \subseteq U$ so $V$ is open in $X$, and $\closure{V}$ is a closed and thus compact subset of $\closure{U} \setminus W \subseteq U$.
+    The first claim is obvious. For the second claim, assume that $X$ is Hausdorff and weakly locally compact, and let $x \in X$. Then $x$ has a compact neighbourhood $K$, i.e., there is an open set $U$ with $x \in U \subseteq K$. Since $K$ is closed we have $\closure{U} \subseteq K$, so $U$ is precompact.
 
-    The converse is obvious.
+    Next let $U$ be a precompact open neighbourhood of $x$. Then $\boundary U$ is compact, so $x$ and $\boundary U$ are separated by \cref{thm:Hausdorff-separate-compacts}, i.e., there exist disjoint open sets $V,W$ such that $x \in V$ and $\boundary U \subseteq W$. Replacing $V$ with $V \intersect U$ we may assume that $V \subseteq U \setminus W$. Hence $\closure{V} \subseteq \closure{U} \setminus W \subseteq U$, so $X$ is (strongly) locally compact.
 \end{proof}
 
 
