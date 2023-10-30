@@ -156,6 +156,8 @@ A collection $\calA$ of subsets of $X$ is called \emph{locally finite} if every 
     %
     \begin{enumdef}
         \item $X$ is \emph{compact} if every open cover of $X$ has a finite subcover.
+        
+        \item $X$ is \emph{countably compact} if every countable open cover of $X$ has a finite subcover.
 
         \item $X$ is \emph{Lindelöf} if every open cover of $X$ has a countable subcover.
 
@@ -163,32 +165,32 @@ A collection $\calA$ of subsets of $X$ is called \emph{locally finite} if every 
     \end{enumdef}
 \end{definition}
 %
-Clearly a compact space is both Lindelöf and paracompact. A subset $A \subseteq X$ is called \emph{precompact} in $X$ if its closure $\closure{A}$ in $X$ is compact.
+Clearly a space is compact if and only if it is both countably compact and Lindelöf, and a compact space is also paracompact. A subset $A \subseteq X$ is called \emph{precompact} in $X$ if its closure $\closure{A}$ in $X$ is compact.
 
 
 \begin{proposition}
     \label{thm:compact-Lindelof-closed-subset}
-    Compactness, Lindelöf and paracompactness are weakly hereditary.
+    Compactness, countable compactness, Lindelöf and paracompactness are weakly hereditary.
 \end{proposition}
 %
-This result is of course standard for compact spaces, but we include the proof to illustrate that it is identical to the proof for the Lindelöf and paracompact cases.
+This result is of course standard for compact spaces, but we include the proof to illustrate that it is identical to the proof for the other cases.
 
 \begin{proof}
-    Let $X$ be compact/Lindelöf/paracompact, and let $A \subseteq X$ be closed. If $\calU$ is an open cover of $A$, then there is a collection $\calV$ of sets open in $X$ such that $\calU = \set{V \intersect A}{V \in \calV}$. By adjoining $A^c$ to $\calV$ we obtain an open cover of $X$, so it has a finite/countable/locally finite subcover $\calV'$. Discarding $A^c$ and intersecting every other set in $\calV'$ with $A$ yields a finite/countable/locally finite subcover of $\calU$, proving the claim.
+    Let $X$ be compact/countably compact/Lindelöf/paracompact, and let $A \subseteq X$ be closed. If $\calU$ is an open cover (countable if $X$ is countably compact) of $A$, then there is a (again countable) collection $\calV$ of sets open in $X$ such that $\calU = \set{V \intersect A}{V \in \calV}$. By adjoining $A^c$ to $\calV$ we obtain an open cover of $X$ (which is countable), so it has a finite/countable/locally finite subcover $\calV'$. Discarding $A^c$ and intersecting every other set in $\calV'$ with $A$ yields a finite/countable/locally finite subcover of $\calU$, proving the claim.
 \end{proof}
 
 
 \begin{proposition}
-    The continuous image of a compact/Lindelöf space is compact/Lindelöf.
+    The continuous image of a compact/countably compact/Lindelöf space is compact/countably compact/Lindelöf.
 \end{proposition}
 
 \begin{proof}
-    Let $f \colon X \to Y$ be continuous, and assume that $X$ is compact/Lindelöf. Let $\calU$ be an open cover of $f(X)$. Then $f\preim(\calU)$ is an open cover of $X$, so it has a finite/countable subcover $f\preim(\calU')$. Notice that
+    Let $f \colon X \to Y$ be continuous, and assume that $X$ is compact/countably compact/Lindelöf. Let $\calU$ be an open cover of $f(X)$ (countable if $X$ is countably compact). Then $f\preim(\calU)$ is an open cover of $X$ (again countable), so it has a finite/countable subcover $f\preim(\calU')$. Notice that
     %
     \begin{equation*}
         f(X)
-            = f \Bigl( f\preim \Bigl( \bigunion_{U \in \calU'} U \Bigr) \Bigr)
-            \subseteq \bigunion_{U \in \calU'} U,
+            = f \bigl( f\preim \bigl( \bigunion \calU' \bigr) \bigr)
+            \subseteq \bigunion \calU',
     \end{equation*}
     %
     so $\calU'$ is a finite/countable subcover of $\calU$ as desired.
