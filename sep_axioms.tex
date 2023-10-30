@@ -168,7 +168,7 @@ Clearly a compact space is both Lindelöf and paracompact. A subset $A \subseteq
 
 \begin{proposition}
     \label{thm:compact-Lindelof-closed-subset}
-    Let $X$ be a topological space. If $X$ is compact/Lindelöf/paracompact, then every closed subset of $X$ is compact/Lindelöf/paracompact in the subspace topology.
+    Compactness, Lindelöf and paracompactness are weakly hereditary.
 \end{proposition}
 %
 This result is of course standard for compact spaces, but we include the proof to illustrate that it is identical to the proof for the Lindelöf and paracompact cases.
@@ -242,16 +242,65 @@ Clearly a point has a precompact neighbourhood if and only if it has a precompac
 \end{proof}
 
 
-\begin{corollary}
-    \label{thm:LCH-compact-set-has-compact-nhood}
-    Let $X$ be a locally compact Hausdorff space. If $K \subseteq U \subseteq X$ with $K$ compact and $U$ open, then $K$ has a compact neighbourhood contained in $U$.
-\end{corollary}
-%
-Another example of compact sets taking the place of points.
+\begin{lemma}
+    \label{lem:local-compactness-hereditary}
+    All properties in \cref{def:local-compactness} are weakly hereditary. Open subsets of strongly locally compact spaces are also strongly locally compact.
+\end{lemma}
 
 \begin{proof}
-    For $x \in K$ we may choose a compact neighbourhood $N_x$ of $x$ contained in $U$ by \cref{thm:LCH-equivalent-condition}. Then $(\interior{N_x})_{x \in X}$ is an open over of $K$, so there is a finite subcover $(\interior{N_{x_i}})_{i=1}^n$. Letting $V = \bigunion_{i=1}^n \interior{N_{x_i}}$ we have $K \subseteq V$, and $\closure{V} = \bigunion_{i=1}^n N_{x_i} \subseteq U$ is compact as desired.
+    The first claim is obvious, since the intersection of a compact set and a closed set is compact. The second claim is also obvious.
 \end{proof}
+
+
+\begin{lemma}
+    \label{thm:LCH-compact-set-has-compact-nhood}
+    If $X$ is weakly locally compact and $K \subseteq X$ is compact, then $K$ has a compact neighbourhood. In particular, if $X$ is strongly locally compact and $K \subseteq U \subseteq X$ with $U$ open, then $K$ has a compact neighbourhood contained in $U$.
+\end{lemma}
+
+\begin{proof}
+    For the first claim, note that each point of $K$ has a compact neighbourhood, hence is covered by finitely many such neighbourhoods. Their union is a compact neighbourhood of $K$. The second claim then follows from \cref{lem:local-compactness-hereditary}.
+\end{proof}
+
+
+\section{Other types of compactness}
+
+\begin{definition}
+    \label{def:hemicompact-et-al}
+    Let $X$ be a topological space. Then $X$ is called
+    %
+    \begin{enumdef}
+        \item \emph{exhaustible by compact sets} if there is a sequence $(K_n)_{n \in \naturals}$ of subsets of $X$, called an \emph{exhaustion by compact sets}, such that $K_n \subseteq \interior{K_{n+1}}$ and $X = \bigunion_{n \in \naturals} K_n$.
+        
+        \item \emph{hemicompact} if there is a sequence $(K_n)_{n \in \naturals}$ of subsets of $X$, called an \emph{admissible sequence}, such that for every compact $K \subseteq X$ there is an $n \in \naturals$ with $K \subseteq K_n$.
+
+        \item \emph{$\sigma$-compact} if there is a sequence $(K_n)_{n \in \naturals}$ of subsets of $X$ such that $X = \bigunion_{n \in \naturals} K_n$.
+    \end{enumdef}
+\end{definition}
+
+
+\begin{proposition}
+    In the notation of \cref{def:hemicompact-et-al}, we have the following implications: (i) $\Rightarrow$ (ii) $\Rightarrow$ (iii) $\Rightarrow$ Lindelöf. If $X$ is weakly locally compact, then these properties are equivalent.
+\end{proposition}
+
+\begin{proof}
+    If $(K_n)_{n \in \naturals}$ is an exhaustion of $X$ and $K \subseteq X$ is compact, then $K$ is covered by finitely many $K_n$. Choosing the largest of these $K_n$ shows that $X$ is hemicompact.
+
+    If $X$ is hemicompact, then an admissible sequence covers $X$ since any singleton is compact. If $X$ is $\sigma$-compact, $(K_n)_{n \in \naturals}$ is a sequence of compact sets that cover $X$, and $\calU$ is a open covering of $X$, then each $K_n$ is covered by finitely many sets from $\calU$, and so $X$ is covered by countably many sets from $\calU$.
+
+    Conversely assume that $X$ is weakly locally compact. If $X$ is Lindelöf, let $K_x$ be a compact neighbourhood of $x \in X$. Then $X$ is covered by the interiors of the $K_x$, hence by countably many such sets. But then $X$ is $\sigma$-compact.
+
+    If $X$ is instead $\sigma$-compact, let $(K_n)_{n \in \naturals}$ be a covering of $X$ by compact sets. Let $C_1 = K_1$ and assume that $C_1, \ldots, C_n$ have been defined with $C_i \subseteq \interior{C_{i+1}}$. Then $C_n \union K_n$ is compact and has a compact neighbourhood $C_{n+1}$ by \cref{thm:LCH-compact-set-has-compact-nhood}. The sequence $(C_n)_{n \in \naturals}$ is thus an exhaustion of $X$ by compact sets.
+\end{proof}
+
+
+\begin{proposition}
+    If $X$ is hemicompact and first countable, then $X$ is weakly locally compact.
+\end{proposition}
+
+\begin{proof}
+    Let $(K_n)_{n \in \naturals}$ be an admissible sequence in $X$ with $K_n \subseteq K_{n+1}$, and assume that there is a point $x \in X$ with no compact neighbourhood. If $(U_n)_{n \in \naturals}$ is a neighbourhood basis at $x$ with $U_n \subseteq U_{n+1}$, then since $K_n$ is not a neighbourhood of $x$ there is a point $x_n \in U_n \setminus K_n$. The set $\set{x_n}{n \in \naturals} \union \{x\}$ is then compact but is not contained in any $K_n$.
+\end{proof}
+
 
 
 \section{Metric spaces}
