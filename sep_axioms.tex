@@ -74,6 +74,8 @@
 \newcommand{\calT}{\mathcal{T}}
 \newcommand{\calN}{\mathcal{N}}
 \newcommand{\calP}{\mathcal{P}}
+\newcommand{\calB}{\mathcal{B}}
+\newcommand{\calS}{\mathcal{S}}
 \DeclarePairedDelimiter{\nhoodfilteraux}{(}{)}
 % \newcommand{\nhoodfilter}[1]{\calN\nhoodfilteraux{#1}}
 \newcommand{\nhoodfilter}[1]{\calN_{#1}}
@@ -435,6 +437,20 @@ One might also expect that continuous functions on a space are unchanged in the 
 \end{proof}
 
 
+\begin{proposition}
+    \label{prop:specialisation-preorder-initial-topology}
+    Let $X$ carry the initial topology induced by maps $f_\alpha \colon X \to X_\alpha$ for $\alpha \in A$. For all $x,y \in X$ we have $x \leq y$ (resp. $x \equiv y$) if and only if $f_\alpha(x) \leq f_\alpha(y)$ (resp. $f_\alpha(x) \equiv f_\alpha(y)$) for all $\alpha \in A$.
+\end{proposition}
+
+\begin{proof}
+    Let $x,y \in X$, and assume that $x \leq y$. If $U \in \nhoodfilter{f_\alpha(x)}$, then $f_\alpha\preim(U) \in \nhoodfilter{x} \subseteq \nhoodfilter{y}$ by continuity. That is, $y \in f_\alpha\preim(U)$, so $f_\alpha(y) \in U$ implying that $U \in \nhoodfilter{f_\alpha(y)}$. Hence $f_\alpha(x) \leq f_\alpha(y)$ as claimed.
+
+    Conversely, assume that $f_\alpha(x) \leq f_\alpha(y)$ for all $\alpha \in A$. Notice that it suffices to show that $\calB_x \subseteq \nhoodfilter{y}$ for some neighbourhood basis $\calB_x$ at $x$. We construct $\calB_x$ as follows: If $\calT_\alpha$ is the topology on $X_\alpha$ and $\calT$ the topology on $X$, then $\calS = \bigunion_{\alpha \in A} f_\alpha\preim(\calT_\alpha)$ is a subbasis for $\calT$, and the set $\calB$ of finite intersections of elements in $\calS$ is a basis for $\calT$. We then let $\calB_x = \calB \intersect \nhoodfilter{x}$.
+
+    An arbitrary element in $\calB_x$ is thus on the form $U = \bigintersect_{i=1}^n f_{\alpha_i}\preim(U_i)$, with $U_i \in \calT_{\alpha_i}$. It follows that $f_{\alpha_i}(x) \in U_i$ so that $U_i \in \nhoodfilter{f_{\alpha_i}(x)} \subseteq \nhoodfilter{f_{\alpha_i}(y)}$, implying that that $f_{\alpha_i}(y) \in U_i$. Hence $y \in f_{\alpha_i}\preim(U_i)$, so $y \in U$ and $U \in \nhoodfilter{y}$ as desired.
+\end{proof}
+
+
 We explore the $T_0$-identification in the context of metric spaces: Let $(S,\rho)$ be a pseudometric space, and define a relation $\sim$ on $S$ by $x \sim y$ if and only if $\rho(x,y) = 0$. This is clearly an equivalence relation. Let $\tilde{S} = S/{\sim}$ and define a map $\tilde{\rho} \colon \tilde{S} \prod \tilde{S} \to [0,\infty)$ by $\tilde{\rho}([x],[y]) = \rho(x,y)$. This is well-defined, since if $x \sim x'$ and $y \sim y'$ then
 %
 \begin{equation*}
@@ -465,8 +481,16 @@ It is obvious that $\tilde{\rho}$ is then a metric on $\tilde{S}$, and we call $
 
     In particular, any subspace of a $T_0$-space is $T_0$, and a product of $T_0$-spaces is $T_0$. Furthermore, if a nonempty product space is $T_0$, then every factor is $T_0$. % TODO: Are there any interesting generalisations of this?
 \end{proposition}
+%
+We give two proofs of this result, one using the characterisation of the specialisation preorder given in \cref{prop:specialisation-preorder-initial-topology}, and another more direct proof.
 
-\begin{proof}
+\begin{proofof}[Proof 1]
+    Let $x,y \in X$ with $x \neq y$. Since the $f_\alpha$ separate points in $X$, there is a $\beta \in A$ such that $x_\beta \neq y_\beta$. Since $X_\beta$ is $T_0$, the specialisation preorder on $X_\beta$ is just equality, so $x_\beta \not\equiv y_\beta$. But then $x \not\equiv y$ by \cref{prop:specialisation-preorder-initial-topology}.
+
+    The final claim follows directly from the same proposition, since if the product space is nonempty, then the projections are surjective.
+\end{proofof}
+
+\begin{proofof}[Proof 2]
     Let $x,y \in X$ with $x \neq y$. Since the $f_\alpha$ separate points in $X$, there is a $\beta \in A$ such that $x_\beta \neq y_\beta$. Without loss of generality pick a neighbourhood $U$ of $x_\beta$ in $X_\beta$ that does not contain $y_\beta$. Then $f_\beta\preim(U)$ is a neighbourhood of $x$ that does not contain $y$.
 
     For the final claim, assume that $X = \bigprod_{\alpha \in A} X_\alpha$ is a nonempty $T_0$ product space, and let $\beta \in A$. Pick a point $y \in X$, and let
@@ -478,7 +502,7 @@ It is obvious that $\tilde{\rho}$ is then a metric on $\tilde{S}$, and we call $
     \end{equation*}
     %
     Then $Y$ is $T_0$ since it is a subspace of $X$, so $X_\beta \cong Y$ is also $T_0$.
-\end{proof}
+\end{proofof}
 %
 Notice that we could also have proved the first result above by proving it separately for subspaces and products, and then using the fact that $X$ could be embedded in the product $\bigprod_{\alpha \in A} X_\alpha$ since the $f_\alpha$ separate points\footnote{See e.g. \href{https://github.com/dnhansen/topology-measure-theory-notes}{my notes on measure theory and topology}, or \textcite[Theorem~8.12]{willard}.}. In fact, we may use this product embedding to characterise the $T_0$-spaces as follows:
 
@@ -585,7 +609,7 @@ We begin by giving some properties of topological spaces that are equivalent to 
     %
     \begin{enumprop}
         \item \label{enum:R0-space} $X$ is $R_0$,
-        \item \label{enum:R0-specialisation-preorder-symmetric} the specialisation preorder $\leq$ is symmetric,
+        \item \label{enum:R0-specialisation-preorder-symmetric} the specialisation preorder $\leq$ is symmetric (i.e., ${\leq} = {\equiv}$),
         \item \label{enum:R0-closure-of-point} $[x]_\equiv = \closure{\{x\}}$ for all $x \in X$,
         \item \label{enum:R0-partition} the sets $\closure{\{x\}}$ for $x \in X$ form a partition of $X$, and
         \item \label{enum:R0-quotient-is-T1} $X/{\equiv}$ is $T_1$.
@@ -621,7 +645,17 @@ We begin by giving some properties of topological spaces that are equivalent to 
 
 
 
-\section[Operations on T1-spaces][Operations on $T_1$-spaces]{Operations on $T_1$-spaces}
+\section[Operations on R0- and T1-spaces][Operations on $R_0$- and $T_1$-spaces]{Operations on $R_0$- and $T_1$-spaces}
+
+\begin{proposition}
+    \label{prop:R0-initial-topology}
+    Let $X$ carry the initial topology induced by maps $f_\alpha \colon X \to X_\alpha$ for $\alpha \in A$. If each $X_\alpha$ is $R_0$, then so is $X$. If $X$ is $R_0$ and $f_\alpha$ is surjective, then $X_\alpha$ is also $R_0$.
+\end{proposition}
+
+\begin{proof}
+    Follows directly from \cref{prop:specialisation-preorder-initial-topology}.
+\end{proof}
+
 
 \begin{proposition}
     \label{thm:T1-initial-topology}
@@ -631,7 +665,7 @@ We begin by giving some properties of topological spaces that are equivalent to 
 \end{proposition}
 
 \begin{proof}
-    We omit the proof since it is almost identical to the proof of \cref{thm:T0-initial-topology}.
+    This follows from \cref{prop:R0-initial-topology} and \cref{thm:T0-initial-topology}.
 \end{proof}
 
 
