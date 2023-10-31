@@ -68,16 +68,19 @@
 \setsubsecheadstyle{\normalfont\itshape}
 
 
-\newcommand{\calN}{\mathcal{N}}
-\DeclarePairedDelimiter{\nhoodfilteraux}{(}{)}
-% \newcommand{\nhoodfilter}[1]{\calN\nhoodfilteraux{#1}}
-\newcommand{\nhoodfilter}[1]{\calN_{#1}}
-
-
 \newcommand{\calU}{\mathcal{U}}
 \newcommand{\calV}{\mathcal{V}}
 \newcommand{\calW}{\mathcal{W}}
 \newcommand{\calT}{\mathcal{T}}
+\newcommand{\calN}{\mathcal{N}}
+\newcommand{\calP}{\mathcal{P}}
+\DeclarePairedDelimiter{\nhoodfilteraux}{(}{)}
+% \newcommand{\nhoodfilter}[1]{\calN\nhoodfilteraux{#1}}
+\newcommand{\nhoodfilter}[1]{\calN_{#1}}
+\renewcommand{\powerset}[1]{\calP(#1)}
+
+\renewcommand{\implies}{\Rightarrow}
+\renewcommand{\iff}{\Leftrightarrow}
 
 \renewcommand\interior[2][]{%
     \ifstrempty{#1}{%
@@ -356,12 +359,12 @@ Clearly a point has a precompact neighbourhood if and only if it has a precompac
 \section[Definition and the T0-identification][Definition and the $T_0$-identification]{Definition and the $T_0$-identification}
 
 \begin{definition}
-    A topological space $X$ satisfies the $T_0$ axiom and is called a \emph{$T_0$-space} if, for every pair of distinct points $x,y \in X$, either $x$ has a neighbourhood that does not contain $y$, or vice versa.
+    A topological space $X$ satisfies the $T_0$ axiom and is called a \emph{$T_0$-space} or said to be \emph{Kolmogorov} if, for every pair of distinct points $x,y \in X$, either $x$ has a neighbourhood that does not contain $y$, or vice versa.
 \end{definition}
 
-We begin by giving an alternative characterisation of $T_0$-spaces: Let $X$ be a topological space. We define an ordering on $X$ called the \emph{specialisation preorder} by letting $x \leq y$ if $x \in \closure{\{y\}}$ for $x,y \in X$. It is clear that $\leq$ is in fact a preorder, and so it determines an equivalence relation $\equiv$; that is, $x \equiv y$ if and only if $x \leq y$ and $y \leq x$.
+We begin by giving an alternative characterisation of $T_0$-spaces: Let $X$ be a topological space. We define an ordering on $X$ called the \emph{specialisation preorder} by letting $x \leq y$ if $\nhoodfilter{x} \subseteq \nhoodfilter{y}$, or equivalently if $x \in \closure{\{y\}}$, for $x,y \in X$. It is clear that $\leq$ is in fact a preorder, and so it determines an equivalence relation $\equiv$; that is, $x \equiv y$ if and only if $x \leq y$ and $y \leq x$.
 
-It is easy to show that $x \leq y$ if and only if $\nhoodfilter{x} \subseteq \nhoodfilter{y}$.  If $x \equiv y$, then we say that $x$ and $y$ are \emph{topologically indistinguishable} since then $x$ and $y$ have the same neighbourhoods.
+If $x \equiv y$, then we say that $x$ and $y$ are \emph{topologically indistinguishable} since then $x$ and $y$ have the same neighbourhoods, i.e., $\nhoodfilter{x} = \nhoodfilter{y}$.
 
 It is clear that $X$ is $T_0$ if and only if the relation $\equiv$ is trivial, that is if $x$ and $y$ are topologically indistinguishable precisely when $x = y$. The quotient space $X/{\equiv}$ is called the \emph{$T_0$-identification} or the \emph{Kolmogorov quotient} of $X$, and it is indeed $T_0$:
 
@@ -370,7 +373,7 @@ It is clear that $X$ is $T_0$ if and only if the relation $\equiv$ is trivial, t
     %
     \begin{enumthm}
         \item \label{enum:T0-identification-saturated} open and closed sets are saturated,
-        \item $q$ is an open and closed map,
+        \item \label{enum:T0-quotient-map-open-closed} $q$ is an open and closed map,
         \item $X/{\equiv}$ is $T_0$, and
         \item \label{enum:T0-identification-is-smallest-equiv} if $\sim$ is an equivalence relation on $X$ such that $X/{\sim}$ is $T_0$, then ${\equiv} \subseteq {\sim}$.\footnotemark
     \end{enumthm}
@@ -415,7 +418,7 @@ One might also expect that continuous functions on a space are unchanged in the 
 \begin{proof}\footnotetext{One can show that a topological group is $T_1$ if it is $T_0$, and furthermore is always regular, so a $T_0$ topological group is $T_3$.}
     Let $q \colon X \to X/{\equiv}$ be the quotient map, and let $g \in C(X,Y)$. We claim that if $x \equiv y$ in $X$, then $g(x) = g(y)$. For if $g(x) \neq g(y)$, then since $Y$ is $T_0$ we can, without loss of generality, choose a neighbourhood $U$ of $g(x)$ not containing $g(y)$. Then $g\preim(U)$ is a neighbourhood of $x$ not containing $y$, so $x \not\equiv y$.
 
-    Thus every $g \in C(X,Y)$ descends to a unique map $\tilde{g} \in C(X/{\equiv},Y)$ with $g = \tilde{g} \circ q$. Conversely, every $f \in C(X/{\equiv},Y)$ uniquely determines a map $f \circ q \in C(X,Y)$. Hence $q^*$ is a bijection.
+    Thus every $g \in C(X,Y)$ descends to a map $\tilde{g} \in C(X/{\equiv},Y)$ with $g = \tilde{g} \circ q$, showing surjectivity, and $\tilde{g}$ is unique, showing injectivity. Hence $q^*$ is a bijection.
 
     Now let $Y$ be a $T_0$ topological vector space over $\reals$. Let $f,g \in C(X/{\equiv},Y)$ and $\alpha \in \reals$. Then
     %
@@ -479,8 +482,6 @@ It is obvious that $\tilde{\rho}$ is then a metric on $\tilde{S}$, and we call $
 %
 Notice that we could also have proved the first result above by proving it separately for subspaces and products, and then using the fact that $X$ could be embedded in the product $\bigprod_{\alpha \in A} X_\alpha$ since the $f_\alpha$ separate points\footnote{See e.g. \href{https://github.com/dnhansen/topology-measure-theory-notes}{my notes on measure theory and topology}, or \textcite[Theorem~8.12]{willard}.}. In fact, we may use this product embedding to characterise the $T_0$-spaces as follows:
 
-\renewcommand{\powerset}[1]{\wp(#1)}
-
 First recall that the \emph{Sierpi\'nski space} is the space $S$ with the underlying set $\{0,1\}$ and the topology $\{\emptyset, \{1\}, S\}$, so that the specialisation preorder on $S$ is just the usual ordering on $\{0,1\} \subseteq \naturals$. If $X$ is any set, then the set of functions $S^X$ is just the indicator functions on subsets of $X$, so that $S^X \cong \powerset{X}$. If $(X,\calT)$ is a topological space, then an indicator function $\indicator{U} \colon X \to S$ is continuous just when $U = \indicator{U}\preim(1)$ is open. It follows that there is a bijection betwen $\calT$ and the set $C(X,S)$ of continuous maps $X \to S$.
 
 Furthermore, $X$ has the initial topology induced by $C(X,S)$, since removing an open set $U$ from $\calT$ would make the (continuous) indicator function $\indicator{U}$ discontinuous. Also notice that $C(X,S)$ separates points in $X$ just when $X$ is $T_0$. Hence if $X$ is $T_0$, then $X$ can be embedded into the product $S^\calT$ by the map $f \colon X \to S^\calT$ with the property that $\pi_U \circ f = \indicator{U}$. Since subspaces and products of $T_0$-spaces are $T_0$, the converse also holds.
@@ -523,15 +524,29 @@ This proposition in fact holds for all final topologies on a set $X$ with the pr
 
 
 
-\chapter[The T1 axiom][The $T_1$ axiom]{The $T_1$ axiom}
+\chapter[The R0 and T1 axioms][The $R_0$ and $T_1$ axioms]{The $R_0$ and $T_1$ axioms}
 
 \section{Definition and equivalent properties}
 
 \begin{definition}
-    A topological space $X$ satisfies the $T_1$ axiom and is called a \emph{$T_1$-space} if, for every pair of distinct points $x,y \in X$, $x$ has a neighbourhood disjoint from $y$, and $y$ has a neighbourhood disjoint from $x$.
+    A topological space $X$ satisfies the $R_0$ axiom and is called an \emph{$R_0$-space} or is said to be \emph{symmetric} if points $x,y \in X$ are separated whenever $x \not\equiv y$.
+    
+    Furthermore, $X$ satisfies the $T_1$ axiom and is called a \emph{$T_1$-space} or is said to be \emph{Fréchet} if $X$ is both $R_0$ and $T_0$, i.e., if any two distinct points in $X$ are separated.
 \end{definition}
 %
-Clearly every $T_1$-space is $T_0$. We begin by giving some properties of topological spaces that are equivalent to the $T_1$ axiom:
+In any topological space we have the implications
+%
+\begin{equation*}
+    \text{separated}
+        \quad \implies \quad
+        \text{topologically distinguishable}
+        \quad \implies \quad
+        \text{distinct}.
+\end{equation*}
+%
+The first implication can be reversed just when the space is $R_0$, and the second just when the space is $T_0$. The composite arrow can thus be reversed when the space is $T_1$.
+
+We begin by giving some properties of topological spaces that are equivalent to the two axioms:
 
 \begin{proposition}
     The following are equivalent for a topological space $X$:
@@ -562,6 +577,48 @@ Clearly every $T_1$-space is $T_0$. We begin by giving some properties of topolo
     If $x,y \in X$ with $x \neq y$, then there is an open subset containing $x$ and not $y$, and vice versa.
 \end{proofsec}
 \end{proof}
+
+
+
+\begin{proposition}
+    The following are equivalent for a topological space $X$:
+    %
+    \begin{enumprop}
+        \item \label{enum:R0-space} $X$ is $R_0$,
+        \item \label{enum:R0-specialisation-preorder-symmetric} the specialisation preorder $\leq$ is symmetric,
+        \item \label{enum:R0-closure-of-point} $[x]_\equiv = \closure{\{x\}}$ for all $x \in X$,
+        \item \label{enum:R0-partition} the sets $\closure{\{x\}}$ for $x \in X$ form a partition of $X$, and
+        \item \label{enum:R0-quotient-is-T1} $X/{\equiv}$ is $T_1$.
+    \end{enumprop}
+\end{proposition}
+
+\begin{proof}
+\begin{proofsec}
+    \item[\subcref{enum:R0-space} $\implies$ \subcref{enum:R0-specialisation-preorder-symmetric}]
+    Assume that $x \leq y$. Then $x$ and $y$ are not separated, and so $x \equiv y$.
+
+    \item[\subcref{enum:R0-specialisation-preorder-symmetric} $\implies$ \subcref{enum:R0-closure-of-point}]
+    The inclusion \enquote{$\subseteq$} always holds, so assume that $y \in \closure{\{x\}}$. This means that $y \leq x$, so we also have $x \leq y$, i.e., $x \equiv y$.
+    
+    \item[\subcref{enum:R0-closure-of-point} $\implies$ \subcref{enum:R0-partition}]
+    The $\equiv$-equivalence classes are a partition of $X$.
+    
+    \item[\subcref{enum:R0-partition} $\implies$ \subcref{enum:R0-space}]
+    Assume that $x \not\equiv y$, and assume without loss of generality that $x \not\leq y$, i.e., that $x \not\in \closure{\{y\}}$. Then $\closure{\{x\}}$ and $\closure{\{y\}}$ are disjoint, and so $y \not\in \closure{\{x\}}$. Hence $x$ and $y$ are separated.
+
+    \item[\subcref{enum:R0-closure-of-point} $\iff$ \subcref{enum:R0-quotient-is-T1}]
+    Let $q \colon X \to X/{\equiv}$ be the quotient map. This is both continuous and closed by \cref{enum:T0-quotient-map-open-closed}, so for $x \in X$,
+    %
+    \begin{equation*}
+        q\bigl( \closure{\{x\}} \bigr)
+            = \closure{q(\{x\})}
+            = \closure{\{q(x)\}}.
+    \end{equation*}
+    %
+    If \subcref{enum:R0-closure-of-point} holds, then $q(\closure{\{x\}}) = q([x]_\equiv) = \{q(x)\}$, showing that singletons in $X/{\equiv}$ are closed. Conversely, if the quotient is $T_1$ then $q(\closure{\{x\}}) = \closure{\{q(x)\}} = \{q(x)\}$, so $\closure{\{x\}} \subseteq [x]_\equiv$.
+\end{proofsec}
+\end{proof}
+
 
 
 \section[Operations on T1-spaces][Operations on $T_1$-spaces]{Operations on $T_1$-spaces}
