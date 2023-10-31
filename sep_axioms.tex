@@ -603,6 +603,16 @@ We begin by giving some properties of topological spaces that are equivalent to 
 \end{proof}
 
 
+\begin{corollary}
+    \label{cor:T1-quotient}
+    A quotient space $X/{\sim}$ is $T_1$ if and only if every $\sim$-equivalence class is closed in $X$.
+\end{corollary}
+
+\begin{proof}
+    Fibres of the quotient map are precisely the equivalence classes, so by the definition of the quotient topology, singletons of $X/{\sim}$ are closed if and only if the corresponding equivalence class is closed as a subset of $X$.
+\end{proof}
+
+
 
 \begin{proposition}
     The following are equivalent for a topological space $X$:
@@ -611,6 +621,7 @@ We begin by giving some properties of topological spaces that are equivalent to 
         \item \label{enum:R0-space} $X$ is $R_0$,
         \item \label{enum:R0-specialisation-preorder-symmetric} the specialisation preorder $\leq$ is symmetric (i.e., ${\leq} = {\equiv}$),
         \item \label{enum:R0-closure-of-point} $[x]_\equiv = \closure{\{x\}}$ for all $x \in X$,
+        \item \label{enum:R0-equivalence-class-closed} $[x]_\equiv$ is closed for all $x \in X$,
         \item \label{enum:R0-partition} the sets $\closure{\{x\}}$ for $x \in X$ form a partition of $X$, and
         \item \label{enum:R0-quotient-is-T1} $X/{\equiv}$ is $T_1$.
     \end{enumprop}
@@ -623,6 +634,9 @@ We begin by giving some properties of topological spaces that are equivalent to 
 
     \item[\subcref{enum:R0-specialisation-preorder-symmetric} $\implies$ \subcref{enum:R0-closure-of-point}]
     The inclusion \enquote{$\subseteq$} always holds, so assume that $y \in \closure{\{x\}}$. This means that $y \leq x$, so we also have $x \leq y$, i.e., $x \equiv y$.
+
+    \item[\subcref{enum:R0-closure-of-point} $\iff$ \subcref{enum:R0-closure-of-point}]
+    Since $\{x\} \subseteq [x]_\equiv \subseteq \closure{\{x\}}$, this is obvious.
     
     \item[\subcref{enum:R0-closure-of-point} $\implies$ \subcref{enum:R0-partition}]
     The $\equiv$-equivalence classes are a partition of $X$.
@@ -630,16 +644,8 @@ We begin by giving some properties of topological spaces that are equivalent to 
     \item[\subcref{enum:R0-partition} $\implies$ \subcref{enum:R0-space}]
     Assume that $x \not\equiv y$, and assume without loss of generality that $x \not\leq y$, i.e., that $x \not\in \closure{\{y\}}$. Then $\closure{\{x\}}$ and $\closure{\{y\}}$ are disjoint, and so $y \not\in \closure{\{x\}}$. Hence $x$ and $y$ are separated.
 
-    \item[\subcref{enum:R0-closure-of-point} $\iff$ \subcref{enum:R0-quotient-is-T1}]
-    Let $q \colon X \to X/{\equiv}$ be the quotient map. This is both continuous and closed by \cref{enum:T0-quotient-map-open-closed}, so for $x \in X$,
-    %
-    \begin{equation*}
-        q\bigl( \closure{\{x\}} \bigr)
-            = \closure{q(\{x\})}
-            = \closure{\{q(x)\}}.
-    \end{equation*}
-    %
-    If \subcref{enum:R0-closure-of-point} holds, then $q(\closure{\{x\}}) = q([x]_\equiv) = \{q(x)\}$, showing that singletons in $X/{\equiv}$ are closed. Conversely, if the quotient is $T_1$ then $q(\closure{\{x\}}) = \closure{\{q(x)\}} = \{q(x)\}$, so $\closure{\{x\}} \subseteq [x]_\equiv$.
+    \item[\subcref{enum:R0-equivalence-class-closed} $\iff$ \subcref{enum:R0-quotient-is-T1}]
+    This follows from \cref{cor:T1-quotient}.
 \end{proofsec}
 \end{proof}
 
@@ -675,15 +681,6 @@ We begin by giving some properties of topological spaces that are equivalent to 
 
 \begin{proof}
     Similar to the proof of \cref{thm:T0-disjoint-union}.
-\end{proof}
-
-
-\begin{proposition}
-    A quotient space $X/{\sim}$ is $T_1$ if and only if every $\sim$-equivalence class is closed in $X$.
-\end{proposition}
-
-\begin{proof}
-    Fibres of the quotient map are precisely the equivalence classes, so by the definition of the quotient topology, singletons of $X/{\sim}$ are closed if and only if the corresponding equivalence class is closed as a subset of $X$.
 \end{proof}
 
 
