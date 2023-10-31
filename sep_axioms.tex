@@ -141,6 +141,8 @@ We here summarise the axioms by citing
 
 If $X$ is a topological space and $A \subseteq X$, then we say that a set $N \subseteq X$ is a \emph{neighbourhood} of $A$ if there is an open set $U$ in $X$ such that $A \subseteq U \subseteq N$. The family of neighbourhoods of a set $A$ is called the \emph{neighbourhood filter of $A$} and is denoted $\nhoodfilter{A}$. A \emph{neighbourhood basis at $A$} is a filter basis for $\nhoodfilter{A}$. If $A = \{x\}$ is a singleton we also write $\nhoodfilter{x}$ and call $N$ a neighbourhood of $x$.
 
+If $X$ is a topological space, then we say that two subsets $A$ and $B$ are \emph{separated} if either $A$ has a neighbourhood disjoint from $B$, or vice versa. Separated sets are clearly disjoint. We say that $A$ and $B$ are \emph{separated by neighbourhoods} if there exist neighbourhoods of the two sets that are disjoint.
+
 We begin by proving a series of results that do not pertain directly to the separability axioms, but that will be used in the sequel.
 
 
@@ -204,8 +206,6 @@ This result is of course standard for compact spaces, but we include the proof t
     Note that the continuous image of a paracompact space need not be paracompact. Let $(X,\calT)$ be a space that is not paracompact, and let $\calT_{\mathrm{d}}$ be the discrete topology on $X$. Then $(X,\calT_{\mathrm{d}})$ is paracompact, but the identity map $\id_X \colon (X,\calT_{\mathrm{d}}) \to (X,\calT)$ is continuous.
 \end{remark}
 
-
-If $X$ is a topological space, then we say that two disjoint subsets $A$ and $B$ can be \emph{separated} if there exist disjoint open sets $U$ and $V$ with $A \subseteq U$ and $B \subseteq V$.
 
 \begin{lemma}
     \label{thm:separating_from_compacts}
