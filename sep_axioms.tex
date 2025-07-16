@@ -49,6 +49,7 @@
 \usepackage{latex-sty/framedtheorems}
 \usepackage{latex-sty/topologycommands}
 \usepackage{tikz-cd}
+\tikzcdset{arrow style=math font} % https://tex.stackexchange.com/questions/300352/equalities-look-broken-with-tikz-cd-and-math-font
 \usetikzlibrary{babel}
 
 % Lists
@@ -121,21 +122,87 @@ If $X$ and $Y$ are topological spaces, we denote the set of continuous maps $X \
 
 \section{Overview of the axioms}
 
-We here summarise the axioms by citing
+\begin{figure}[t]
+    \centering
+    \begin{tikzpicture}[scale=.8]
+        \tikzset{main node/.style={draw=black!50}}
+        \tikzset{T1 node/.style={draw=red!50, text=red}}
+        \tikzset{minor node/.style={font=\scriptsize,align=center}}
+        \tikzset{edge node/.style={midway,fill=white,font=\tiny}}
+        % \tikzset{minor node/.style={draw=black!50,dashed,font=\scriptsize}}
+        % \tikzset{main node/.append style={execute at begin node=\vphantom{yt$\delta$}}}
+        \tikzset{edge node/.style={midway,fill=white,font=\tiny}}
+        \node[main node] (space) at (0,0) {\vphantom{T}space};
+        \node[main node] (R0) at (-1,-2) {$R_0$};
+        \node[minor node] (Gdelta) at (-3,-2) {$G_\delta$};
+        \node[main node] (R1) at (-2,-4) {$R_1$};
+        \node[main node] (regular) at (-3,-6) {R};
+        \node[main node] (cregular) at (-4,-8) {CR};
+        \node[T1 node] (normal) at (-7,-9) {N};
+        \node[main node] (normal-reg) at (-5,-10) {NR};
+        \node[T1 node] (cnormal) at (-8,-11) {CN};
+        \node[main node] (pnormal) at (-7,-14) {PN};
+        \node[minor node] (pseudometr) at (-10,-14) {pseudometric,\\regular hr. Lindelöf};
 
+        \node[main node] (T0) at (2,-1) {$T_0$};
+        \node[main node] (T1) at (1,-3) {$T_1$};
+        \node[main node] (T2) at (0,-5) {$T_2$};
+        \node[main node] (T3) at (-1,-7) {$T_3$};
+        \node[main node] (T3half) at (-2,-9) {$T_{3\frac{1}{2}}$};
+        \node[minor node] (LCH) at (0,-9) {LCH};
+        \node[main node] (T4) at (-3,-11) {$T_4$};
+        \node[main node] (T5) at (-4,-13) {$T_5$};
+        \node[main node] (T6) at (-5,-15) {$T_6$};
+        \node[minor node] (metr) at (-3,-15) {metric};
+
+        \draw (space) -- (R0) -- (R1) -- (regular) -- (cregular) -- (normal-reg) -- (pnormal);
+        \draw (T0) -- (T1) -- (T2) -- (T3) -- (T3half) -- (T4) -- (T5) -- (T6);
+        \draw (normal) -- (normal-reg) node[edge node] {$R_0$};
+        \draw (normal) -- (cnormal) -- (pnormal);
+        \draw (space) -- (T0);
+        \draw (R0) -- (T1);
+        \draw (R1) -- (T2);
+        \draw (regular) -- (T3);
+        \draw (cregular) -- (T3half);
+        \draw (normal-reg) -- (T4);
+        \draw[draw=red!50] (cnormal) to[bend left=30] (T5);
+        \draw (pnormal) -- (T6);
+        \draw[draw=red!50] (normal) to[bend left=30] (T4);
+        \draw[draw=red!50] (T1) to[bend left=30] (T4);
+        \draw[draw=red!50] (T1) to[bend left=30] (T5);
+
+        \draw[->] (Gdelta) -- (R0);
+        \draw[->] (LCH) -- (T3half);
+        \draw[->] (pseudometr) -- (pnormal);
+        \draw[->] (metr) -- (T6);
+        \draw[->] (R1) -- (normal) node[edge node] {paracompact};
+        \draw[->] (regular) -- (normal) node[edge node] {Lindelöf};
+    \end{tikzpicture}
+    \caption{TODO caption}
+    \label{fig:hasse}
+\end{figure}
+
+It is clear that an $R_1$-space is automatically $R_0$. If a space $X$ is regular and points $x,y \in X$ are topologically distinguishable, then $x$ (say) has an open neighbourhood $U$ not containing $y$. But then $U^c$ is a closed set not containing $x$, so these are separated by neighbourhoods by regularity.
+
+Clearly a completely regular space is regular, and to see that a normal $R_0$-space $X$ is completely regular, hence regular, let $x \in X$ and let $F \subseteq X$ be closed. Then $\closure{\{x\}}$ is disjoint from $F$ by $R_0$ (cf. TODO ref), and Urysohn's lemma implies that $\closure{\{x\}}$ and $F$ are separated by a continuous function. Hence $X$ is completely regular. Note that we use the term \enquote{normal regular} even though such a space satisfies the (apparently) stronger property of complete regularity.
+
+Finally notice that since perfect normality is hereditary (cf. \cref{cor:perfect-normality-hereditary}), a perfectly normal space is completely normal. It is also $R_0$ since it is $G_\delta$, so it is regular.
+
+
+Each of the $T_n$-axioms for $n > 0$ are obtained from an axiom by adding either the $T_0$- or $T_1$-axiom. It usually suffices to add $T_0$, but in the case of (complete) normality we must add $T_1$ to obtain the $T_4$-axiom. Indeed, the Sierpi\'nski space is completely normal and $T_0$, but is not $T_1$ since $\{1\}$ is not closed, so it is not even $R_0$. In the presence of the $T_1$-axiom, a normal space is $R_0$ and hence completely regular, so $T_4$ is indeed stronger than $T_{3\frac{1}{2}}$. Furthermore, a perfectly normal $T_0$-space is $G_\delta$ and hence $R_0$, so it is automatically $T_1$. So $T_6$ is also stronger than $T_5$.
+
+
+We note the following:
+%
 \begin{itemize}
-    \item $T_0$: The topology respects the underlying set structure by distinguishing between distinct points.
-    
-    \item $T_1$: Singletons are closed, or in other words, if $(x_\alpha)_{\alpha \in A}$ is a constant net with $x_\alpha = x$ for all $\alpha \in A$, then $x$ is the unique limit of $(x_\alpha)$.
-    
-    \item Hausdorff: All limits are unique (\cref{thm:Hausdorff-equivalent-properties}).
-    
-    \item Regularity: Every open neighbourhood contains a closed neighbourhood (\cref{thm:regular-equivalent-properties}).
-    
-    \item Complete regularity: Has enough bounded continuous functions to determine its topology (\cref{thm:completely-regular-weak-topology}).
-    
-    \item Normality: Continuous functions on closed sets can be extended to the entire space (\cref{thm:Tietze-extension}). Why should we restrict to \emph{closed} sets? Continuous functions defined on a non-closed set may not even extend to a continuous function on the \emph{closure} of that set: Take for instance the function $x \mapsto 1/x$ on $\reals \setminus \{0\}$.
+    \item Regular Lindelöf spaces are paracompact (cf. [TODO ref]). Hence Lindelöf LCH-spaces (in particular manifolds) are paracompact.
+    \item Lindelöf LCH-spaces are exhaustible by compact sets (cf. [TODO prove/Lee]), which makes possible a second proof that these spaces are paracompact (cf [TODO prove/Lee]).
+    \item Paracompact $R_1$-spaces are normal, hence normal regular (cf. [TODO prove]).
+    \item Regular Lindelöf spaces are normal. This follows from the above points, but we give a direct proof in [TODO ref].
+    \item Hereditarily Lindelöf, regular spaces (in particular manifolds) are perfectly normal. This is proved in [TODO ref].
 \end{itemize}
+
+
 
 
 \chapter{Preliminary definitions and results}
@@ -143,9 +210,11 @@ We here summarise the axioms by citing
 
 If $X$ is a topological space and $A \subseteq X$, then we say that a set $N \subseteq X$ is a \emph{neighbourhood} of $A$ if there is an open set $U$ in $X$ such that $A \subseteq U \subseteq N$. The family of neighbourhoods of a set $A$ is called the \emph{neighbourhood filter of $A$} and is denoted $\nhoodfilter{A}$. A \emph{neighbourhood basis at $A$} is a filter basis for $\nhoodfilter{A}$. If $A = \{x\}$ is a singleton we also write $\nhoodfilter{x}$ and call $N$ a neighbourhood of $x$.
 
-If $X$ is a topological space, then we say that two subsets $A$ and $B$ are \emph{separated} if either $A$ has a neighbourhood disjoint from $B$, or vice versa. Separated sets are clearly disjoint. We say that $A$ and $B$ are \emph{separated by neighbourhoods} if there exist neighbourhoods of the two sets that are disjoint.
+If $X$ is a topological space, then we say that two subsets $A$ and $B$ are \emph{separated} if either $A$ has a neighbourhood disjoint from $B$, or vice versa. Separated sets are clearly disjoint. We say that $A$ and $B$ are \emph{separated by neighbourhoods} if there exist neighbourhoods of the two sets that are disjoint. If there such neighbourhoods that are also, then $A$ and $B$ are \emph{separated by closed neighbourhoods}.
 
-We begin by proving a series of results that do not pertain directly to the separability axioms, but that will be used in the sequel.
+Furthermore, $A$ and $B$ are said to be \emph{separated by a continuous function} if there is a continuous function $f \colon X \to \reals$ such that $A \subseteq f\preim(\{0\})$ and $B \subseteq f\preim(\{1\})$. We say that $A$ and $B$ are \emph{precisely separated by a continuous function} if $A = f\preim(\{0\})$ and $B = f\preim(\{1\})$ for a continuous $f \colon X \to \reals$. In either case we may assume that $f(X) \subseteq [0,1]$ [TODO].
+
+Note that these properties are progressively stronger. This is obvious for most of them, and we note that if $A$ and $B$ are separated by a continuous function $f$, then the preimages under $f$ of the intervals $[-\tfrac{1}{3},\tfrac{1}{3}]$ and $[\tfrac{2}{3}, \tfrac{4}{3}]$ are closed neighbourhood separating $A$ and $B$.
 
 
 \section{Compactness}
@@ -271,6 +340,8 @@ Clearly a point has a precompact neighbourhood if and only if it has a precompac
 
 \section{Other types of compactness}
 
+If $A$ is a subset and $x$ a point of $X$, then $x$ is called a \emph{limit point} of $A$ if every neighbourhood of $x$ contains a point of $A$ distinct from $x$. Furthermore, $x$ is an \emph{$\omega$-limit point} of $A$ if every neighbourhood of $x$ contains infinitely many points from $A$.
+
 \begin{definition}
     \label{def:hemicompact-et-al}
     Let $X$ be a topological space. Then $X$ is called
@@ -281,6 +352,10 @@ Clearly a point has a precompact neighbourhood if and only if it has a precompac
         \item \emph{hemicompact} if there is a sequence $(K_n)_{n \in \naturals}$ of subsets of $X$, called an \emph{admissible sequence}, such that for every compact $K \subseteq X$ there is an $n \in \naturals$ with $K \subseteq K_n$.
 
         \item \emph{$\sigma$-compact} if there is a sequence $(K_n)_{n \in \naturals}$ of subsets of $X$ such that $X = \bigunion_{n \in \naturals} K_n$.
+
+        \item \emph{limit point compact} if every infinite subset of $X$ has a limit point in $X$.
+
+        \item \emph{sequentially compact} if every sequence in $X$ has a subsequence that converges to a point in $X$.
     \end{enumdef}
 \end{definition}
 
@@ -308,6 +383,58 @@ Clearly a point has a precompact neighbourhood if and only if it has a precompac
     Let $(K_n)_{n \in \naturals}$ be an admissible sequence in $X$ with $K_n \subseteq K_{n+1}$, and assume that there is a point $x \in X$ with no compact neighbourhood. If $(U_n)_{n \in \naturals}$ is a neighbourhood basis at $x$ with $U_n \subseteq U_{n+1}$, then since $K_n$ is not a neighbourhood of $x$ there is a point $x_n \in U_n \setminus K_n$. The set $\set{x_n}{n \in \naturals} \union \{x\}$ is then compact but is not contained in any $K_n$.
 \end{proof}
 
+
+\begin{theorem}
+    \begin{enumthm}
+        \item Compactness implies limit point compactness.
+        \item For first countable $T_1$-spaces, limit point compactness implies sequential compactness.
+        \item For second countable spaces, sequential compactness implies compactness.
+    \end{enumthm}
+    %
+    In particular, the three properties are equivalent for second countable $T_1$-spaces.
+\end{theorem}
+
+\begin{proof}
+    TODO Lee.
+\end{proof}
+
+
+\begin{lemma}
+    A totally bounded metric space is second countable.
+\end{lemma}
+
+\begin{proof}
+    TODO Lee.
+\end{proof}
+
+
+\begin{lemma}
+    Total boundedness is hereditary.
+\end{lemma}
+
+\begin{proof}
+    TODO
+\end{proof}
+
+
+\begin{theorem}
+    If $S$ is a metric space, then the following are equivalent:
+    %
+    \begin{enumthm}
+        \item $S$ is compact.
+        \item $S$ is limit point compact.
+        \item $S$ is sequentially compact.
+        \item $S$ is complete and totally bounded.
+    \end{enumthm}
+    %
+    In particular, compact metric spaces are complete and second countable.
+\end{theorem}
+
+\begin{proof}
+    Assume that $S$ is sequentially compact. Then [TODO Lee] shows that $S$ is totally bounded, so it is second countable by [TODO lem ref], and hence compact by [TODO ref]. Furthermore, any Cauchy sequence in $S$ has a convergent subsequence, so is itself convergent. Hence $S$ is complete.
+
+    Conversely assume that $S$ is complete and totally bounded, and let $(x_n)_{n \in \naturals}$ be a sequence in $S$. By total boundedness, there is a ball $B_1$ with radius $1$ that contains $x_n$ for infinitely many $n$. But $B_1$ is also totally bounded by [TODO ref], so there is a ball $B_2$ in $B_1$ with radius $\tfrac{1}{2}$ containing $x_n$ for infinitely many $n$. We recursively construct a decreasing sequence $B_1 \supseteq B_2 \supseteq \cdots$ such that $B_{k+1}$ is a ball in $B_k$, such that $B_k$ has radius $\tfrac{1}{k}$, and such that $B_k$ contains $x_n$ for infinitely many $n$. We thus extract a subsequence $(x_{n_k})_{k \in \naturals}$ such that $x_{n_k} \in B_k$. This is clearly a Cauchy sequence, and is hence convergent. Thus $(x_n)$ has a convergent subsequence, and $S$ is sequentially compact.
+\end{proof}
 
 
 \section{Metric spaces}
@@ -573,21 +700,90 @@ The first implication can be reversed just when the space is $R_0$, and the seco
 We begin by giving some properties of topological spaces that are equivalent to the two axioms:
 
 \begin{proposition}
+    \label{prop:R0-equivalent-properties}
+    The following are equivalent for a topological space $X$:
+    %
+    \begin{enumprop}
+        \item \label{enum:R0-space} $X$ is $R_0$,
+        \item \label{enum:R0-specialisation-preorder-symmetric} the specialisation preorder $\leq$ is symmetric (i.e., ${\leq} = {\equiv}$),
+        \item \label{enum:R0-closure-of-point} $[x]_\equiv = \closure{\{x\}}$ for all $x \in X$,
+        \item \label{enum:R0-equivalence-class-closed} $[x]_\equiv$ is closed for all $x \in X$,
+        \item \label{enum:R0-partition} the sets $\closure{\{x\}}$ for $x \in X$ form a partition of $X$,
+        \item \label{enum:R0-closure-intersection-of-nhoods} $\closure{\{x\}}$ is the intersection of all neighbourhoods of $x$, for all $x \in X$,
+        \item \label{enum:R0-nhood-contains-closure} every neighbourhood of $x$ contains $\closure{\{x\}}$, for all $x \in X$, and
+        \item \label{enum:R0-open-union-of-closed} every open set is a union of closed sets.
+    \end{enumprop}
+\end{proposition}
+
+\begin{proof}
+\begin{proofsec}
+    \item[\subcref{enum:R0-space} $\implies$ \subcref{enum:R0-specialisation-preorder-symmetric}]
+    Assume that $x \leq y$. Then $x$ and $y$ are not separated, and so $x \equiv y$.
+
+    \item[\subcref{enum:R0-specialisation-preorder-symmetric} $\implies$ \subcref{enum:R0-closure-of-point}]
+    The inclusion \enquote{$\subseteq$} always holds, so assume that $y \in \closure{\{x\}}$. This means that $y \leq x$, so we also have $x \leq y$, i.e., $x \equiv y$.
+
+    \item[\subcref{enum:R0-closure-of-point} $\iff$ \subcref{enum:R0-equivalence-class-closed}]
+    Since $\{x\} \subseteq [x]_\equiv \subseteq \closure{\{x\}}$, this is obvious.
+    
+    \item[\subcref{enum:R0-closure-of-point} $\implies$ \subcref{enum:R0-partition}]
+    The $\equiv$-equivalence classes are a partition of $X$.
+    
+    \item[\subcref{enum:R0-partition} $\implies$ \subcref{enum:R0-closure-intersection-of-nhoods}]
+    The hypothesis implies that $y \not\in \closure{\{x\}}$ if and only if $x \not\in \closure{\{y\}}$, so $y \not\in \closure{\{x\}}$ if and only if $x$ has a neighbourhood not containing $y$. It follows that $\closure{\{x\}} = \bigintersect_{N \in \nhoodfilter{x}} N$.
+
+    \item[\subcref{enum:R0-closure-intersection-of-nhoods} $\implies$ \subcref{enum:R0-nhood-contains-closure}]
+    This is obvious.
+
+    \item[\subcref{enum:R0-nhood-contains-closure} $\implies$ \subcref{enum:R0-open-union-of-closed}]
+    If $U$ is open and $x \in U$, then $U$ is a neighbourhood of $x$, and so $\closure{\{x\}} \subseteq U$. Hence $U = \bigunion_{x \in U} \closure{\{x\}}$.
+
+    \item[\subcref{enum:R0-open-union-of-closed} $\implies$ \subcref{enum:R0-space}]
+    Let $x,y \in X$, and assume that $x \not\equiv y$. Without loss of generality, assume that $x$ has an open neighbourhood $U$ not containing $y$. Then there is a closed set $F$ with $x \in F \subseteq U$, so $F^c$ is an open neighbourhood of $y$ not containing $x$.
+\end{proofsec}
+\end{proof}
+
+% \item \label{enum:R0-quotient-is-T1} $X/{\equiv}$ is $T_1$.
+% \item[\subcref{enum:R0-equivalence-class-closed} $\iff$ \subcref{enum:R0-quotient-is-T1}]
+%     This follows from \cref{cor:T1-quotient}.
+
+
+\begin{proposition}
     The following are equivalent for a topological space $X$:
     %
     \begin{enumprop}
         \item \label{enum:T1-space} $X$ is $T_1$,
-        \item \label{enum:T1-singletons-closed} each singleton of $X$ is closed, and
-        \item \label{enum:T1-intersection-of-open-sets} each subset of $X$ is the intersection of all open sets containing it.
+        \item \label{enum:T1-singletons-closed} each singleton of $X$ is closed,
+        \item \label{enum:T1-singleton-intersection-of-nhoods} each singleton of $X$ is the intersection of all its neighbourhoods,
+        \item \label{enum:T1-subset-intersection-of-nhoods} each subset of $X$ is the intersection of all its neighbourhoods, and
+        \item for all subsets $A \subseteq X$, a point $x \in X$ is a limit point of $A$ if and only if it is an $\omega$-limit point of $A$.
     \end{enumprop}
 \end{proposition}
+
+\begin{proof}
+    If $x$ is a limit point of $A$ and $N$ is a neighbourhood of $x$, then $A \intersect N$ contains a point $y_1$. Since $\{y_1\}$ is closed, $N \setminus \{y_1\}$ is also a neighbourhood of $x$, so $A \intersect N$ contains a point $y_2$ distinct from $y_1$. Continuing in this way yields infinitely many points in $A \intersect N$.
+
+    Conversely, assume that there is some singleton $\{x\}$ that is not closed. Its closure thus contains a point $y \neq x$, so $y$ is a limit point of $\{x\}$, but it is obviously not an $\omega$-limit point.
+
+
+
+
+    The equivalence of the first three properties follow from the equivalence of \subcref{enum:R0-space}, \subcref{enum:R0-closure-of-point} and \subcref{enum:R0-closure-intersection-of-nhoods} of \cref{prop:R0-equivalent-properties}. The final property \subcref{enum:T1-subset-intersection-of-nhoods} above follows since if $A \subseteq X$, then
+    %
+    \begin{equation*}
+        A   = X \setminus \bigunion_{x \not\in A} \{x\}
+            = \bigintersect_{x \not\in A} X \setminus \{x\},
+    \end{equation*}
+    %
+    so $A$ is an intersection of open sets.
+\end{proof}
 
 \begin{proof}
 \begin{proofsec}
     \item[\subcref{enum:T1-space} $\implies$ \subcref{enum:T1-singletons-closed}]
     If $X$ is $T_1$ and $x \in X$, then every point $y \in X \setminus \{x\}$ has a neighbourhood disjoint from $\{x\}$ so $X \setminus \{x\}$ is open.
 
-    \item[\subcref{enum:T1-singletons-closed} $\implies$ \subcref{enum:T1-intersection-of-open-sets}]
+    \item[\subcref{enum:T1-singletons-closed} $\implies$ \subcref{enum:T1-intersection-of-nhoods}]
     If $A \subseteq X$, then
     %
     \begin{equation*}
@@ -597,7 +793,7 @@ We begin by giving some properties of topological spaces that are equivalent to 
     %
     so $A$ is an intersection of open sets.
 
-    \item[\subcref{enum:T1-intersection-of-open-sets} $\implies$ \subcref{enum:T1-space}]
+    \item[\subcref{enum:T1-intersection-of-nhoods} $\implies$ \subcref{enum:T1-space}]
     If $x,y \in X$ with $x \neq y$, then there is an open subset containing $x$ and not $y$, and vice versa.
 \end{proofsec}
 \end{proof}
@@ -610,43 +806,6 @@ We begin by giving some properties of topological spaces that are equivalent to 
 
 \begin{proof}
     Fibres of the quotient map are precisely the equivalence classes, so by the definition of the quotient topology, singletons of $X/{\sim}$ are closed if and only if the corresponding equivalence class is closed as a subset of $X$.
-\end{proof}
-
-
-
-\begin{proposition}
-    The following are equivalent for a topological space $X$:
-    %
-    \begin{enumprop}
-        \item \label{enum:R0-space} $X$ is $R_0$,
-        \item \label{enum:R0-specialisation-preorder-symmetric} the specialisation preorder $\leq$ is symmetric (i.e., ${\leq} = {\equiv}$),
-        \item \label{enum:R0-closure-of-point} $[x]_\equiv = \closure{\{x\}}$ for all $x \in X$,
-        \item \label{enum:R0-equivalence-class-closed} $[x]_\equiv$ is closed for all $x \in X$,
-        \item \label{enum:R0-partition} the sets $\closure{\{x\}}$ for $x \in X$ form a partition of $X$, and
-        \item \label{enum:R0-quotient-is-T1} $X/{\equiv}$ is $T_1$.
-    \end{enumprop}
-\end{proposition}
-
-\begin{proof}
-\begin{proofsec}
-    \item[\subcref{enum:R0-space} $\implies$ \subcref{enum:R0-specialisation-preorder-symmetric}]
-    Assume that $x \leq y$. Then $x$ and $y$ are not separated, and so $x \equiv y$.
-
-    \item[\subcref{enum:R0-specialisation-preorder-symmetric} $\implies$ \subcref{enum:R0-closure-of-point}]
-    The inclusion \enquote{$\subseteq$} always holds, so assume that $y \in \closure{\{x\}}$. This means that $y \leq x$, so we also have $x \leq y$, i.e., $x \equiv y$.
-
-    \item[\subcref{enum:R0-closure-of-point} $\iff$ \subcref{enum:R0-closure-of-point}]
-    Since $\{x\} \subseteq [x]_\equiv \subseteq \closure{\{x\}}$, this is obvious.
-    
-    \item[\subcref{enum:R0-closure-of-point} $\implies$ \subcref{enum:R0-partition}]
-    The $\equiv$-equivalence classes are a partition of $X$.
-    
-    \item[\subcref{enum:R0-partition} $\implies$ \subcref{enum:R0-space}]
-    Assume that $x \not\equiv y$, and assume without loss of generality that $x \not\leq y$, i.e., that $x \not\in \closure{\{y\}}$. Then $\closure{\{x\}}$ and $\closure{\{y\}}$ are disjoint, and so $y \not\in \closure{\{x\}}$. Hence $x$ and $y$ are separated.
-
-    \item[\subcref{enum:R0-equivalence-class-closed} $\iff$ \subcref{enum:R0-quotient-is-T1}]
-    This follows from \cref{cor:T1-quotient}.
-\end{proofsec}
 \end{proof}
 
 
@@ -684,7 +843,16 @@ We begin by giving some properties of topological spaces that are equivalent to 
 \end{proof}
 
 
-\section[Conditions for the T1 axiom]{Conditions for the $T_1$ axiom}
+\section[Conditions for the R0 and T1 axioms]{Conditions for the $R_0$ and $T_1$ axioms}
+
+\begin{proposition}
+    Every $G_\delta$-space is $R_0$.
+\end{proposition}
+
+\begin{proof}
+    This follows immediately from \cref{enum:R0-open-union-of-closed}.
+\end{proof}
+
 
 \begin{proposition}
     The closed image\footnotemark{} of a $T_1$-space is $T_1$.
@@ -706,8 +874,18 @@ We begin by giving some properties of topological spaces that are equivalent to 
     
     Furthermore, $X$ satisfies the $T_2$ axiom and is called a \emph{$T_2$-space} or is said to be \emph{Hausdorff} if $X$ is both $R_1$ and $T_0$, i.e., if any two distinct points in $X$ are separated by neighbourhoods.
 \end{definition}
-%
-Again, a $T_2$-space is clearly $T_1$. We give a series of conditions that are equivalent to the $T_2$ axiom.
+
+
+\begin{proposition}
+    \label{thm:R1-equivalent-properties}
+    A topological space $X$ is $R_1$ if and only if $\closure{\{x\}}$ is the intersection of all its closed neighbourhoods, for all $x \in X$.
+\end{proposition}
+
+\begin{proof}
+    If $X$ is $R_1$ with $y \not\in \closure{\{x\}}$, then $x$ and $y$ are separated by neighbourhoods, say $x \in U$ and $y \in V$. Then $V^c$ is a closed neighbourhood of $\closure{\{x\}}$ not containing $y$.
+
+    For the converse, if $x \not\equiv y$ then assume without loss of generality that $y \not\in \closure{\{x\}}$. Then $\closure{\{x\}}$ has a closed neighbourhood $F$ not containing $y$. Then $F^c$ separates $y$ from a neighbourhood of $x$.
+\end{proof}
 
 
 \begin{proposition}
@@ -716,6 +894,7 @@ Again, a $T_2$-space is clearly $T_1$. We give a series of conditions that are e
     %
     \begin{enumprop}
         \item \label{enum:T2-space} $X$ is Hausdorff,
+        \item $\{x\}$ is the intersection of its closed neighbourhoods for $x \in X$,
         \item \label{enum:T2-limits_unique} limits of nets (and hence of filters) in $X$ are unique, and
         \item \label{enum:T2-closed_diagonal} the diagonal $\Delta = \set{(x,x)}{x \in X}$ is closed in $X \prod X$.
     \end{enumprop}
@@ -936,6 +1115,8 @@ To prove this we take a small detour by studying the defining property of comple
 \begin{proof}
     If $X$ is completely regular, then $C_b(X)$ separates points from closed sets by definition, so \cref{thm:separating-points-from-closed-sets-weak-topology} shows that $X$ carries the the weak topology induced by $C_b(X)$.
 
+    More directly, let $U \subseteq X$ be open and nonempty, and let $x \in U^c$. By complete regularity there is a continuous $f \colon X \to [0,1]$ such that $f(x) = 0$ and $f \equiv 1$ on $U^c$. Now let $V_x = f\preim([0,1))$, and notice that this is open in the weak topology. But $V_x \subseteq U$, so $U$ is a union of sets on this form, hence weakly open.
+
     Conversely, suppose that $X$ has the weak topology induced by $C_b(X)$. Let $U \subseteq X$ be open, and let $x \in U$. Then there are functions $f_1, \ldots, f_n \in C_b(X)$ and subbasic open sets $V_1, \ldots, V_n \subseteq \reals$ such that
     %
     \begin{equation*}
@@ -965,13 +1146,18 @@ To prove this we take a small detour by studying the defining property of comple
 \end{proof}
 
 
-% \begin{proposition}
-%     A topological space is Tychonoff if and only if it is homeomorphic to a subspace of a cube, i.e. a product of compact intervals.
-% \end{proposition} % Leave this out?
+Recall that the \emph{Hilbert cube} is the countably infinite power $[0,1]^\naturals$. More generally if $A$ is some (possibly uncountable) set, then a power $[0,1]^A$ is called a \emph{Tychonoff cube}. Notice that if $(I_a)_{a \in A}$ is a family of (nonempty) compact intervals, then since each $I_a$ is homeomorphic to $[0,1]$, the product $\bigprod_{a \in A} I_a$ is homeomorphic to the Tychonoff cube $[0,1]^A$.
 
-% \begin{proof}
-    
-% \end{proof}
+\begin{proposition}
+    \label{prop:Tychonoff-cube-embedding}
+    A topological space is Tychonoff if and only if it is homeomorphic to a subspace of a Tychonoff cube.
+\end{proposition}
+
+\begin{proof}
+    Note that any Tychonoff cube is Tychonoff since it is the product of Tychonoff spaces [TODO prove this?]. Furthermore, any subspace of a Tychonoff space is Tychonoff, so this proves the \enquote{if} direction.
+
+    For the other implication, let $X$ be a Tychonoff space. The topology on $X$ is the the initial topology induced by the functions in $C = C_b(X)$, each of which can be considered a map into a compact interval, which we may take to be $[0,1]$. Since $X$ is $T_1$ and completely regular, $C$ separates points in $X$, so the product map into $[0,1]^C$ is an embedding\footnote{See notes on topology and measure theory.}.
+\end{proof}
 
 
 \section{Conditions for complete regularity}
@@ -985,6 +1171,16 @@ In \cref{thm:metric-space-normal} we will see that pseudometric spaces are also 
 
 \begin{proof}
     Let $(S,\rho)$ be a pseudometric space, $x \in S$, and let $A \subseteq S$ be closed with $x \not\in A$. Since $A$ is closed, the map $y \mapsto \rho(y,A)$ is zero on $A$ and nonzero at $y$, and it is continuous by \cref{thm:distance-to-set}.
+\end{proof}
+
+
+\begin{proposition}
+    Normal $R_0$-spaces are completely regular.
+\end{proposition}
+
+\begin{proof}
+    Let $F$ be closed in a normal $R_0$-space $X$, and let $x \in X \setminus F$. Then $\closure{\{x\}}$ is disjoint from $F$ by 
+    \cref{enum:R0-closure-intersection-of-nhoods}, so Urysohn's lemma [TODO ref] implies that $X$ is completely regular.
 \end{proof}
 
 
@@ -1039,10 +1235,308 @@ Hence, if one is interested in studying rings of bounded functions, then one may
 \end{proof}
 
 
+\section{Compactification}
+
+\newcommand{\catCHaus}{\mathbf{CHaus}}
+\newcommand{\catTop}{\mathbf{Top}}
+\newcommand{\catSet}{\mathbf{Set}}
+\newcommand{\catGrp}{\mathbf{Grp}}
+
+If $X$ is a topological space, then a \emph{compactification} of $X$ is a pair $(K,i)$, where $K$ is a compact space and $i \colon X \to K$ is an embedding whose image is dense in $K$. This is a \emph{Hausdorff compactification} if $K$ is also Hausdorff.
+
+Consider the category $\catCHaus_X$ whose objects are arrows $X \to K$ in $\catTop$ from $X$ to a compact Hausdorff space $K$, and whose arrows are commutative diagrams
+%
+\begin{equation*}
+    \begin{tikzcd}
+        X
+            \ar[r, "i"]
+            \ar[dr, "j", swap]
+        & K
+            \ar[d, "f"]
+        \\
+        & H
+    \end{tikzcd}
+\end{equation*}
+%
+in $\catTop$.
+
+Compare this to the category that defines the free group on some set $A$: The category $\catCHaus_X$ is precisely the same, except that $A$ is replaced with $X$, $\catSet$ is replaced with $\catTop$, and $\catGrp$ is replaced with $\catCHaus$.
+
+Suppose that $i_X \colon X \to \beta X$ is an initial object in $\catCHaus_X$. This this then the analogue of the free group $F(A)$ on $A$, but there are key differences: For instance, the map $j \colon A \to F(A)$ is always injective, since if $a,b \in A$, then the map $A \to \ints$ with $a \mapsto 0$ and $b \mapsto 1$ must factor through $j$, and so $j(a) \neq j(b)$. Notice that this works because there are many set functions from $A$. But unless $X$ is sufficiently nice, there may not be many continuous maps from $X$ to spaces like $[0,1]$, and so $i_X$ is not necessarily injective.
+
+\begin{theorem}[Stone--\v{C}ech extension]
+    If $X$ is a topological space, then $\catCHaus_X$ has an initial object. That is, there exists a pair $(\beta X,i_X)$, where $\beta X$ is a compact Hausdorff space and $i_X \colon X \to \beta X$ is continuous, with the following universal property: For any continuous map $f \colon X \to K$ into a compact Hausdorff space $K$ there is a unique continuous map $\beta f \colon \beta X \to K$ such that the diagram
+    %
+    \begin{equation*}
+        \begin{tikzcd}
+            X
+                \ar[r, "i_X"]
+                \ar[dr, "f", swap]
+            & \beta X
+                \ar[d, "\beta f"]
+            \\
+            & K
+        \end{tikzcd}
+    \end{equation*}
+    %
+    commutes. This characterises $\beta X$ up to unique homeomorphism compatible with $i_X$, and the image of $i_X$ in $\beta X$ is dense.
+\end{theorem}
+%
+The pair $(\beta X,i_X)$ is called the \emph{Stone--\v{C}ech extension} of $X$. If $i_X$ is an embedding, then we call $(\beta X,i_X)$ the \emph{Stone--\v{C}ech compactification} of $X$.
+
+\newcommand{\ev}[1][]{\mathrm{ev}_{#1}}
+
+\begin{proof}
+    Let $C = C(X,[0,1])$ and consider the product $[0,1]^C$. Define the evaluation map $\ev \colon X \to [0,1]^C$ by letting $\ev(x) = \ev[x]$, where $\ev[x] \colon C \to [0,1]$ is given by $\ev[x](g) = g(x)$. Notice that for $g \in C$ we have $\pi_g \circ \ev(x) = \pi_g(\ev[x]) = \ev[x](g) = g(x)$, so $\ev$ is continuous.
+
+    Let $\beta X$ be the closure of $\ev(X)$ in $[0,1]^C$, which is compact by Tychonoff's theorem and also Hausdorff. We first verify the universal property in the case $K = [0,1]$. Given $f \colon X \to [0,1]$ we again have $f = \pi_f \circ \ev$, so letting $i_X$ be the corestriction of $\ev$ to $\beta X$ and $\beta f$ the restriction of $\pi_f$ to $\beta X$ makes the diagram commute. Notice also that this fixes the value of $\beta f$ on $\ev(X)$, and hence on its closure since $[0,1]^C$ is Hausdorff.
+
+    Next assume that $K$ is a Tychonoff cube $[0,1]^A$, and let $f \colon X \to [0,1]^A$. For each $a \in A$ there is thus a map $\pi_a \circ f \colon X \to [0,1]$, which yields a map $\beta(\pi_a \circ f) \colon X \to [0,1]$. Let $F = \langle \beta(\pi_a \circ f) \rangle_{a \in A}$ be the $A$-fold product of all such maps. We claim that $\beta f = F$ works. To see this, consider the diagram
+    %
+    \begin{equation*}
+        \begin{tikzcd}
+            X
+                \ar[r, "i_X"]
+                \ar[dr, "f", swap]
+                \ar[ddr, "\pi_a \circ f", swap, bend right]
+            & \beta X
+                \ar[d, "F"]
+                \ar[dd, "\beta(\pi_a \circ f)", bend left]
+            \\
+            & {[0,1]^A}
+                \ar[d, "\pi_a"]
+            \\
+            & {[0,1]}
+        \end{tikzcd}
+    \end{equation*}
+    %
+    The left and right triangles clearly commute, and the middle triangle commutes since
+    %
+    \begin{equation*}
+        \pi_a \circ f
+            = \beta(\pi_a \circ f) \circ i_X
+            = \pi_a \circ F \circ i_X.
+    \end{equation*}
+    %
+    Furthermore, $F$ is unique with the property that $f = F \circ i_X$, since if $G$ is another such map then, as above,
+    %
+    \begin{equation*}
+        \beta(\pi_a \circ f) \circ i_X
+            = \pi_a \circ f
+            = \pi_a \circ G \circ i_X.
+    \end{equation*}
+    %
+    Hence $\pi_a \circ G = \beta(\pi_a \circ f)$ by uniqueness for maps into $[0,1]$, and $G$ is uniquely characterised by this equation as a map into a product.
+
+    Finally let $K$ be a general compact Hausdorff space. Since it is automatically Tychonoff, by \cref{prop:Tychonoff-cube-embedding} it embeds into a Tychonoff cube $[0,1]^A$. Let $\iota \colon K \hookrightarrow [0,1]^A$ be such an embedding, let $f \colon X \to K$ be continuous and consider the diagram
+    %
+    \begin{equation*}
+        \begin{tikzcd}
+            X
+                \ar[r, "i_X"]
+                \ar[dr, "f", swap]
+                \ar[ddr, "\iota \circ f", swap, bend right]
+            & \beta X
+                \ar[d, "\beta f"]
+                \ar[dd, "\beta(\iota \circ f)", bend left]
+            \\
+            & K
+                \ar[d, "\iota"]
+            \\
+            & {[0,1]^A}
+        \end{tikzcd}
+    \end{equation*}
+    %
+    Now let $\beta f(y)$ be the unique $z \in K$ such that $\iota(z) = \beta(\iota \circ f)(y)$, which exists since the images of the maps $\iota \circ f$ and $\beta(\iota \circ f)$ coincide, and the image of the former is contained in the image of $\iota$. This means that $\beta(\iota \circ f) = \iota \circ \beta f$, which implies that $\beta f$ is continuous since $\iota$ is an embedding.
+    
+    Hence the left and right triangles in the above diagram commute, and to see that the middle triangle also commutes notice that
+    %
+    \begin{equation*}
+        \iota \circ f
+            = \beta(\iota \circ f) \circ i_X
+            = \iota \circ \beta f \circ i_X.
+    \end{equation*}
+    %
+    Hence $f = \beta f \circ i_X$. For uniqueness of $\beta f$ with this property, if $G$ is another such map then
+    %
+    \begin{equation*}
+        \iota \circ G \circ i_X
+            = \iota \circ f
+            = \beta(\iota \circ f) \circ i_X,
+    \end{equation*}
+    %
+    so $\iota \circ G = \beta(\iota \circ f)$, which uniquely determines $G$ as a map into a subspace.
+
+    Uniqueness up to unique homemorphism follows since $i_X$ is an initial object in $\catCHaus_X$.
+
+    Finally we show that $i_X(X)$ is dense in $\beta X$. This follows immediately for the concrete construction above, and hence for any pair also satisfying the universal property by uniqueness. We can also give a proof only using the universal property: Assume that $i_X(X)$ is not dense in $\beta X$ and let $f \colon X \to [0,1]$ be identically $1$. Then this factors through $\beta X$ with $\beta f \equiv 1$. Choose a $z \in \beta X \setminus \closure{i_X(X)}$, and by complete regularity of $\beta X$ let $\phi \colon \beta X \to [0,1]$ be such that $\phi(x) = 0$ and $\phi \equiv 1$ on $\closure{i_X(X)}$. Then $f$ also factors through $\beta X$ with $\beta f = \phi$, and so $\beta f(z) = 0$, which contradicts the uniqueness of $\beta f$.
+\end{proof}
+
+
+\begin{remark}
+    In the proof above, if $X$ is Tychonoff then we claim that $i_X$ is an embedding into the concrete version of $\beta X$ as a subspace of $[0,1]^C$. For then $X$ has the initial topology induced by the maps in $C$, and since it is $T_1$ and completely regular these maps separate points in $X$. Hence the evaluation map, of which $i_X$ is a corestriction, embeds $X$ into $[0,1]^C$. Hence $i_X$ embeds $X$ into $\beta X$.
+\end{remark}
+
+
+\begin{corollary}
+    If $(\beta X, i_X)$ is a Stone--\v{C}ech extension of a topological space $X$, then $i_X$ is an embedding if and only if $X$ is Tychonoff.
+\end{corollary}
+
+\begin{proof}
+    The \enquote{if} direction follows from the above corollary. The converse follows since any subspace of a Tychonoff space is Tychonoff.
+\end{proof}
+
+
+\begin{lemma}
+    If $X$ is a Hausdorff space and $A \subseteq X$ is locally compact and dense in $X$, then $A$ is open in $X$.
+\end{lemma}
+
+\begin{proof}
+    Let $x \in A$. By local compactness of $A$, $x$ has a compact neighbourhood $K \subseteq A$. This implies that there is an open set $U \subseteq X$ containing $x$ such that $U \intersect A \subseteq K$. The set $U \setminus K$ is open, so if it is nonempty it contains an element of $A$, which would imply that $U \intersect A$ contains an element not in $K$. Hence $U \setminus K$ is empty, so $U \subseteq K \subseteq A$, and thus $x$ is an inner point of $A$.
+\end{proof}
+
+
+\begin{corollary}
+    Let $X$ be a Tychonoff space. Then the following are equivalent:
+    %
+    \begin{enumcor}
+        \item $X$ is locally compact.
+        \item $i(X)$ is open in every Hausdorff compactification $i \colon X \hookrightarrow cX$.
+        \item $i(X)$ is open in some Hausdorff compactification $i \colon X \hookrightarrow cX$.
+    \end{enumcor}
+\end{corollary} % TODO Hausdorff comp necessary?
+
+\begin{proof}
+    If $X$ is locally compacdt and $i \colon X \to cX$ is a Hausdorff compactification of $X$, then $i(X)$ is also locally compact and dense in $cX$, so [TODO ref lemma] implies that $i(X)$ is open in $cX$. Since $X$ has a Hausdorff compactification, namely the Stone--\v{C}ech compactification, (ii) implies (iii). Finally, open subsets of locally compact Hausdorff spaces are locally compact, so (iii) implies (i).
+\end{proof}
+
+
+\begin{proposition}
+    If $X$ is a topological space, then every Hausdorff compactification of $X$ is a quotient of $\beta X$, and the quotient map is closed.
+\end{proposition}
+
+\begin{proof}
+    If $i \colon X \to cX$ is a compactification of $X$, then the universal property of $\beta X$ yields a continuous map $\beta i \colon \beta X \to cX$ with the same image as $i$. Since $\beta X$ is compact and $cX$ is Hausdorff, $\beta i$ is automatically closed. It is also surjective since its image is compact closed and dense in $cX$.
+\end{proof}
+
+
+\newcommand{\catTych}{\mathbf{Tych}}
+
+We also have a similar construction to the Stone--\v{C}ech extension that instead constructs Tychonoff spaces. Let $\catTych_X$ be the category whose objects are arrows $X \to T$ in $\catTop$ from $X$ to a Tychonoff space $T$, and arrows are commutative diagrams
+%
+\begin{equation*}
+    \begin{tikzcd}
+        X
+            \ar[r, "p"]
+            \ar[dr, "q", swap]
+        & T
+            \ar[d, "f"]
+        \\
+        & S
+    \end{tikzcd}
+\end{equation*}
+%
+in $\catTop$.
+
+
+\begin{proposition}[Tychonoffication]
+    If $X$ is a topological space, then $\catTych_X$ has an initial object. That is, there exists a pair $(\tau X,p_X)$, where $\tau X$ is a Tychonoff space and $p_X \colon X \to \tau X$ is continuous, with the following universal property: For any continuous map $f \colon X \to T$ into a Tychonoff space $T$ there is a unique continuous map $\tau f \colon \tau X \to T$ such that the diagram
+    %
+    \begin{equation*}
+        \begin{tikzcd}
+            X
+                \ar[r, "p_X"]
+                \ar[dr, "f", swap]
+            & \tau X
+                \ar[d, "\tau f"]
+            \\
+            & T
+        \end{tikzcd}
+    \end{equation*}
+    %
+    commutes. This characterises $\tau X$ up to unique homeomorphism compatible with $p_X$. Furthermore, $p_X$ is surjective.
+\end{proposition}
+
+\begin{proof}
+    Consider the diagram
+    %
+    \begin{equation*}
+        \begin{tikzcd}
+            X
+                \ar[d, "f", swap]
+                \ar[r, "p_X"]
+                \ar[rr, "i_X", bend left]
+            & \tau X
+                \ar[d, "\tilde{\phi}"]
+                \ar[r, hookrightarrow, "\iota_X"]
+            & \beta X
+                \ar[d, "\phi = \beta(i_T \circ f)"]
+            \\
+            T
+                \ar[r, "p_T", swap]
+                \ar[rr, "i_T", swap, bend right]
+            & \tau T
+                \ar[r, hookrightarrow, "\iota_T", swap]
+            & \beta T
+        \end{tikzcd}
+    \end{equation*}
+    %
+    Here $\tau X = i_X(X)$, $p_X$ is the corestriction of $i_X$ onto $\tau X$, $\iota_X$ is the inclusion map, and similarly for the bottom row. In particular $p_T$ is a homeomorphism since $T$ is already Tychonoff. This also clearly makes the outer rectangle commute. Furthermore, notice that
+    %
+    \begin{equation*}
+        \phi(\tau X)
+            = (\phi \circ i_X)(X)
+            = (i_T \circ f)(X)
+            \subseteq i_T(T)
+            = \tau T.
+    \end{equation*}
+    %
+    We thus let $\tilde{\phi}$ be the restriction of $\phi$ to $\tau X$, which is also corestricted to $\tau T$. Clearly $\tilde{\phi}$ is continuous and makes the left and right rectangles above commute.
+
+    Next let $\tau f = p_T\inv \circ \tilde{\phi}$. For uniqueness assume that $F \circ p_X = f$. Then
+    %
+    \begin{equation*}
+        i_T \circ F \circ p_X
+            = i_T \circ f
+            = \phi \circ i_X
+            = \phi \circ \iota_X \circ p_X
+            = \iota_T \circ \tilde{\phi} \circ p_X
+            = i_T \circ p_T\inv \circ \tilde{\phi} \circ p_X
+            = i_T \circ \tau f \circ p_X.
+    \end{equation*}
+    %
+    Since $i_T$ is injective and $p_X$ is surjective, it follows that $F = \tau f$.
+\end{proof}
+
+
+If $X$ is a topological space, then a \emph{one-point compactification} of $X$ is a compactification $i \colon X \to X^*$ such that $X^* \setminus i(X)$ is a singleton. We usually denote the sole element of this set by $\infty$ and think of it as a \enquote{point at infinity}. We also identify $X$ and $i(X)$, so we will always consider $X$ a genuine subset of $X^*$.
+
+
+\begin{lemma}
+    If $X$ is a topological space and $X^*$ is a one-point compactification, then any open neighbourhood of $\infty$ in $X^*$ is on the form $(X \setminus C) \union \{\infty\}$, where $C$ is compact and closed in $X$.
+\end{lemma}
+
+\begin{proof}
+    Let $U$ be such an open neighbourhood. Then $X^* \setminus U = X \setminus U$ is closed in $X^*$ and hence compact, and $X \setminus U = (X^* \setminus U) \intersect X$ is furthermore closed in $X$.
+\end{proof}
+
+
+\begin{lemma}
+    If $X$ is a non-compact topological space and $X^*$ a one-point of compactification, then $X$ is open in $X^*$.
+\end{lemma}
+
+\begin{proof}
+    Assume that $X$ is not open in $X^*$. Then there is some $x \in X$ whose neighbourhoods in $X^*$ all contain $\infty$. Since $X$ is dense in $X^*$, every open neighbourhood of $x$ is also an open neighbourhood of $\infty$, and hence has compact complement.\footnote{Since any open cover of $X$ must contain a neighbourhood of $x$, hence of $\infty$, we might attempt to argue using compactness of $X^*$. But this does not work, since not every neighbourhood of $\infty$ need be a neighbourhood of $x$. Hence it might be possible to find an open cover of $X^*$ such that any finite subcover contains a neighbourhood of $\infty$ (which is not a neighbourhood of $x$) without which the subcover is not a cover of $X$.} Any open cover $\calU$ of $X$ contains an open neighbourhood $U$ of $x$, and $X \setminus U$ is compact and hence covered by a finite subcover $\calU_0$ of $\calU$. Then $\calU_0 \union \{U\}$ is a finite subcover of $X$.
+\end{proof}
+
+
+If $X$ is compact then it may or may not be open in $X^*$: For instance, a singleton has two different one-point compactifications, namely the Sierpi\'nski space (in which the original point is open) and the two-point space with the indiscrete topology (in which it is not).
+
+
 
 \chapter[Normal and T4-spaces]{Normal and $T_4$-spaces}
 
-\section{Definition}
+\section{Definition and equivalent properties}
 
 \begin{definition}
     A topological space $X$ is \emph{normal} if, for every pair of disjoint closed subsets $A,B \subseteq X$, $A$ has a neighbourhood $U$ and $B$ a neighbourhood $V$ with $U \intersect V = \emptyset$.
@@ -1050,14 +1544,62 @@ Hence, if one is interested in studying rings of bounded functions, then one may
     If furthermore $X$ is $T_1$, then $X$ is said to satisfy the $T_4$ axiom and is called a \emph{$T_4$-space}.
 \end{definition}
 
-We discuss conditions that are equivalent to normality in our discussion of Urysohn's lemma below.
+\begin{proposition}
+    Let $X$ be a topological space. Then the following are equivalent:
+    %
+    \begin{enumprop}
+        \item $X$ is normal.
+        \item If $F \subseteq U$ with $F$ closed and $U$ open, then there is an open set $V$ such that $F \subseteq V \subseteq \closure{V} \subseteq F$.
+        \item If $F \subseteq U$ with $F$ closed and $U$ open, then there is a sequence $(V_n)_{n \in \naturals}$ of open sets such that $F \subseteq \bigunion_{n \in \naturals} V_n$ and $\closure{V}_n \subseteq U$.
+    \end{enumprop}
+\end{proposition}
+
+\begin{proof}
+    The implications (i) $\implies$ (ii) $\implies$ (iii) are obvious, so assume that (iii) holds. If $A$ and $B$ are disjoint closed sets, then let $(V_n)$ and $(W_n)$ be sequences corresponding to the inclusions $A \subseteq B^c$ and $B \subseteq A^c$, respectively. Now let
+    %
+    \begin{equation*}
+        V_n'
+            = V_n \setminus \bigunion_{i \leq n} \closure{W}_i
+        \quad \text{and} \quad
+        W_n'
+            = W_n \setminus \bigunion_{i \leq n} \closure{V}_i,
+    \end{equation*}
+    %
+    and put $V = \bigunion_{n \in \naturals} V_n'$ and $W = \bigunion_{n \in \naturals} W_n'$. We easily check that $V_n'$ and $W_m'$ are disjoint for all $m,n \in \naturals$, so $V$ and $W$ are disjoint open sets separating $A$ and $B$, as desired.
+\end{proof}
+
+
+
+
+If $X$ is a topological space and $A,B \subseteq X$ are closed sets, then a continuous function $f \colon X \to [0,1]$ with $f(A) = 0$ and $f(B) = 1$ is called a \emph{Urysohn function} for $A$ and $B$.
+
+\begin{theorem}[Urysohn's Lemma]
+    A topological space $X$ is normal if and only if there is a Urysohn function for every pair of closed subsets of $X$.
+\end{theorem}
+
+\begin{proof}
+    See Lee [TODO ref].
+\end{proof}
+
+
+\begin{theorem}[The Tietze extension theorem]
+    \label{thm:Tietze-extension}
+    A topological space $X$ is normal if and only if any continuous function $f \colon A \to \reals$ on a closed set $A \subseteq X$ can be extended to a continuous function on all of $X$, i.e. there exists a continuous $F \colon X \to \reals$ such that $f = F|_A$.
+
+    Furthermore, if $a,b \in \reals$ and $f(A) \subseteq [a,b]$ then $F$ can be chosen such that $F(X) \subseteq [a,b]$.
+\end{theorem}
+
+\begin{proof}
+    TODO
+\end{proof}
+
 
 
 \section{Conditions for normality}
 
 \begin{proposition}
     \label{thm:metric-space-normal}
-    Pseudometric spaces are normal.
+    Pseudometric spaces are perfectly normal.
 \end{proposition}
 
 \begin{proof}
@@ -1093,124 +1635,99 @@ We discuss conditions that are equivalent to normality in our discussion of Urys
             \geq \frac{\rho(a,B)}{2} + \frac{\rho(b,A)}{2}
             = r_a + r_b.
     \end{equation*}
+    %
+    Hence $S$ is normal.
+
+    We next show that $S$ is $G_\delta$, so let $F \subseteq S$ be closed and for $n \in \naturals$ let $F_n = \set{x \in S}{\rho(x,F) < \tfrac{1}{n}}$. Then each $F_n$ is open and $F = \bigintersect_{n \in \naturals} F_n$ as desired.
 \end{proof}
 
 
 
 \begin{proposition}
-    \label{thm:paracompact-Hausdorff-is-normal}
-    Every paracompact Hausdorff space is normal, hence $T_4$.
+    \label{prop:paracompact-R1-is-normal-regular}
+    Every paracompact $R_1$-space is normal regular.
 \end{proposition}
-% Hausdorff can be slightly weakened. Cool link: https://math.stackexchange.com/questions/1315614/r-1-paracompact-spaces-are-normal
-% Also: https://en.wikipedia.org/wiki/Separation_axiom
 %
-In particular, every \emph{compact} Hausdorff space is $T_4$. This also follows easily since two disjoint compact sets can be separated in a Hausdorff space by \cref{thm:Hausdorff-separate-compacts}.
+The proof below will show directly that such a space is regular, but this also follows since a normal $R_0$-space is normal regular (in particular completely regular).
 
 \newcommand{\bbU}{\mathbb{U}}
 \newcommand{\bbV}{\mathbb{V}}
 
 \begin{proof}
-    Let $X$ be a paracompact Hausdorff space, $A$ a closed subset and $q \in X \setminus A$. For every $p \in A$ there exist, by the Hausdorff assumption, disjoint open neighbourhoods $U_p$ and $V_p$ of $p$ and $q$ respectively. Each $p \in A$ thus has a neighbourhood $U_p$ such that $q \not\in \closure{U}_p$.
+    Let $X$ be a paracompact $R_1$-space, $A$ a closed subset and $q \in X \setminus A$. For every $p \in A$ the points $p$ and $q$ are topologically distinguishable (since $A^c$ is a neighbourhood of $q$), so there exist disjoint open neighbourhoods $U_p$ and $V_p$ of $p$ and $q$ respectively. Each $p \in A$ thus has a neighbourhood $U_p$ such that $q \not\in \closure{U}_p$.
     
     The sets $U_p$ is an open cover of $A$, so by paracompactness of $A$ (cf. \cref{thm:compact-Lindelof-closed-subset}) we obtain a locally finite subcover $\calU$. Letting $\bbU = \bigunion_{U \in \calU} U$ and $\bbV = X \setminus \closure{\bbU}$ we then have two disjoint open sets, and by local finiteness of $\calU$ we have $\closure{\bbU} = \bigunion_{U \in \calU} \closure{U}$, so $\bbV$ contains $q$.
 
-    This shows that $X$ is regular. The same argument then shows that $X$ is normal, by using regularity instead of the Hausdorff property.
+    This shows that $X$ is regular. The same argument then shows that $X$ is normal, by using regularity instead of the $R_1$-axiom.
 \end{proof}
 
 
 \begin{proposition}
-    A regular Lindelöf space is normal.
+    A regular Lindelöf space is normal. If it is also hereditarily Lindelöf, then it is $G_\delta$ and hence perfectly normal.
 \end{proposition}
 
 \begin{proof}
-    Let $X$ be a regular Lindelöf space, and let $A,B \subseteq X$ be disjoint closed subsets. By regularity, every $a \in A$ has a neighbourhood $U_a$ such that $\closure{U_a} \intersect B = \emptyset$. Similarly, every $b \in B$ has a neighbourhood $V_b$ separating it from $A$. Since $A$ and $B$ are themselves Lindelöf by \cref{thm:compact-Lindelof-closed-subset}, they are covered by countably many $U_a$ and $V_b$ respectively, say $A \subseteq \bigunion_{n \in \naturals} U_n$ and $B \subseteq \bigunion_{n \in \naturals} V_n$.
+    Let $X$ be a regular Lindelöf space, and let $F \subseteq U$ with $F$ closed and $U$ open. By regularity, each point $x \in F$ has an open neighbourhood $V_x$ with $\closure{V}_x \subseteq U$. Since $F$ is also Lindelöf by [TODO ref], it is covered by countably many of the sets $V_x$. Hence $X$ satisfies the property in [TODO ref] and is hence normal.
 
-    Now define sequences of sets $S_n$ and $T_n$ by
-    %
-    \begin{equation*}
-        S_n = U_n \setminus \closure{ \bigunion_{i < n} T_i}
-        \quad \text{and} \quad
-        T_n = V_n \setminus \closure{ \bigunion_{i \leq n} S_i}.
-    \end{equation*}
-    %
-    (Notice the strict and non-strict inequalities.) Define the sets $S = \bigunion_{n \in \naturals} S_n$ and $T = \bigunion_{n \in \naturals} T_n$. Clearly $S$ is a neighbourhood of $A$ and $T$ of $B$. We claim that they are also disjoint: Let $x \in S_n$ for some $n \in \naturals$. Then $x \not\in T_m$ for $m < n$ by the definition of $S_n$, and $x \not\in T_m$ for $m \geq n$ by the definition of $T_m$. 
+    Now assume that $X$ is also hereditarily Lindelöf, and let $U \subseteq X$ be open. For each $x \in U$ there is a closed neighbourhood $N_x$ of $x$ with $N_x \subseteq U$ (cf. \cref{thm:regular-equivalent-properties}). The sets $N_x$ thus cover $U$, but then so does a countable subcollection, so $U$ is $F_\sigma$.
 \end{proof}
 
 We thus find that compact Hausdorff implies normal, and that regular Lindelöf implies normal. That is, normality follows from a compactness property along with a separability property. We cannot weaken compactness to Lindelöf and still have normality, but also \enquote{strengthening} Hausdorff to regularity retains normality. (Of course, it is not regularity but $T_3$ that is stronger than Hausdorff.)
 
 
-\section{Urysohn's Lemma and related results}
 
-If $X$ is a topological space and $A,B \subseteq X$ are closed sets, then a continuous function $f \colon X \to [0,1]$ with $f(A) = 0$ and $f(B) = 1$ is called a \emph{Urysohn function} for $A$ and $B$.
 
-\begin{theorem}[Urysohn's Lemma]
-    A topological space $X$ is normal if and only if there is a Urysohn function for every pair of closed subsets of $X$.
+
+
+\chapter{Perfectly normal spaces}
+
+% TODO define zero and cozero sets
+%https://dantopology.wordpress.com/2009/12/08/the-vedenissoff-theorem/
+
+\begin{theorem}[The Vedenisoff theorem]
+    Let $X$ be a topological space. The following are equivalent:
+    %
+    \begin{enumthm}
+        \item $X$ is perfectly normal.
+        \item Every closed subset of $X$ is a zero set of a function $X \to [0,1]$.
+        \item Every open subset of $X$ is a cozero set of a function $X \to [0,1]$.
+        \item If $A,B \subseteq X$ are disjoint closed sets, then $A$ and $B$ are precisely separated by a continuous function $X \to [0,1]$.
+    \end{enumthm}
 \end{theorem}
 
-\begin{proof}
-    First assume that $X$ is normal and that $A,B \subseteq X$ are closed. By normality there is an open set $U_{1/2}$ such that
+\begin{proof}    
+\begin{proofsec}
+    \item[(i) $\implies$ (ii)] 
+    Let $F \subseteq X$ be closed, and let $F = \bigintersect_{n \in \naturals} U_n$, where each $U_n$ is open. By Urysohn [TODO ref], there are continuous functions $f_n \colon X \to [0,1]$ with $f_n(x) = 0$ for all $x \in F$, and $f_n(y) = 1$ for all $y \in U_n^c$. Now define $f \colon X \to [0,1]$ by
     %
     \begin{equation*}
-        A
-            \subseteq U_{1/2}
-            \subseteq \closure{U}_{\!1/2}
-            \subseteq B^c.
+        f
+            = \sum_{n = 1}^\infty 2^{-n} f_n.
     \end{equation*}
     %
-    Then $A$ and $U_{1/2}^c$ are disjoint closed sets, and so are $\closure{U}_{\!1/2}$ and $B$. Hence there exist open sets $U_{1/4}$ and $U_{3/4}$ such that
-    %
-    \begin{equation*}
-        A
-            \subseteq U_{1/4}
-            \subseteq \closure{U}_{\!1/4}
-            \subseteq U_{1/2}
-            \subseteq \closure{U}_{\!1/2}
-            \subseteq U_{3/4}
-            \subseteq \closure{U}_{\!3/4}
-            \subseteq B^c.
-    \end{equation*}
-    %
-    Let $\Delta$ be the set of all dyadic rational numbers\footnote{Recall that a dyadic rational number is a number on the form $p/2^n$ for $p \in \ints$ and $n \in \naturals$.} in $(0,1)$. We may thus recursively define for every $r \in \Delta$ a set $U$ with the following properties:
-    %
-    \begin{enumerate} % Proof enumerate??
-        \item $A \subseteq U_r$ and $\closure{U}_{\!r} \subseteq B^c$ for each $r \in \Delta$, and
+    Clearly $f\preim(\{0\}) = F$, and $f$ is continuous (for instance by the Weierstrass $M$-test).
 
-        \item \label{enum:Urysohn-proof-closure-inside-open} $\closure{U}_{\!r} \subseteq U_s$ if $r < s$, for $r,s \in \Delta$.
-    \end{enumerate}
-    %
-    We furthermore let $U_1 = X$. Then define a function $f \colon X \to [0,1]$ by $f(x) = \inf \set{r}{x \in U_r}$. Since $A \subseteq U_r \subseteq B^c$ for all $r \in \Delta$, we clearly have $f(A) = 0$ and $f(B) = 1$, and that $0 \leq f(x) \leq 1$ for all $x \in X$.
+    \item[(ii) $\iff$ (iii)]
+    This is obvious.
 
-    It remains to be shown that $f$ is continuous. Let $\alpha \in \reals$ and $x \in X$, and notice that $f(x) < \alpha$ if and only if $x \in U_r$ for some $r < \alpha$, which is true just when $x \in \bigunion_{r < \alpha} U_r$. Hence,
-    %
-    \begin{equation*}
-        f\preim((-\infty,\alpha))
-            = \bigunion_{r < \alpha} U_r
-    \end{equation*}
-    %
-    is open. Similarly $f(x) > \alpha$ if and only if $x \not\in U_r$ for some $r > \alpha$, which is equivalent to $x \not\in \closure{U}_{\!s}$ for some $s > \alpha$ by property \cref{enum:Urysohn-proof-closure-inside-open} above. This is the case if and only if $x \in \bigunion_{s > \alpha} (\closure{U}_{\!s})^c$. It follows that
-    %
-    \begin{equation*}
-        f\preim((\alpha,\infty))
-            = \bigunion_{s > \alpha} (\closure{U}_{\!s})^c
-    \end{equation*}
-    %
-    is also open. Hence $f$ is continuous.
+    \item[(ii) $\implies$ (iv)]
+    Let $A$ and $B$ be zero sets of continuous functions $f,g \colon X \to [0,1]$ respectively, and define $h = f/(f+g)$. Then $A$ and $B$ are precisely separated by $h$.
 
-    Conversely, assume that $f$ is a Urysohn function for a pair of disjoint closed sets $A,B \subseteq X$. Then $f\preim([0,1/2))$ and $f\preim((1/2,1])$ are disjoint neighbourhoods of $A$ and $B$ respectively, so $X$ is normal.
+    \item[(iv) $\implies$ (i)]
+    Clearly $X$ is normal. If $F$ is a closed subset of $X$, then $F$ is disjoint from $\emptyset$, and the hypothesis yields a function $f \colon X \to [0,1]$ with $F = f\preim(\{0\})$. We then have $F = \bigintersect_{n \in \naturals} f\preim([0,\tfrac{1}{n}))$ as desired.
+\end{proofsec}
 \end{proof}
 
 
-\begin{theorem}[The Tietze extension theorem]
-    \label{thm:Tietze-extension}
-    A topological space $X$ is normal if and only if any continuous function $f \colon A \to \reals$ on a closed set $A \subseteq X$ can be extended to a continuous function on all of $X$, i.e. there exists a continuous $F \colon X \to \reals$ such that $f = F|_A$.
-
-    Furthermore, if $a,b \in \reals$ and $f(A) \subseteq [a,b]$ then $F$ can be chosen such that $F(X) \subseteq [a,b]$.
-\end{theorem}
+\begin{corollary}
+    \label{cor:perfect-normality-hereditary}
+    Perfect normality is hereditary.
+\end{corollary}
 
 \begin{proof}
+    Let $X$ be perfectly normal, let $A \subseteq X$, and let $F \subseteq A$ be closed in $A$. Then there is a closed set $\hat{F}$ in $X$ such that $F = \hat{F} \intersect A$. By [TODO Vedenisoff] $\hat{F}$ is the zero set of some continuous function $f \colon X \to [0,1]$. But then $F$ is the zero set of the function $f|_A$, so $A$ is also perfectly normal.
+\end{proof}
     
-\end{proof}
-
 
 \nocite{*}
 
